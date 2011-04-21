@@ -4,6 +4,7 @@
  * Last modified: $Date$
  * Last modified by: $Author$
  * Created by: Tobias Hartwich (tha@tzi.de)
+ * $Id$
  * 
  * Views create and deal with the DOM objects.
  * It's the only file with DOM manipulations 
