@@ -40,6 +40,7 @@ var SceneCreatorView = Backbone.View.extend({
 		this.$("#sceneSelectStep1").hide();
 		this.$("#sceneSelectStep2").hide();		  
 
+
 		var viewportmodel = new Viewport({
 			bgWidthPx: $("body")[0].offsetWidth,
 			bgHeightPx: $("body")[0].offsetHeight,
@@ -65,6 +66,7 @@ var SceneCreatorView = Backbone.View.extend({
 		$("#content").append(sceneview.el);
 		sceneview.reconnect();
 		sceneview.navMoveRight();
+		sceneview.onResizeWindow();
 
 		// Nav anzeigen
 		$("#navigation").show();
@@ -88,13 +90,15 @@ var SceneView = Backbone.View.extend({
 		"click #navigationHead":    "navHeadClick",
 		"change .navconfiginput": 	"changeSceneConfig",
 		"click .reconnectlink": "reconnect",
-		"click .addKinectLnk": "addkinect",
+		"click .addKinectLnk": "addKinect",
 		"click .addRegionLnk": "addRegion",
+		"click .addRegionPolyLnk": "addRegionPolygon",
 		"click .navleft": "navMoveLeft",
 		"click .navright": "navMoveRight",
-		"click .addUserLnk": "addUser",
 		"click .hideKinectLnk": "hideKinects",
-		"click .showKinectLnk": "showKinects"
+		"click .showKinectLnk": "showKinects",
+		"change #navroomWidthMM": "onRoomSizeChange",
+		"change #navroomHeightMM": "onRoomSizeChange"
 
 	},
 
@@ -127,8 +131,8 @@ var SceneView = Backbone.View.extend({
 
 		return this;
 	},
-	onResizeWindow: function(self) {
-
+	onResizeWindow: function() {
+		
 		this.model.get("vp").set({
 			bgWidthPx: $("body")[0].offsetWidth,
 			bgHeightPx: $("body")[0].offsetHeight,
@@ -147,9 +151,42 @@ var SceneView = Backbone.View.extend({
 		this.model.get("regions").each(function(regmodel){ 
 			regmodel.get("view").resizeRegion();
 			regmodel.get("view").moveRegion();
-		});					
+		});		
+			
+		
+		// Canvas verändern
+		m = {
+			w: 	$("#b")[0].offsetWidth,
+			h:	$("#b")[0].offsetHeight
+		};
+		$("#canvascont").html(ich.canvastmpl(m));
+		
+	    var canvas = document.getElementById("canvas");
+	    var ctx  = canvas.getContext("2d");
+	    
+	    this.model.get("vp").set({
+	    	canvas: canvas,
+	    	ctx: ctx
+	    });
+	    this.drawPolygons();
+		
 
-
+	},
+	onRoomSizeChange: function() {
+		var w = $("#navroomWidthMM").val();
+		var h = $("#navroomHeightMM").val();
+		
+		this.model.set({
+			roomWidthMM: w,
+			roomHeightMM: h
+		});
+		
+		this.model.get("vp").set({
+			bgPixelInMM: w / $("body")[0].offsetWidth
+		});
+		
+		this.onResizeWindow();
+		
 	},
 	navMoveRight: function() {
 		$("#navigation").css("left","auto");
@@ -213,8 +250,10 @@ var SceneView = Backbone.View.extend({
 		});		  
 	},
 	reconnect: function() {
-		if (this.model.get("serversocket") != null) {
-			this.serversocket.disconnect();
+		
+		if (this.model.get("serversocket") != null && 
+			this.model.get("serversocket") != undefined) {
+			this.model.get("serversocket").disconnect();
 		}
 		
 		this.model.set({
@@ -284,7 +323,7 @@ var SceneView = Backbone.View.extend({
 
 		jQuery.favicon('img/favdis.png');		  
 	},
-	addkinect: function() {
+	addKinect: function() {
 		var kinectmoodel = new Kinect({
 			scenemodel: this.model
 		});
@@ -333,6 +372,8 @@ var SceneView = Backbone.View.extend({
 			scenemodel: this.model
 		});
 
+		this.model.get("regions").add(regionmoodel);
+		
 		regionview = new RegionView({
 			model: regionmoodel		  				  
 		});	
@@ -353,7 +394,107 @@ var SceneView = Backbone.View.extend({
 		regionview.resizeRegion();
 		regionview.moveRegion();		  
 
-		this.model.get("regions").add(regionmoodel);
+		
+	},
+	addRegionPolygon: function() {
+		var regionmodel = new RegionPolygon({
+			name: "Ein Poly",
+			scenemodel: this.model
+		});
+
+		this.model.get("regionsPoly").add(regionmodel);		
+		
+		regNavView = new RegionPolyNavView({
+			model: regionmodel
+		});	
+		
+		regionmodel.set({
+			view: regNavView
+		});
+		
+		regNavView.firstRender();
+		$("#regionsListCtrl").append(regNavView.el);		
+		
+		this.model.get("vp").get("canvas").addEventListener("mousemove", this.onPolygonMove, false);
+		this.model.get("vp").get("canvas").addEventListener("click", this.onPolygonClick, false);
+		this.model.get("vp").get("canvas").addEventListener("dblclick", this.onPolygonDblClick, false);
+	},
+	onPolygonClick: function(e) {
+		var poly = sceneview.model.get("regionsPoly").last();
+		var points = poly.get("points");
+		
+        a = {
+            x:e.pageX,
+            y:e.pageY,
+            xMM: Math.round(sceneview.model.get("vp").pixelInMM(e.pageX)),
+            yMM: Math.round(sceneview.model.get("vp").pixelInMM(e.pageY))
+        };
+        points.push(a);
+        
+        sceneview.drawPolygons();
+        poly.get("view").render();
+	},
+	onPolygonMove: function(e) {
+		var poly = sceneview.model.get("regionsPoly").last();
+		var points = poly.get("points");		
+		
+        a = {
+            x:e.pageX,
+            y:e.pageY,
+            xMM: Math.round(sceneview.model.get("vp").pixelInMM(e.pageX)),
+            yMM: Math.round(sceneview.model.get("vp").pixelInMM(e.pageY))           
+        };
+        points.pop();
+        points.push(a);	
+        sceneview.drawPolygons();
+        poly.get("view").render();
+	},	
+	onPolygonDblClick: function(e) {
+		var poly = sceneview.model.get("regionsPoly").last();
+		var points = poly.get("points");	
+		
+		points.pop();
+		points.pop();
+		points.push(points[0]);
+		sceneview.drawPolygons();
+		poly.get("view").render();
+        
+        sceneview.model.get("vp").get("canvas").removeEventListener("mousemove", sceneview.onPolygonMove, false);
+        sceneview.model.get("vp").get("canvas").removeEventListener("click", sceneview.onPolygonClick, false);
+        sceneview.model.get("vp").get("canvas").removeEventListener("dblclick", sceneview.onPolygonDblClick, false);
+	},
+	drawPolygons: function() {
+		
+		var ctx = sceneview.model.get("vp").get("ctx");
+        ctx.clearRect ( 0 , 0 , $("#canvascont").width() , $("#canvascont").height() );
+              
+        
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";  		
+		
+		sceneview.model.get("regionsPoly").each(function(poly) {
+			var points = poly.get("points");
+			
+			if (points.length > 0) {
+				ctx.fillStyle = "rgba("+colorsrgb[points[0].x%10]+",0.3)"; 
+			}
+			else {
+				ctx.fillStyle = "rgba(0,0,0,0.5)";  
+			}
+			
+	        ctx.beginPath();          
+	        for (var i = 0; i<points.length; i++) {
+	            if (i==0) {
+	               ctx.moveTo(points[i].x,points[i].y); 
+	            }
+	            else {
+	                ctx.lineTo(points[i].x,points[i].y);
+	            }
+	        }
+	        ctx.stroke();  
+
+	        ctx.fill(); 			
+		});
 	},
 	addUser: function(key, user) {
 		var usermodel = new User({
@@ -363,6 +504,8 @@ var SceneView = Backbone.View.extend({
 			scenemodel: this.model
 		});
 
+		this.model.get("users").add(usermodel);	
+		
 		userview = new UserView({
 			model: usermodel		  				  
 		});	
@@ -375,7 +518,7 @@ var SceneView = Backbone.View.extend({
 		usrNavView.firstRender();
 		$("#usersListCtrl").append(usrNavView.el);			  
 
-		this.model.get("users").add(usermodel);		  
+			  
 	}
 });
 
@@ -468,7 +611,11 @@ var RegionView = Backbone.View.extend({
 	},
 	firstRender: function() {
 		this.el = ich.regiondevtmpl(this.model.toJSON());
-
+		
+		regioncoll = this.model.get("scenemodel").get("regions");
+		$(this.el).css("background-color", "rgba("+colorsrgb[regioncoll.indexOf(this.model)%10]+", .20)");
+		$(this.el).css("border-color", "rgb("+colorsrgb[regioncoll.indexOf(this.model)%10]+")");
+		
 		var self = this;
 		$(this.el).draggable({
 			drag: function() { 
@@ -479,7 +626,8 @@ var RegionView = Backbone.View.extend({
 			},
 			stop: function() {
 				self.model.sendRegion();
-			}
+			},
+			containment: 'window'
 		});	
 
 		$(this.el).resizable({
@@ -521,6 +669,69 @@ var RegionNavView = Backbone.View.extend({
 	},
 	firstRender: function() {
 		$(this.el).html(ich.regionnavtmpl(this.model.toJSON()));
+		
+		
+		regioncoll = this.model.get("scenemodel").get("regions");
+		this.$(".lcRegionColor").css("background-color", "rgba("+colorsrgb[regioncoll.indexOf(this.model)%10]+", .20)");
+		this.$(".lcRegionColor").css("border-color", "rgb("+colorsrgb[regioncoll.indexOf(this.model)%10]+")");
+		
+		return this;
+	},
+	remove: function() {
+		this.model.sendRemove();
+		this.model.get("scenemodel").get("regions").remove(this.model);
+		$("#"+this.model.get("htmlId")).remove();
+		$(this.el).remove();
+	},
+	addAction: function() {
+		var actionmodel = new Action({
+			regionmodel: this.model
+		});
+
+		actionview = new ActionView({
+			model: actionmodel		  				  
+		});	
+		actionview.firstRender();
+		this.$(".regionActions").append(actionview.el);		  		   
+
+		this.model.get("actions").add(actionmodel);		  
+	}
+});
+
+var RegionPolyNavView = Backbone.View.extend({
+	events: {
+
+	},
+	initialize: function() {
+		_.bindAll(this, "render");
+
+		this.model.bind('change', this.render);
+	},
+	render: function() { 
+		var points = this.model.get("points");
+		var pointstr = "";
+		
+		for (var i = 0; i<points.length;  i++) {
+			if (i == points.length-1) {
+				pointstr += "("+points[i].xMM+","+points[i].yMM+")";
+			}
+			else {
+				pointstr += "("+points[i].xMM+","+points[i].yMM+"), ";
+			}
+		}
+		
+		this.$(".vert").html(pointstr);
+
+		return this;
+	},
+	firstRender: function() {
+		$(this.el).html(ich.regionpolynavtmpl(this.model.toJSON()));
+		
+		
+		//regioncoll = this.model.get("scenemodel").get("regions");
+		//this.$(".lcRegionColor").css("background-color", "rgba("+colorsrgb[regioncoll.indexOf(this.model)%10]+", .20)");
+		//this.$(".lcRegionColor").css("border-color", "rgb("+colorsrgb[regioncoll.indexOf(this.model)%10]+")");
+		
 		return this;
 	},
 	remove: function() {

@@ -13,12 +13,13 @@ var Scene = Backbone.Model.extend({
         if (!spec || !spec.sceneName || !spec.serverIp || !spec.port || !spec.roomWidthMM || !spec.roomHeightMM || !spec.vp) {
             throw "InvalidConstructArgs";
         }
-;
+
 
         this.set({
             htmlId: 'scene_' + this.cid,
             kinects: new KinectCollection(),
             regions: new RegionCollection(),
+            regionsPoly: new RegionCollection(),
             users: new UserCollection()
         });  
     },
@@ -109,6 +110,29 @@ var Region = Backbone.Model.extend({
     sendRemove: function() {
     	this.get("scenemodel").get("serversocket").send(JSON.stringify({method: 'deleteRegion', key: this.get("name")}));
     }
+});
+
+var RegionPolygon = Backbone.Model.extend({
+    initialize: function (spec) {
+        if (!spec || !spec.name) {
+        	throw "InvalidConstructArgs";       
+        }
+
+        this.set({
+            htmlId: 'regionpoly_' + this.cid,
+            points: new Array()
+        });
+
+        if (!spec.actions) {
+            this.set({
+                actions: new ActionCollection()
+            });
+        } 
+                      
+    },
+    validate: function (attrs) {
+    }
+
 });
 
 var Kinect = Backbone.Model.extend({

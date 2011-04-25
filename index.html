@@ -59,7 +59,7 @@
 	  <div class="form">	
 	    <div class="formrow">	
 	      <div class="formlabel">scenename</div>  
-	      <div class="formvalue"><input type="text" id="sceneName"  class="text" /></div> 	
+	      <div class="formvalue"><input type="text" id="sceneName"  class="text" value="testscene" /></div> 	
 	    </div>
 	    <div class="clear"></div>	    
 	    <div class="formrow">	
@@ -144,7 +144,8 @@
 				<div class="listCtrl" id="regionsListCtrl"></div>
 				
 			    <div class="accordiontext">
-			    <a href="#addRegion" class="addRegionLnk">add</a>
+			    <a href="#addRegion" class="addRegionLnk">add rectangle</a> 
+			    <a href="#addRegionPoly" class="addRegionPolyLnk">add polygon</a>
 			    </div>	
 		    </div>
 		    <h3><a href="#">users</a></h3>
@@ -152,7 +153,6 @@
 		    
 		    	<div class="listCtrl" id="usersListCtrl"></div>
 			    <div class="accordiontext">
-			    <a href="#addUser" class="addUserLnk">add</a>
 			    </div>			    	
 	
 		    </div>
@@ -200,7 +200,9 @@
 
 <script id="regionnavtmpl" type="text/html">	
 	<div class="lcEntry" id="boxEntry">
-		<div class="lcEntryIcon"><img src="img/box.png" /></div>
+        <div class="lcEntryIcon">
+          <div class="lcRegionColor"></div><div class="clear"></div>
+        </div>
 		<div class="lcEntryContent">
 			<ul class="lcInfos">
 				<li><strong>pos</strong>: x: <span>{{ posX }}</span><i>mm</i>, y: <span>{{ posY }}</span><i>mm</i></li>
@@ -211,7 +213,23 @@
 		</div>
 		<div class="clear"></div>
 	</div>				
-</script>	
+</script>
+
+<script id="regionpolynavtmpl" type="text/html">    
+    <div class="lcEntry" id="boxEntry">
+        <div class="lcEntryIcon">
+          <div class="lcRegionColor"></div><div class="clear"></div>
+        </div>
+        <div class="lcEntryContent">
+            <ul class="lcInfos">
+                <li><strong>vert</strong>: <span class="vert"></span></li>
+                <li><a href="#removeBox" class="boxRemoveLnk">remove</a> <a href="#regionAddAction" class="regionAddAction" id="regionAddActio">add action</a> </li>
+            </ul>
+        <div class="regionActions"></div>   
+        </div>
+        <div class="clear"></div>
+    </div>              
+</script>   	
 		
 <script id="actiontmpl" type="text/html">	
 	<div class="regionAction" id="{{ htmlId }}">
@@ -241,7 +259,7 @@
 <script id="usernavtmpl" type="text/html">	
 	<div class="lcEntry" id="nav{{ htmlId }}">
 		<div class="lcEntryIcon">
-		<div class="lcUserColor"></div><div class="clear"></div>
+		  <div class="lcUserColor"></div><div class="clear"></div>
 		</div>
 		<div class="lcEntryContent">
 			<ul>
@@ -252,12 +270,17 @@
 	</div>
 </script>	
 
+<script id="canvastmpl" type="text/html">  
+    <canvas id="canvas" width="{{ w }}" height="{{h}}"></canvas>
+</script>   
+
 
 <div id="kinects"></div>
 <div id="regions"></div>
 <div id="users"></div>
 <div id="content"></div>
-
+<div id="canvascont">
+</div>
 <div id="test">&nbsp;</div>
 
 </body>
