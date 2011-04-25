@@ -169,6 +169,8 @@ var SceneView = Backbone.View.extend({
 	    	ctx: ctx
 	    });
 	    this.drawPolygons();
+	    
+	    this.model.get("vp").get("canvas").addEventListener("mousedown", this.onCanvasClick, false);
 		
 
 	},
@@ -396,6 +398,13 @@ var SceneView = Backbone.View.extend({
 
 		
 	},
+	onCanvasClick: function(e) {
+        a = {
+                x:e.pageX,
+                y:e.pageY
+        };		
+		sceneview.drawPolygons(a);
+	},	
 	addRegionPolygon: function() {
 		var regionmodel = new RegionPolygon({
 			name: "Ein Poly",
@@ -415,6 +424,7 @@ var SceneView = Backbone.View.extend({
 		regNavView.firstRender();
 		$("#regionsListCtrl").append(regNavView.el);		
 		
+		this.model.get("vp").get("canvas").removeEventListener("mousedown", this.onCanvasClick, false);
 		this.model.get("vp").get("canvas").addEventListener("mousemove", this.onPolygonMove, false);
 		this.model.get("vp").get("canvas").addEventListener("click", this.onPolygonClick, false);
 		this.model.get("vp").get("canvas").addEventListener("dblclick", this.onPolygonDblClick, false);
@@ -462,9 +472,11 @@ var SceneView = Backbone.View.extend({
         sceneview.model.get("vp").get("canvas").removeEventListener("mousemove", sceneview.onPolygonMove, false);
         sceneview.model.get("vp").get("canvas").removeEventListener("click", sceneview.onPolygonClick, false);
         sceneview.model.get("vp").get("canvas").removeEventListener("dblclick", sceneview.onPolygonDblClick, false);
+        
+        sceneview.model.get("vp").get("canvas").addEventListener("mousedown", sceneview.onCanvasClick, false);
 	},
-	drawPolygons: function() {
-		
+	drawPolygons: function(pxlCallback) {
+
 		var ctx = sceneview.model.get("vp").get("ctx");
         ctx.clearRect ( 0 , 0 , $("#canvascont").width() , $("#canvascont").height() );
               
@@ -474,12 +486,14 @@ var SceneView = Backbone.View.extend({
 		
 		sceneview.model.get("regionsPoly").each(function(poly) {
 			var points = poly.get("points");
-			
 			if (points.length > 0) {
-				ctx.fillStyle = "rgba("+colorsrgb[points[0].x%10]+",0.3)"; 
+				ctx.fillStyle = "rgba("+colorsrgb[sceneview.model.get("regionsPoly").indexOf(poly)%10]+",0.2)";
+				ctx.strokeStyle = "rgb("+colorsrgb[sceneview.model.get("regionsPoly").indexOf(poly)%10]+")"; 
+
 			}
 			else {
-				ctx.fillStyle = "rgba(0,0,0,0.5)";  
+				ctx.fillStyle = "rgba(0,0,0,0.2)";  
+				ctx.strokeStyle = "rgb(0,0,0)"; 				
 			}
 			
 	        ctx.beginPath();          
@@ -491,10 +505,64 @@ var SceneView = Backbone.View.extend({
 	                ctx.lineTo(points[i].x,points[i].y);
 	            }
 	        }
+	        
+	        
 	        ctx.stroke();  
 
-	        ctx.fill(); 			
+	        ctx.fill();
+
+	        if (pxlCallback != undefined) {
+	        	if (ctx.isPointInPath(pxlCallback.x, pxlCallback.y)) {
+	        		sceneview.startPolygonDrag(poly, pxlCallback);
+	        	}
+	        }	        
+	        
 		});
+	},
+	startPolygonDrag: function (poly, clickPos) {
+		var p = poly;
+		var c = clickPos;
+		
+		var onMouseMoveFunc = { handleEvent: function(e) {
+	        a = {
+	                x:e.pageX,
+	                y:e.pageY        
+	        };
+	        var offsetx = a.x - c.x;
+	        var offsety = a.y - c.y;
+	        
+	        
+	        var points = poly.get("points");
+	        points.pop();
+	        for (var i = 0; i<points.length; i++) {
+	        	points[i].x = points[i].x+offsetx;
+	        	points[i].y = points[i].y+offsety;
+	        	points[i].xMM = Math.round(sceneview.model.get("vp").pixelInMM(points[i].x+offsetx)),
+	        	points[i].yMM = Math.round(sceneview.model.get("vp").pixelInMM(points[i].y+offsety))
+	        }
+	        points.push(points[0]);
+	        
+
+	       
+	        p.get("view").render();
+	        
+	        sceneview.drawPolygons();
+	        c = a;	        
+	        
+		}};
+		
+		sceneview.model.get("vp").get("canvas").addEventListener("mousemove", onMouseMoveFunc.handleEvent, false);
+		
+		sceneview.model.get("vp").get("canvas").addEventListener("mouseup", function(e) {
+	        sceneview.model.get("vp").get("canvas").removeEventListener("mousemove", onMouseMoveFunc.handleEvent, false);
+	        sceneview.model.get("vp").get("canvas").removeEventListener("mouseup", this,false);
+	        
+	        p.get("view").render();
+
+		}, false);		
+	},
+	onPolygonDrag: function(e) {
+		
 	},
 	addUser: function(key, user) {
 		var usermodel = new User({
@@ -710,6 +778,7 @@ var RegionPolyNavView = Backbone.View.extend({
 	render: function() { 
 		var points = this.model.get("points");
 		var pointstr = "";
+		
 		
 		for (var i = 0; i<points.length;  i++) {
 			if (i == points.length-1) {
