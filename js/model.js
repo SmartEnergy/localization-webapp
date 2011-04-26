@@ -105,7 +105,7 @@ var Region = Backbone.Model.extend({
     	return m;
     },
     sendRegion: function() {    	    
-    	this.get("scenemodel").get("serversocket").send(JSON.stringify({method: 'region', regions: [this]}));
+    	this.get("scenemodel").get("serversocket").send(JSON.stringify({method: 'regionRectangle', regions: [this]}));
     },
     sendRemove: function() {
     	this.get("scenemodel").get("serversocket").send(JSON.stringify({method: 'deleteRegion', key: this.get("name")}));
@@ -130,8 +130,25 @@ var RegionPolygon = Backbone.Model.extend({
         } 
                       
     },
+    toJSON: function() {
+    	var m = {
+			name: this.get("name"),
+			actions: this.get("actions"),
+			points: this.get("points"),			
+
+			htmlId: this.get("htmlId")
+    	}; 
+    	return m;
+    },
     validate: function (attrs) {
-    }
+    },
+    sendRegion: function() {  
+		    
+    	this.get("scenemodel").get("serversocket").send(JSON.stringify({method: 'regionPolygon', regions: [this]}));
+    },
+    sendRemove: function() {
+    	this.get("scenemodel").get("serversocket").send(JSON.stringify({method: 'deleteRegion', key: this.get("name")}));
+    }    
 
 });
 
@@ -153,7 +170,7 @@ var Kinect = Backbone.Model.extend({
         });       
     },
     validate: function (attrs) {
-    }    
+    }
 });
 
 

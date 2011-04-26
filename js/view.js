@@ -160,6 +160,10 @@ var SceneView = Backbone.View.extend({
 			h:	$("#b")[0].offsetHeight
 		};
 		$("#canvascont").html(ich.canvastmpl(m));
+
+
+		// List-Ctrls auf groesse bringen
+		$(".listCtrl").height($("body")[0].offsetHeight-300);
 		
 	    var canvas = document.getElementById("canvas");
 	    var ctx  = canvas.getContext("2d");
@@ -170,9 +174,7 @@ var SceneView = Backbone.View.extend({
 	    });
 	    this.drawPolygons();
 	    
-	    this.model.get("vp").get("canvas").addEventListener("mousedown", this.onCanvasClick, false);
-		
-
+	    this.model.get("vp").get("canvas").addEventListener("mousedown", this.onCanvasClick, false);		
 	},
 	onRoomSizeChange: function() {
 		var w = $("#navroomWidthMM").val();
@@ -422,12 +424,18 @@ var SceneView = Backbone.View.extend({
 		});
 		
 		regNavView.firstRender();
-		$("#regionsListCtrl").append(regNavView.el);		
+		$("#regionsListCtrl").append(regNavView.el);
+		
+		$("#canvascont").css("z-index", "1000");
 		
 		this.model.get("vp").get("canvas").removeEventListener("mousedown", this.onCanvasClick, false);
 		this.model.get("vp").get("canvas").addEventListener("mousemove", this.onPolygonMove, false);
 		this.model.get("vp").get("canvas").addEventListener("click", this.onPolygonClick, false);
 		this.model.get("vp").get("canvas").addEventListener("dblclick", this.onPolygonDblClick, false);
+		window.addEventListener("keydown", this.onPolygonKeyPress, false);
+		
+		$("#b").css('cursor','crosshair');
+		$("#notification").show();
 	},
 	onPolygonClick: function(e) {
 		var poly = sceneview.model.get("regionsPoly").last();
@@ -443,6 +451,7 @@ var SceneView = Backbone.View.extend({
         
         sceneview.drawPolygons();
         poly.get("view").render();
+        poly.get("view").drawIcon();
 	},
 	onPolygonMove: function(e) {
 		var poly = sceneview.model.get("regionsPoly").last();
@@ -460,6 +469,7 @@ var SceneView = Backbone.View.extend({
         poly.get("view").render();
 	},	
 	onPolygonDblClick: function(e) {
+		
 		var poly = sceneview.model.get("regionsPoly").last();
 		var points = poly.get("points");	
 		
@@ -468,12 +478,26 @@ var SceneView = Backbone.View.extend({
 		points.push(points[0]);
 		sceneview.drawPolygons();
 		poly.get("view").render();
+		
+		$("#b").css('cursor','auto');
+		$("#canvascont").css("z-index", "8");
+		$("#notification").fadeOut(750);
+	
+		poly.sendRegion();
+		poly.get("view").drawIcon();
         
         sceneview.model.get("vp").get("canvas").removeEventListener("mousemove", sceneview.onPolygonMove, false);
         sceneview.model.get("vp").get("canvas").removeEventListener("click", sceneview.onPolygonClick, false);
         sceneview.model.get("vp").get("canvas").removeEventListener("dblclick", sceneview.onPolygonDblClick, false);
         
         sceneview.model.get("vp").get("canvas").addEventListener("mousedown", sceneview.onCanvasClick, false);
+	},
+	onPolygonKeyPress: function(e) {
+		if (e.keyCode == 27) { 
+			sceneview.onPolygonDblClick(e);
+			var poly = sceneview.model.get("regionsPoly").last();
+			poly.get("view").remove();
+		}   // esc
 	},
 	drawPolygons: function(pxlCallback) {
 
@@ -483,6 +507,7 @@ var SceneView = Backbone.View.extend({
         
         ctx.lineCap = "round";
         ctx.lineJoin = "round";  		
+        ctx.lineWidth = 2.0;
 		
 		sceneview.model.get("regionsPoly").each(function(poly) {
 			var points = poly.get("points");
@@ -506,7 +531,8 @@ var SceneView = Backbone.View.extend({
 	            }
 	        }
 	        
-	        
+	        //ctx.closePath();
+
 	        ctx.stroke();  
 
 	        ctx.fill();
@@ -551,18 +577,18 @@ var SceneView = Backbone.View.extend({
 	        
 		}};
 		
-		sceneview.model.get("vp").get("canvas").addEventListener("mousemove", onMouseMoveFunc.handleEvent, false);
-		
-		sceneview.model.get("vp").get("canvas").addEventListener("mouseup", function(e) {
+		var onMouseReleaseFunc = {handleEvent: function(e) {
 	        sceneview.model.get("vp").get("canvas").removeEventListener("mousemove", onMouseMoveFunc.handleEvent, false);
-	        sceneview.model.get("vp").get("canvas").removeEventListener("mouseup", this,false);
+	        sceneview.model.get("vp").get("canvas").removeEventListener("mouseup", onMouseReleaseFunc.handleEvent,false);
 	        
 	        p.get("view").render();
+	        p.sendRegion();
 
-		}, false);		
-	},
-	onPolygonDrag: function(e) {
+		}};
 		
+		sceneview.model.get("vp").get("canvas").addEventListener("mousemove", onMouseMoveFunc.handleEvent, false);
+		
+		sceneview.model.get("vp").get("canvas").addEventListener("mouseup", onMouseReleaseFunc.handleEvent, false);		
 	},
 	addUser: function(key, user) {
 		var usermodel = new User({
@@ -584,9 +610,7 @@ var SceneView = Backbone.View.extend({
 			model: usermodel
 		});	
 		usrNavView.firstRender();
-		$("#usersListCtrl").append(usrNavView.el);			  
-
-			  
+		$("#usersListCtrl").append(usrNavView.el);			  			  
 	}
 });
 
@@ -768,7 +792,11 @@ var RegionNavView = Backbone.View.extend({
 
 var RegionPolyNavView = Backbone.View.extend({
 	events: {
-
+		"click .boxPolyRemoveLnk": "remove",
+		"click .regionAddAction": "addAction",
+		"click .vertpointnav": "editVertices",
+		"change .inputpolynavpoint": "onChangeVerticle",
+		"click .cancelEditVert": "render"
 	},
 	initialize: function() {
 		_.bindAll(this, "render");
@@ -781,33 +809,143 @@ var RegionPolyNavView = Backbone.View.extend({
 		
 		
 		for (var i = 0; i<points.length;  i++) {
+			
 			if (i == points.length-1) {
-				pointstr += "("+points[i].xMM+","+points[i].yMM+")";
+				pointstr += "(<span class=\"vertpointnav\">"+points[i].xMM+","+points[i].yMM+"</span>)";
 			}
 			else {
-				pointstr += "("+points[i].xMM+","+points[i].yMM+"), ";
+				pointstr += "(<span class=\"vertpointnav\">"+points[i].xMM+","+points[i].yMM+"</span>), ";
 			}
 		}
 		
 		this.$(".vert").html(pointstr);
+		
+		sceneview.drawPolygons();
 
 		return this;
+	},
+	editVertices: function() {
+		var points = this.model.get("points");
+		
+		this.$(".vert").html("");
+		for (var i = 0; i<points.length;  i++) {
+			pointinput = ich.polygonvectinputstmpl(points[i]);
+			this.$(".vert").append(pointinput);
+			if (i == points.length-1) {
+				this.$(".vert").append(' <a href="#cancelEditVert" class="cancelEditVert">cancel</a>');
+				
+			}
+			else {
+				this.$(".vert").append(", ");
+			}
+		}
+		
+	},
+	onChangeVerticle: function() {
+		var points = new Array();
+		var self = this;
+		this.$(".inputpolynavpointX").each(function(idx, el){
+			point = {
+				xMM: $(this).val(),
+				yMM: $(self.$(".inputpolynavpointY")[idx]).val(),
+				x: Math.round(self.model.get("scenemodel").get("vp").mmInPixel($(this).val())),
+				y: Math.round(self.model.get("scenemodel").get("vp").mmInPixel($(self.$(".inputpolynavpointY")[idx]).val()))
+			};
+			points.push(point);
+			
+
+		});
+		
+		points.pop();
+		points.push(points[0]);
+		this.model.set({
+			points: points
+		});
+		this.drawIcon();
 	},
 	firstRender: function() {
 		$(this.el).html(ich.regionpolynavtmpl(this.model.toJSON()));
 		
-		
-		//regioncoll = this.model.get("scenemodel").get("regions");
-		//this.$(".lcRegionColor").css("background-color", "rgba("+colorsrgb[regioncoll.indexOf(this.model)%10]+", .20)");
-		//this.$(".lcRegionColor").css("border-color", "rgb("+colorsrgb[regioncoll.indexOf(this.model)%10]+")");
-		
+	
 		return this;
 	},
+	drawIcon: function() {
+        var x1 = 100000;
+        var x2 = -1;
+        var y1 = 100000;
+        var y2 = -1
+        
+        var p2 = this.model.get("points");
+        for (var i = 0; i<p2.length; i++) {
+            if (p2[i].x < x1) {
+                x1 = p2[i].x;
+            }
+            if (p2[i].x > x2) {
+                x2 = p2[i].x;
+            }
+            if (p2[i].y < y1) {
+                y1 = p2[i].y;
+            }
+            if (p2[i].y > y2) {
+                y2 = p2[i].y;
+            }                                   
+        }
+        
+        var width = x2-x1;
+        var height = y2-y1;
+        
+        var maxwidth = 50;
+        var maxheight = 50;
+        
+        var widthscal = maxwidth / width;
+        var heightscal = maxheight / height;
+        
+        var canvas = this.$(".polyiconcanvas")[0];
+        var ctx = canvas.getContext("2d");
+        
+        ctx.clearRect ( 0 , 0 , 50 , 50 );
+              
+        
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";  		
+        ctx.lineWidth = 1.0;        
+        
+        var points = p2;
+		if (points.length > 0) {
+			ctx.fillStyle = "rgba("+colorsrgb[sceneview.model.get("regionsPoly").indexOf(this.model)%10]+",0.2)";
+			ctx.strokeStyle = "rgb("+colorsrgb[sceneview.model.get("regionsPoly").indexOf(this.model)%10]+")"; 
+
+		}
+		else {
+			ctx.fillStyle = "rgba(0,0,0,0.2)";  
+			ctx.strokeStyle = "rgb(0,0,0)"; 				
+		}
+        ctx.beginPath();
+  
+        for (var i = 0; i<points.length; i++) {
+            var xnew = Math.round((points[i].x -x1) * widthscal);    
+            
+            var ynew = Math.round((points[i].y-y1) * heightscal);     
+            if (i==0) {
+               ctx.moveTo(xnew,ynew); 
+            }
+            else {
+                ctx.lineTo(xnew,ynew);
+            }
+        }
+        
+        ctx.stroke();  
+
+        ctx.fill();        
+	},
 	remove: function() {
-		this.model.sendRemove();
-		this.model.get("scenemodel").get("regions").remove(this.model);
-		$("#"+this.model.get("htmlId")).remove();
+		
+		this.model.get("scenemodel").get("regionsPoly").remove(this.model);	
 		$(this.el).remove();
+		
+		sceneview.drawPolygons();
+		this.model.sendRemove();
+		
 	},
 	addAction: function() {
 		var actionmodel = new Action({

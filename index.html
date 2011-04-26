@@ -218,12 +218,12 @@
 <script id="regionpolynavtmpl" type="text/html">    
     <div class="lcEntry" id="boxEntry">
         <div class="lcEntryIcon">
-          <div class="lcRegionColor"></div><div class="clear"></div>
+          <canvas class="polyiconcanvas" width="50" height="50"></canvas>
         </div>
         <div class="lcEntryContent">
             <ul class="lcInfos">
                 <li><strong>vert</strong>: <span class="vert"></span></li>
-                <li><a href="#removeBox" class="boxRemoveLnk">remove</a> <a href="#regionAddAction" class="regionAddAction" id="regionAddActio">add action</a> </li>
+                <li><a href="#removeBox" class="boxPolyRemoveLnk">remove</a> <a href="#regionAddAction" class="regionAddAction" id="regionAddActio">add action</a> </li>
             </ul>
         <div class="regionActions"></div>   
         </div>
@@ -273,14 +273,17 @@
 <script id="canvastmpl" type="text/html">  
     <canvas id="canvas" width="{{ w }}" height="{{h}}"></canvas>
 </script>   
+<script id="polygonvectinputstmpl" type="text/html">  
+    <span>(<input class="inputpolynavpoint inputpolynavpointX" type="text" value="{{ xMM }}" />, <input class="inputpolynavpoint inputpolynavpointY"  type="text" value="{{ yMM }}" />)</span>
+</script>   
 
 
 <div id="kinects"></div>
 <div id="regions"></div>
 <div id="users"></div>
 <div id="content"></div>
-<div id="canvascont">
-</div>
+<div id="canvascont"></div>
+<div id="notification">Draw polygon by clicking vertices on the map. Doubleclick to finish drawing. Path will be closed. ESC to cancel drawing.</div>
 <div id="test">&nbsp;</div>
 
 </body>
