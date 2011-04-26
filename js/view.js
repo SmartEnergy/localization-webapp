@@ -523,11 +523,13 @@ var SceneView = Backbone.View.extend({
 			
 	        ctx.beginPath();          
 	        for (var i = 0; i<points.length; i++) {
+	        	var xnew = Math.round(sceneview.model.get("vp").mmInPixel(points[i].xMM));
+	        	var ynew = Math.round(sceneview.model.get("vp").mmInPixel(points[i].yMM));
 	            if (i==0) {
-	               ctx.moveTo(points[i].x,points[i].y); 
+	               ctx.moveTo(xnew,ynew); 
 	            }
 	            else {
-	                ctx.lineTo(points[i].x,points[i].y);
+	                ctx.lineTo(xnew,ynew);
 	            }
 	        }
 	        
