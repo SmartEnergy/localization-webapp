@@ -1035,7 +1035,12 @@ var UserView = Backbone.View.extend({
 			case 'userOut':
 				//onUserOut(msg.user, msg.region);
 				break;		              
-
+			case 'newRegion':
+				alert("New region...");
+				break;
+			case 'updateRegion':
+				alert("Update region...");
+				break;
 			default:
 
 				break;
