@@ -10,7 +10,7 @@
 
 var Scene = Backbone.Model.extend({
     initialize: function (spec) {
-        if (!spec || !spec.sceneName || !spec.serverIp || !spec.port || !spec.roomWidthMM || !spec.roomHeightMM || !spec.vp) {
+        if (!spec || !spec.serverIp || !spec.port) {
             throw "InvalidConstructArgs";
         }
 
@@ -20,7 +20,10 @@ var Scene = Backbone.Model.extend({
             kinects: new KinectCollection(),
             regions: new RegionCollection(),
             regionsPoly: new RegionCollection(),
-            users: new UserCollection()
+            users: new UserCollection(),
+            commands: new CommandCollection(),
+            availableActions: new Array(),
+            connected: "disconnected"
         });  
     },
     validate: function (attrs) {
@@ -77,6 +80,7 @@ var Region = Backbone.Model.extend({
         if (!spec || !spec.name || !spec.posX || !spec.posY || !spec.width || !spec.height) {
         	throw "InvalidConstructArgs";       
         }
+   
 
         this.set({
             htmlId: 'region_' + this.cid
@@ -87,8 +91,7 @@ var Region = Backbone.Model.extend({
                 actions: new ActionCollection()
             });
         } 
-                
-        this.sendRegion();       
+        
     },
     validate: function (attrs) {
     },
@@ -96,7 +99,7 @@ var Region = Backbone.Model.extend({
     	var m = {
 			name: this.get("name"),
 			posX: this.get("posX"),
-			posY: this.get("posX"),
+			posY: this.get("posY"),
 			width: this.get("width"),
 			height: this.get("height"),
 			actions: this.get("actions"),
@@ -104,7 +107,7 @@ var Region = Backbone.Model.extend({
     	}; 
     	return m;
     },
-    sendRegion: function() {    	    
+    sendRegion: function() {    
     	this.get("scenemodel").get("serversocket").send(JSON.stringify({method: 'regionRectangle', regions: [this]}));
     },
     sendRemove: function() {
@@ -143,6 +146,7 @@ var RegionPolygon = Backbone.Model.extend({
     validate: function (attrs) {
     },
     sendRegion: function() {  
+
 		    
     	this.get("scenemodel").get("serversocket").send(JSON.stringify({method: 'regionPolygon', regions: [this]}));
     },
@@ -166,11 +170,28 @@ var Kinect = Backbone.Model.extend({
         	heightLightMM: 4950,
         	offsetImgX: 0,
         	offsetImgY: 0,
+        	offsetBoundingX: 0,
+        	offsetBoundingY: 0,
         	angle: 0
         });       
     },
     validate: function (attrs) {
-    }
+    },
+    sendKinect: function() {  
+    	var kinjson = {
+    		id: this.cid,
+			x: this.get("offsetImgX"),
+			y: this.get("offsetImgY"),
+			angle: this.get("angle"),
+			xb: this.get("offsetBoundingX"),
+			yb: this.get("offsetBoundingY"),
+    	};     	
+    	
+    	this.get("scenemodel").get("serversocket").send(JSON.stringify({method: 'kinect', kinects: [kinjson]}));
+    },
+    sendRemove: function() {
+    	this.get("scenemodel").get("serversocket").send(JSON.stringify({method: 'deleteKinect', key: this.cid}));
+    }    
 });
 
 
@@ -186,6 +207,46 @@ var User = Backbone.Model.extend({
     },
     validate: function (attrs) {
     }    
+});
+
+
+
+var ConditionAction = Backbone.Model.extend({
+    initialize: function (spec) {
+        if (!spec || !spec.name || !spec.displayName || !spec.category || !spec.icon || !spec.options) {
+            throw "InvalidConstructArgs";
+        }
+
+        this.set({
+          selected: false
+        });
+    },
+    validate: function (attrs) {
+    }        
+});
+var Command = Backbone.Model.extend({
+    initialize: function (spec) {
+        if (!spec) {
+            throw "InvalidConstructArgs";
+        }
+    },
+    validate: function (attrs) {
+    }        
+});
+
+
+var ConditionActionCollection = Backbone.Collection.extend({
+    model: ConditionAction,
+
+    initialize: function () {
+    }
+});
+
+var CommandCollection = Backbone.Collection.extend({
+    model: Command,
+
+    initialize: function () {
+    }
 });
 
 
@@ -208,6 +269,19 @@ var RegionCollection = Backbone.Collection.extend({
     model: Region,
 
     initialize: function () {
+    },
+    
+    getRegionByName: function(name) {
+    	var erg = null;
+    	this.each(function(region) {
+    		if (name == region.get("name")) {
+    			//alert(name);
+    			erg = region;
+    		}
+    			
+    	});
+    	
+    	return erg;
     }
 });
 var UserCollection = Backbone.Collection.extend({

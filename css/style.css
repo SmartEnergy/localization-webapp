@@ -72,8 +72,8 @@ button {  width: auto; overflow: visible; }
 
 body, select, input, textarea {  color: #444; }
 h1, h2, h3, h4, h5, h6 { font-weight: bold; }
-a, a:active, a:visited { color: #607890; }
-a:hover { color: #036; }
+a, a:active, a:visited { color: #000; }
+a:hover { color: #000; }
 
 
 /**
@@ -125,7 +125,7 @@ a:hover { color: #036; }
 @media print {
   * { background: transparent !important; color: black !important; text-shadow: none !important; filter:none !important;
   -ms-filter: none !important; } 
-  a, a:visited { color: #444 !important; text-decoration: underline; }
+  a, a:visited { color: #000 !important; text-decoration: underline; }
   a[href]:after { content: " (" attr(href) ")"; }
   abbr[title]:after { content: " (" attr(title) ")"; }
   .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { content: ""; }  
@@ -143,7 +143,6 @@ a:hover { color: #036; }
 body {
   background-color: #eee;
   padding: 0px;
-  
 
 }
 
@@ -174,11 +173,20 @@ h2 {
   padding: 15px;
 }
 
+#reconnectDialog, #connDialog {
+  width: 400px;
+  height: 150px;
+  margin: -85px 0px 0px -225px;
+  display:none;
+}
+
 #sceneSelectStep1 {
   width: 400px;
   height: 200px;
   margin: -125px 0px 0px -225px;
 }
+
+
 
 .sceneSelect input.btn {
   width: 250px;
@@ -201,6 +209,14 @@ h2 {
   height: 400px;
   margin: -225px 0px 0px -225px;
 }
+
+#sceneSelectStep3 {
+  display: none;
+  width: 400px;
+  height: 200px;
+  margin: -125px 0px 0px -225px;
+}
+
 
 .sceneSelect input.text {
   width: 200px;
@@ -257,7 +273,8 @@ h2 {
 	position: absolute;
 	top: 0px;
 	left: 0px;
-	z-index: 21;
+	/*z-index: 21;*/
+	height: 100%;
 }
 
 
@@ -289,7 +306,7 @@ h2 {
 	height: 40px;
 	background-color: #fff;
 	/*padding: 10px;*/
-  	box-shadow: 3px 2px 5px #aaa;
+  	box-shadow: -3px 2px 5px #aaa;
  	/*display:none;*/
 
 	
@@ -306,6 +323,7 @@ h2 {
 }
 
 #navigationContent {
+  
   display:none;
 }
 
@@ -317,7 +335,7 @@ h2 {
 .listCtrl {
 	height: 400px;
 	overflow: auto;
-	background-color: #fff;
+
 }
 
 .lcEntry {
@@ -369,12 +387,11 @@ ul {
 
 .box {
 	border: 2px solid rgb(113, 99, 37);
-	width: 100px;
-	height: 100px;
 	position: absolute;
-	top: 100px;
 	z-index: 10;
-    background-color: rgba(113, 99, 37, .20);
+	top: 0px;
+	left: 0px;
+  background-color: rgba(113, 99, 37, .20);
 	padding: 10px;
 	/*border-radius: 10px;*/
 
@@ -387,7 +404,9 @@ ul {
 div.ui-accordion-content.ui-helper-reset.ui-widget-content.ui-corner-bottom.ui-accordion-content-active {
 	padding: 0;
 	margin: 0;
-	font-size: 0.8em;	
+	font-size: 0.85em;	
+
+
 }
 
 div.ui-accordion-content.ui-helper-reset.ui-widget-content.ui-corner-bottom.ui-accordion-content-active div p {
@@ -395,11 +414,32 @@ div.ui-accordion-content.ui-helper-reset.ui-widget-content.ui-corner-bottom.ui-a
 }
 
 .ui-state-active a {
-	background-color: #ddd;
+	/*background-color: #ddd;*/
 }
+
+.ui-accordion .ui-helper-reset {
+  
+  font-size: 0.9em;
+}
+
+.ui-accordion-header {
+  background-image: url(ui-dark/images/ui-bg_diagonals-thick_8_333333_40x40.png);
+  color: #fff;
+}
+
+
+.ui-accordion .ui-state-active a, .ui-accordion  .ui-state-active a:link, .ui-accordion  .ui-state-active a:visited {
+
+  color: #fff;
+}
+
+
+
+
 
 .accordiontext { 
 	padding: 15px 15px 0px 15px;
+
 }
 
 
@@ -462,8 +502,8 @@ div.ui-accordion-content.ui-helper-reset.ui-widget-content.ui-corner-bottom.ui-a
 }
 
 .regionActions {
-	margin-top: 15px;
-	border-bottom: 1px solid #ccc;			
+	/*margin-top: 10px;
+	border-bottom: 1px solid #ccc;			*/
 }
 
 .regionAction {
@@ -520,3 +560,361 @@ div.ui-accordion-content.ui-helper-reset.ui-widget-content.ui-corner-bottom.ui-a
     margin-top: 10px;
     margin-left: 10px;
 }
+
+.spechbubble {
+    position:absolute;
+    padding:5px;
+    margin:1em 0 3em;
+    color:#000;
+    background:#fff; 
+   
+    background:-webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#d1d1d1));
+    background:-moz-linear-gradient(#ffffff, #d1d1d1);
+    background:-o-linear-gradient(#ffffff, #d1d1d1);
+    background:linear-gradient(#ffffff, #d1d1d1);
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    border-radius:5px;
+    display:none;
+    z-index: 1000;
+}
+
+
+.spechbubble:after {
+   content:"\00a0";
+   display:block;
+   position:absolute;
+   bottom:-15px;
+   left:50px;
+   width:0;
+   height:0;
+   border-width:15px 15px 0;
+   border-style:solid;
+   border-color:#d1d1d1 transparent;
+}
+
+.ui-accordion .ui-widget-content {
+    border: 0px solid #000;
+}
+
+#connectDialog {
+    display: none;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    z-index: 9999;
+    background-color: rgba(0,0,0,.70);
+}
+
+.slider {
+	float: left;
+	width: 120px;
+	margin-top: 5px;
+}
+
+.fl {
+	float: left;
+}
+
+.kinectinfolist {
+	margin: 5px;
+}
+
+.ang {
+  width: 30px;
+
+  font-size: 1.0em;
+  border: 0px solid #fff;
+  box-shadow: 2px 1px 3px #aaa;
+  padding: 2px;
+  margin-right: 15px;
+}
+
+.lcInput {
+  width: 100px;
+  font-size: 1.0em;
+  border: 0px solid #fff;
+  box-shadow: 2px 1px 3px #aaa;
+  padding: 2px;
+  margin-bottom: 5px;
+}
+
+
+
+
+.action_dialog h1 {
+  margin: 15px 0px 15px 0px;
+  font-size: 13px;
+
+}
+.actionEntry {
+  border: 1px solid #ccc;
+  width: 64px;
+  height: 64px;
+  overflow: hidden; 
+  float: left;
+  margin: 10px;
+  background-color: #fff;
+  z-index: 10;
+}
+
+.actionEntrySeperator {
+  border: 1px solid #ccc;
+  
+  width: 18px;
+  height: 64px;
+  overflow: hidden; 
+  float: left;
+  margin: 10px;
+  background-image: url(../img/bg_action_seperator.png);
+  color: #fff;
+  z-index: 10;
+
+}
+
+.actionEntrySeperator div {
+  -webkit-transform: rotate(-90deg); 
+  -moz-transform: rotate(-90deg);
+  margin-top: 45px;
+  font-weight:bold;
+  font-size: 10px;
+
+
+}
+
+.actionEntryIcon {
+  width: 64px;
+  height: 64px;
+  float: left;
+
+}
+
+.actionEntryConfig {
+  padding: 4px 5px 10px 5px;
+  margin-left: 64px;
+  
+
+}
+
+.actionEntryConfigTxt{
+  display: none;
+}
+
+.clearer {
+  clear: both;
+}
+
+
+.actionEntryConfigTxt h2 {
+  margin: 0px 0px 0px 0px;
+}
+
+.actionEntryConfigTxt {
+  font-size: 10px;
+}
+
+.actionEntryForm {
+
+}
+
+.actionEntryFormRow{
+  margin: 0px;
+  height: 19px;
+}
+
+
+.actionEntryFormLabel{
+  float: left;
+  padding-top: 5px;
+  width: 55px;
+
+
+}
+
+.actionEntryFormValue{
+  padding-top: 4px;
+  margin-left: 55px;
+
+}
+
+.actionEntryNameValue {
+  width: 100px;
+  border: 0px solid #000;
+  box-shadow: 2px 1px 3px #aaa;
+
+  
+}
+
+.selected_conditions {
+
+  border: 1px solid #ccc;
+  min-height: 84px;
+  overflow: auto;
+-moz-border-radius: 4px;
+-webkit-border-radius: 4px;
+border-radius: 4px;
+
+}
+
+.selected_conditions_hover {
+  border: 1px solid #aaa;
+  background-color: #efefef;
+
+
+
+}
+
+.selected_actions {
+
+  border: 1px solid #ccc;
+  min-height: 84px;
+  overflow: auto;
+-moz-border-radius: 4px;
+-webkit-border-radius: 4px;
+border-radius: 4px;
+
+}
+
+.selected_actions_hover {
+  border: 1px solid #aaa;
+  background-color: #efefef;
+
+
+
+}
+
+
+
+.available_conditions {
+  border: 1px solid #ccc;
+  min-height: 256px;
+
+
+}
+
+.available_conditions_hover {
+  background-color: #efefef;
+
+
+
+}
+
+.slider2 {
+  float: left;
+  width: 80px;
+  height: 5px;
+  margin-top: 2px;
+}
+
+.slider_value {
+  padding-left: 10px;
+}
+
+.sliderRow {
+  padding-top: 3px;
+}
+
+.user_direction_img{
+  position: relative;
+  top: 0px;
+  left: 0px;
+  opacity: 0.5;
+  z-index: 5;
+
+}
+
+.user_direction_img2{
+
+  position: relative;
+  top: -67px;
+  left: 0px;
+  opacity: 0.5;
+  z-index: 4;
+}
+
+.available_actions, .available_actions_baall{
+  border: 1px solid #aaa;
+
+
+}
+
+.action_dialog {
+  width: 460px;
+}
+
+
+.ui-tabs .ui-tabs-panel {
+    padding: 5px;
+}
+.ui-tabs .ui-helper-reset {
+  
+  font-size: 0.85em;
+}
+
+#tabs {
+ 
+}
+
+.tabcontent, .actions_tabcontent {
+  min-height: 88px;
+}
+
+
+.sliderCtrl {
+  width: 100%;
+  overflow:hidden;
+  height: 85px;
+  
+}
+
+.sliderCtrlContentContainer {
+  margin-left: 0px;
+  width: 4000px;
+  overflow: hidden;
+}
+
+.actionEntry {
+  float: left;
+
+
+}
+
+.sliderCtrlSliderContainer {
+    width: 410px;
+    padding-left: 20px;
+}
+
+.addCommandSaveBtn {
+  margin-top: 15px;
+  text-align:right;
+}
+
+#modaldialog {
+  z-index: 50000;
+}
+
+.commandName {
+  font-size: 12px;
+  /*font-family: Verdana;*/
+  font-weight: bold;
+  margin-top: 15px;
+
+}
+
+.commandName input {
+  width: 310px;
+  margin-top: -2px;
+  font-size: 13px;
+  margin-left: 15px;
+  border: 0px solid #fff;
+  box-shadow: 3px 2px 5px #aaa;
+  padding: 5px;
+}
+
+.sceneSelect li {
+  margin-bottom: 10px;
+}
+
+
