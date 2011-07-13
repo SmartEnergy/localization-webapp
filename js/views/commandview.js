@@ -1,0 +1,467 @@
+var ConditionActionView = Backbone.View.extend({
+	events: {
+	},
+	initialize: function() {
+		_.bindAll(this, "render");
+
+		this.model.bind('change', this.render);
+	},
+	render: function() {		
+	
+		return this;
+	},
+	firstRender: function() {
+    var self = this;
+
+    this.el = ich.conditionTmpl(this.model.toJSON());
+
+    $.each(this.model.get("options"), function(index, option) { 
+      var configEl =  ich.conditionConfigRowTmpl(option);
+      
+
+      if (option.type == "checkbox") {
+        var checkbox = '<select class="actionEntryNameValue">';          
+
+        // Get Data
+        if (option.getValuesFrom == "regionNames") {
+          var names = getRegionNames();
+          $.each(names, function(index, name) {
+            if (name == option.value) {
+              var nameEl = '<option selected="selected">'+name+"</option>";
+            }
+            else {
+              var nameEl = "<option>"+name+"</option>";
+            }
+            
+            checkbox += nameEl;
+            
+          });
+        } 
+        else {
+          $.each(option.values, function(index, value) {
+
+            if (value == option.value) {
+              var nameEl = '<option selected="selected">'+value+"</option>";
+            }
+            else {
+              var nameEl = "<option>"+value+"</option>";
+            }
+            
+            checkbox += nameEl;
+          });
+        }
+        checkbox += "</select>"
+
+
+
+        $(configEl).find(".actionEntryFormValue").eq(0).append(checkbox); 
+
+        var o = option;
+        $(".actionEntryNameValue", configEl).change(function(e) {
+          o.value = $(this).val();
+        });
+      }
+      else if (option.type = "slider") {
+        var o = option;
+        $(configEl).find(".actionEntryFormRow").addClass("sliderRow");
+        var slider = '<div class="slider2"></div><span class="slider_value">'+option.value+'</span>';
+        $(configEl).find(".actionEntryFormValue").eq(0).append(slider); 
+        console.log("option.value");
+        console.log(option.value);
+        $(configEl).find(".slider2").slider({
+	        value: option.value,
+	        min: option.values[0],
+	        max: option.values[1],
+	        step: option.values[2],
+	        slide: function( event, ui ) {
+            $(this).next().text(ui.value);
+            $(".user_direction_img2").css("-webkit-transform", "rotate("+ui.value+"deg)");
+		        $(".user_direction_img2").css("-moz-transform", "rotate("+ui.value+"deg)");
+	        },
+	        stop: function(event, ui) {
+            o.value = ui.value;
+	        }
+		
+        });
+
+      }
+
+      self.$(".actionEntryConfigTxt").append(configEl);
+
+      
+    });
+
+    var insertEl = null;  
+    if (this.model.get("type") == "condition") {
+      insertEl = "#avtabs";
+    }
+    else {
+      insertEl = "#tabs";
+    }
+    $(insertEl).find("li").each(function(index, value) { 
+      if (self.model.get("category") == $(value).children().first().text()) {
+        id = $(value).children().first().attr("href");
+
+        // Wenns eine action ist und es eine subcategory gibt, dann dahinter einfügen
+        if (self.model.get("type") == "action" && self.model.get("subCategory") != undefined ) {
+          $(".actionSubCategory"+self.model.get("subCategory"), $(".sliderCtrlContentContainer", id)).after(self.el);
+        }
+        else {      
+          $(".sliderCtrlContentContainer", id).prepend(self.el);
+        }
+      }
+    });
+
+
+
+    $(this.el).bind('selectAction', function() {
+      self.model.set({
+        selected: true        
+      });
+    });
+    $(this.el).bind('deselectAction', function() {
+      self.model.set({
+        selected: false        
+      });
+    });
+
+    this.dblclickEvent();
+
+    this.dragEvent();
+
+    return this;
+	},
+  dblclickEvent: function() {
+    var self = this;
+    $(this.el).dblclick(      
+      function () {
+        $(".actionEntry").each(function(index, value) {
+          if ($(value).width() > 64) {
+            $(value).animate({
+                width: '64'
+              }, 150, function() {
+            });
+          }
+        })
+        $(".actionEntry").height(64);
+
+        if ($(self.el).width() == 64) {
+          $(self.el).animate({
+            width: '250'
+          }, 150, function() {
+            self.$(".actionEntryConfigTxt").show();
+          });
+        }
+        else {
+          self.$(".actionEntryConfigTxt").hide();
+          $(self.el).animate({
+            width: '64'
+          }, 150, function() {           
+          });
+        }
+      }
+    );
+    $(this.el).mousewheel(function() {
+      $(self.el).trigger("dblclick");
+    });
+
+  },
+  dragEvent: function() {
+    var self = this;
+    var insertEl = null;  
+    var type = null;
+    var tabcontent = null;
+    if (this.model.get("type") == "condition") {
+      insertEl = "avtabs";
+      type = "conditions";
+      tabcontent = ".tabcontent";
+    }
+    else {
+      insertEl = "tabs";
+      type = "actions"
+      tabcontent = ".actions_tabcontent";
+    }
+    $(this.el).draggable({ 
+      revert: true, 
+      drag: function(event, ui) {
+        $(this).css("position", "absolute");
+        if ($(self.el).parent().parent().parent().parent().attr("id") == insertEl) {
+          $(".selected_"+type).addClass("selected_"+type+"_hover");
+        }
+        else {
+
+          $(tabcontent).css("background-color", "#efefef");
+        }
+      },
+      stop: function(event, ui) {
+        $(this).css("position", "inherit");
+        $(".selected_"+type).removeClass("selected_"+type+"_hover");
+        $(tabcontent).css("background-color", "#fff");
+      }
+    });
+  }
+});
+
+var CommandView = Backbone.View.extend({
+	events: {
+	},
+	initialize: function() {
+		_.bindAll(this, "render");
+
+		this.model.bind('change', this.render);
+	},
+	render: function() {		
+	
+		return this;
+	},
+	firstRender: function(dontDraw) {
+    var self = this;
+
+    this.el = ich.commandDialogTmpl(this.model.toJSON());
+    $("#b").append(this.el);
+
+	  this.$( ".selected_conditions" ).droppable({
+      accept: ".actionEntry",
+		  drop: function( event, ui ) {
+			    $(".selected_conditions").append(ui.draggable[0]);
+          ui.draggable.css("top", "0px");
+          ui.draggable.css("left", "0px");
+          ui.draggable.css("position", "inherit");
+          ui.draggable.trigger("selectAction");
+		  }
+	  });  
+
+	  this.$( ".selected_actions" ).droppable({
+      accept: ".actionEntry",
+		  drop: function( event, ui ) {
+			    $(".selected_actions").append(ui.draggable[0]);
+          ui.draggable.css("top", "0px");
+          ui.draggable.css("left", "0px");
+          ui.draggable.css("position", "inherit");
+          ui.draggable.trigger("selectAction");
+		  }
+	  }); 
+
+	  this.$(".sliderCtrlContentContainer", $( ".tabcontent, .actions_tabcontent" )).droppable({
+      accept: ".actionEntry",
+		  drop: function( event, ui ) {
+			    $(this).prepend(ui.draggable[0]);
+          ui.draggable.css("top", "0px");
+          ui.draggable.css("left", "0px");
+          ui.draggable.css("position", "inherit");
+          ui.draggable.trigger("deselectAction");
+		  }
+	  }); 
+    
+
+    var conditionModels = getConditionsAndActions();
+
+    cac = new ConditionActionCollection();
+    conditionModels.each(function(model) {
+
+      if (self.model.get("conditions") != undefined && self.model.get("conditions").isInCollection(model.get("name"))) {
+        model = self.model.get("conditions").getByName(model.get("name"));
+      } 
+
+      if (self.model.get("actions") != undefined && self.model.get("actions").isInCollection(model.get("name"))) {
+        model = self.model.get("actions").getByName(model.get("name"));
+      } 
+
+      var view = new ConditionActionView({
+			    model: model
+		  });	 
+
+      view.firstRender();
+
+      model.set({
+        view: view
+      }); 
+
+      cac.add(model);
+      
+    });
+
+
+    $( "#avtabs" ).tabs();
+    $( "#tabs" ).tabs();
+
+
+
+    $(".sliderCtrl").each(function(index, slideCtrl) {
+      var actionCount = $(".actionEntry",slideCtrl).length;
+      if (actionCount > 3) {
+        $(".horizontalSlider", $(slideCtrl).next()).slider({
+          min: 0,
+          max: 75*actionCount+150,
+          slide: function(event, ui) { 
+            $(".sliderCtrlContentContainer", $(this).parent().parent()).css("margin-left", -1*ui.value + "px");
+          }  
+        });
+      }
+    });
+
+    this.$(".addCommandBtn").click(function(e) {
+      var conditionCollection = new ConditionActionCollection();
+      var actionCollection = new ConditionActionCollection();
+      
+      cac.each(function( value) {
+        if (value.get("selected") === true) {
+          if (value.get("type") == "condition") {
+            conditionCollection.add(value);
+          }
+          else {
+            actionCollection.add(value);
+          }
+        } 
+      });
+      if (conditionCollection.length == 0) {
+        alert("Select at least one condition");
+        return;
+      }
+      else if (actionCollection.length == 0) {
+        alert("Select at least one action");
+        return;
+      }
+      else if (self.$(".commandNameInput").val() == "") {
+        alert("Enter a command name");
+        return;
+      }
+
+      //console.log(conditionCollection);
+
+      self.model.set({
+        name: self.$(".commandNameInput").val(),
+        conditions: conditionCollection,
+        actions: actionCollection
+      });
+      cmdNavView = new CommandNavView({
+			  model: self.model
+		  });	
+		  cmdNavView.firstRender();
+
+      self.model.sendCommand();      
+
+      $(".action_dialog").remove();
+
+    });
+
+    $(this.el).hover(function() {
+      $("#navigation").css("opacity", 1);
+    }, 
+    function() {
+      $("#navigation").css("opacity", 0.6);
+    });
+
+    var dialogPosition = null;
+    if ($("#navigation").css("right") == "0px") {
+      // nav is right
+      dialogPosition = [$("body")[0].offsetWidth-$("#navigation").width()-500-7,0];
+    }
+    else {
+      // nav is left
+      dialogPosition = [0+$("#navigation").width(),0];
+    }
+
+    if (dontDraw === true) {
+
+    }
+    else {
+      $(this.el).dialog({
+        height: $("body")[0].offsetHeight,
+        width: "500px",
+        position: dialogPosition,
+        resizable: false,
+        draggable: false,
+        close: function(event, ui) {
+          $(".action_dialog").remove();
+        }
+      });
+    }
+
+
+    // Wenn schon Bedingungen oder Aktionen da sind, diese laden
+    if (this.model.get("conditions") != undefined) {
+      this.model.get("conditions").each(function(value) {
+        $(".selected_conditions").prepend($(".actionCondi"+value.get("name")));
+        $(".actionCondi"+value.get("name")).trigger("selectAction");
+      });
+    }
+
+    if (this.model.get("actions") != undefined) {
+      this.model.get("actions").each(function(value) {
+        $(".selected_actions").prepend($(".actionCondi"+value.get("name")));
+        $(".actionCondi"+value.get("name")).trigger("selectAction");
+      });
+    }    
+
+    
+    return this;
+	}
+});
+
+var CommandNavView = Backbone.View.extend({
+	events: {
+    "click .editCommandLnk": "editCommand",
+    "click .delCommandLnk": "delCommand",
+	},
+	initialize: function() {
+		_.bindAll(this, "render");
+
+		this.model.bind('change', this.render);
+	},
+	render: function() {
+		$(this.el).html(ich.commandnavtmpl(this.model.toJSON()));
+
+    var condString = "";
+    this.model.get("conditions").each(function(value) {
+      condString += value.get("name") + ", ";
+    });
+
+    var actString = "";
+    this.model.get("actions").each(function(value) {
+      actString += value.get("name") + ", ";
+    });
+
+    this.$(".comNavCond").html(condString);
+    this.$(".actNavCond").html(actString);
+
+		return this;
+	},
+	firstRender: function() {
+
+    this.model.set({
+      navview: this
+    });
+		this.render();		
+
+    
+    $("#commandListCtrl").append(this.el);
+		return this;
+	},
+  editCommand: function() {
+
+    this.delCommand();
+
+    
+
+    var view = new CommandView({
+	    model: this.model
+    });	    
+    
+    view.firstRender();
+    this.model.set({
+      view: view
+    });   
+
+    sceneview.model.get("commands").add(this.model);      
+
+
+  },
+  delCommand: function() {
+    sceneview.model.get("commands").remove(this.model);
+    this.model.sendRemove();    
+    $(this.el).remove();
+    
+  }
+
+});

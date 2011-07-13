@@ -23,7 +23,7 @@
   <script src="js/libs/jquery.min.js"></script>  
   <script type="text/javascript" src="js/libs/jquery-ui.min.js"></script>
   
-  <script src="js/libs/socket.io.js"></script>
+  <script src="http://localhost:8000/socket.io/socket.io.js"></script>
   <script src="js/libs/jquery.jwNotify.js"></script>
   <script src="js/libs/jquery.favicon.js"></script>
   <script src="js/libs/underscore-min.js"></script>
@@ -34,7 +34,17 @@
    
   
   <script src="js/model.js"></script>
-  <script src="js/view.js"></script>
+
+  <!--<script src="js/view.js"></script>-->
+
+  <script src="js/views/sceneview.js"></script>
+  <script src="js/views/kinectview.js"></script>
+  <script src="js/views/regionview.js"></script>
+  <script src="js/views/actionview.js"></script>
+  <script src="js/views/userview.js"></script>
+  <script src="js/views/commandview.js"></script>
+
+
   <script src="js/controller.js"></script>
   <script src="js/script.js"></script>
 </head>
@@ -141,7 +151,7 @@
 				<div class="listCtrl" id="kinectListCtrl"></div>
 				
 			    <div class="accordiontext">
-			    <a href="#addKinect" class="addKinectLnk">add</a> 
+			    <a href="#addKinect" class="addKinectLnk grey" title="deprecated">add</a> 
 			    <span class="hideKinects"><a href="#hideKinects" class="hideKinectLnk">hide kinects</a></span>
 			    <span class="showKinects"><a href="#showKinects" class="showKinectLnk">show kinects</a></span> 
 			    </div>					    
@@ -202,14 +212,15 @@
 		<div class="lcEntryIcon"><img src="img/kinecticon.png" /></div>
 		<div class="lcEntryContent">
 			<ul>
+        <li class="kinectinfolist"><strong>id</strong>: {{ name }}</li>
 				<li class="kinectinfolist"><strong>pos</strong>: x: <span class="offx">{{ offsetImgX }}</span><i>mm</i>, y: <span class="offy">{{ offsetImgY }}</span><i>mm</i></li>
 				<li class="kinectinfolist">
 					<div class="fl">
 						<strong>rot</strong>: <input type="text" value="{{ angle }}" class="ang" /></span>
 					</div> 
 					<div class="slider" id="slider_{{ htmlId }}"></div>				
-				</li>
-				<li class="kinectinfolist clear"><a href="#" class="kinectRemoveLnk">remove</a> </li>
+			  </li>
+				<li class="kinectinfolist clear"><!--<a href="#" class="kinectRemoveLnk">remove</a>--> </li>
 			</ul>
 		</div>
 		<div class="clear"></div> 
