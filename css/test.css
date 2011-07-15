@@ -1,0 +1,10 @@
+body {
+	margin:0px;
+	padding: 0px;
+	background-image: url(../img/baall_karte.png);
+}
+
+#canvas{
+    margin:0px;
+    padding: 0px;
+}
