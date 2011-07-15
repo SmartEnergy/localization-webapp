@@ -355,11 +355,15 @@ var SceneView = Backbone.View.extend({
     });
 
 
-
     this.model.get("serversocket").on('updateRegion', function (region) { 
       self.updateRegion(region);
     });
     this.model.get("serversocket").on('updateUser', function (user) { 
+			
+      // Wenn user noch nicht drin ist, neuer User
+      if (sceneview.model.get("users").getByName(user.id) == null) {
+        self.addUser(user.id, user);
+      }
 
     });
     this.model.get("serversocket").on('updateKinect', function (kinect) { 
@@ -370,18 +374,21 @@ var SceneView = Backbone.View.extend({
     });
 
 
-
     this.model.get("serversocket").on('removedRegion', function (key) { 
       self.removeRegion(key);
     });
-    this.model.get("serversocket").on('removedUser', function (key) { 
+    /*this.model.get("serversocket").on('removedUser', function (key) { 
 
-    });
+    });*/
     this.model.get("serversocket").on('removedKinect', function (key) { 
 
     });
     this.model.get("serversocket").on('removedCommand', function (key) { 
       self.removeCommand(key);
+    });
+
+    this.model.get("serversocket").on('pushUi', function (uiname) { 
+      self.onPushUI(uiname);
     });
 	  	  
 	},
@@ -418,6 +425,9 @@ var SceneView = Backbone.View.extend({
 
 		// Change favicon
 		jQuery.favicon('img/favcon.png');
+
+
+
 		
 		// Send desktop notfication
 		/*$.jwNotify({
@@ -1092,6 +1102,15 @@ var SceneView = Backbone.View.extend({
     });   
 
     sceneview.model.get("commands").add(model);       
+  },
+
+  onPushUI: function(uiname) {
+		$(".ui"+uiname).show();
+		$(".ui"+uiname).css("left", $("body")[0].offsetWidth);
+		$(".ui"+uiname).animate({
+		    left: '0'
+		  }, 500, function() {
+		});
   }
 });
 

@@ -15,14 +15,14 @@
 
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-
+  
 
   <link href="css/ui-dark/jquery-ui-1.8.13.custom.css" rel="stylesheet" type="text/css"/>
   <link rel="stylesheet" href="css/style.css?v=2"> 
   <script src="js/libs/modernizr-1.7.min.js"></script>	
   <script src="js/libs/jquery.min.js"></script>  
   <script type="text/javascript" src="js/libs/jquery-ui.min.js"></script>
-  
+
   <script src="http://localhost:8000/socket.io/socket.io.js"></script>
   <script src="js/libs/jquery.jwNotify.js"></script>
   <script src="js/libs/jquery.favicon.js"></script>
@@ -31,7 +31,8 @@
   <script src="js/libs/ICanHaz.min.js"></script>  
   <script src="js/libs/json2.js"></script>
   <script type="text/javascript" src="js/libs/jquery.mousewheel.min.js"></script>
-   
+  <script type="text/javascript" src="js/libs/jquery.touchwipe.min.js"></script>
+
   
   <script src="js/model.js"></script>
 
@@ -88,17 +89,20 @@
 	    <div class="clear"></div>	   
 	    <div class="formrow">	
 	      <div class="formlabel">background image</div>  
-	      <div class="formvalue"><input type="text" id="sceneBgImg" value="img/baall_karte.png"   class="text"/></div> 	
+	      <!--<div class="formvalue"><input type="text" id="sceneBgImg" value="img/baall_karte.png"   class="text"/></div> 	-->
+        <div class="formvalue"><input type="text" id="sceneBgImg" value="img/projekttag_map.png"   class="text"/></div> 
 	    </div>
 	    <div class="clear"></div>	
 	    <div class="formrow">	
 	      <div class="formlabel">scenewidth (mm)</div>  
-	      <div class="formvalue"><input type="text" id="sceneWidth" value="10605"   class="text"/></div> 	
+	      <!--<div class="formvalue"><input type="text" id="sceneWidth" value="10605"   class="text"/></div>-->
+        <div class="formvalue"><input type="text" id="sceneWidth" value="5400"   class="text"/></div> 	
 	    </div>
 	    <div class="clear"></div>	
 	    <div class="formrow">	
 	      <div class="formlabel">sceneheight (mm)</div>  
-	      <div class="formvalue"><input type="text"  id="sceneHeight" value="5850"  class="text"/></div> 	
+	      <!--<div class="formvalue"><input type="text"  id="sceneHeight" value="5850"  class="text"/></div>--> 	
+        <div class="formvalue"><input type="text"  id="sceneHeight" value="3150"  class="text"/></div> 
 	    </div>
 	    <div class="clear"></div>	
 	    <div class="formrow">	
@@ -125,6 +129,7 @@
 		<li class="lisc"><strong>roomlength</strong>: <input type="text" class="navinputtext navconfiginput" id="navroomWidthMM"  value="{{ roomWidthMM }}" /> <i>mm</i></li>
 		<li class="lisc"><strong>roomdepth</strong>: <input type="text" class="navinputtext navconfiginput" id="navroomHeightMM"  value="{{ roomHeightMM }}" /> <i>mm</i></li>
 		<li  class="lisc"><strong>serverstatus</strong>: <span class="serverstatusnav">{{ connected }}</span></li>
+    <li  class="lisc"><a href="javascript:showOverlay();">showOverlay</a></li>
 	</ul>				
 </script>			
 		
@@ -341,7 +346,7 @@
         </div>
         <div class="actionEntryConfig">
           <div class="actionEntryConfigTxt">
-            <h2>{{ displayName }}</h2>
+            <h2>{{ subCategory }} - {{ displayName }}</h2>
           </div>
         </div> 
         <div class="clearer"></div>
@@ -453,6 +458,9 @@
           <div class="actionEntrySeperator actionSubCategoryLiving">
             <div>Living</div>
           </div>
+          <div class="actionEntrySeperator actionSubCategoryCorridor">
+            <div>Corridor</div>
+          </div>
           <div class="actionEntrySeperator actionSubCategoryBath">
             <div>Bath</div>
           </div>
@@ -533,7 +541,23 @@
          
     
 </div>
+<div class="uiOverlay uiChillen">
+  <div class="overlayHeader"><h1>Chillen</h1></div>
+  <a class="overlayRow" href="javascript:closeOverlay();">Watch TV</a>
+  <a class="overlayRow" href="javascript:closeOverlay();">Listening Music</a>
+  <a class="overlayRow" href="javascript:closeOverlay();">Reading</a>
+  <a class="overlayRow" href="javascript:closeOverlay();">Devices</a>
+  <a class="overlayRow" href="javascript:closeOverlay();">Return to Map</a>
+</div>
 
+<div class="uiOverlay uiWatchTV">
+  <div class="overlayHeader"><h1>WatchTV</h1></div>
+  <a class="overlayRow" href="javascript:closeOverlay();">Stations</a>
+  <a class="overlayRow" href="javascript:closeOverlay();">EPG</a>
+  <a class="overlayRow" href="javascript:closeOverlay();">Recordings</a>
+  <a class="overlayRow" href="javascript:closeOverlay();">Remote Control</a>
+  <a class="overlayRow" href="javascript:closeOverlay();">Return to Map</a>
+</div>
 
 </body>
 </html>

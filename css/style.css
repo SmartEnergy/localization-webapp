@@ -920,3 +920,79 @@ border-radius: 4px;
 .grey,.grey:active, .grey:visited, .grey:hover {
   color: #aaa;
 }
+
+.uiOverlay {
+  display:none;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  min-height: 100%;
+  background-color: #555;
+  z-index: 65000;
+  font-family: Helvetica;
+
+}
+
+.uiOverlay h1 {
+  color: #ddd;
+  font-size: 22px;
+  padding: 0px;
+}
+
+.uiOverlay p {
+  color: #ddd;
+  padding: 0px 10px 10px 10px;
+}
+
+.overlayHeader {
+  border-bottom: 1px solid #ddd;
+  background-image: url(ui-dark/images/ui-bg_diagonals-thick_8_333333_40x40.png);
+  text-align: center;
+  
+
+  padding: 12px 12px 8px 12px;
+}
+
+.overlayRow {
+  border-bottom: 1px solid #aaa;
+  padding: 15px;
+  color: #ccc;
+  font-size: 20px;
+
+  background-image: -webkit-gradient(
+      linear,
+      left bottom,
+      left top,
+      color-stop(0.05, #444444),
+      color-stop(0.53, #555555)
+  );
+  background-image: -moz-linear-gradient(
+      center bottom,
+      #444444 5%,
+      #555555 53%
+  );
+}
+
+.overlayRow:nth-child(odd)  {
+  background-image: -webkit-gradient(
+      linear,
+      left bottom,
+      left top,
+      color-stop(0.05, #555555),
+      color-stop(0.53, #666666)
+  );
+  background-image: -moz-linear-gradient(
+      center bottom,
+      #555555 5%,
+      #666666 53%
+  );
+
+
+}
+
+.uiOverlay a, .uiOverlay a:visited, .uiOverlay a:hover, .uiOverlay a:active {
+  text-decoration:none;
+  display: block;
+  color: #ccc;
+}

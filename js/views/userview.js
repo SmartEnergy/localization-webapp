@@ -28,30 +28,13 @@ var UserView = Backbone.View.extend({
 		this.$(".user").css("background-color", colors[this.model.get("userid")%10]);
 
 		var self = this;
-		this.model.get("scenemodel").get("serversocket").on('message', function(data){
-			var msg = JSON.parse(data);
-			var event = msg.event;
-			switch(event) {
-			case 'updateUser':
-				self.updateUser(msg.key, msg.user);
-				break;
-			case 'removedUser':
-				self.remove(msg.key);
-				break;
-			case 'userIn':
-				self.userInRegion(msg.user, msg.region);
-				break;
-			case 'userOut':
-				self.userOutRegion(msg.user, msg.region);
-				break;	
-			case 'triggeredAction':
-				//alert(JSON.stringify(msg));
-				self.actionTriggered(msg.user, msg.action);
-				break;
-			default:
-				break;
-			}
-		});		  
+    sceneview.model.get("serversocket").on('updateUser', function (user) {
+			self.updateUser(user.id, user);
+		}); 
+    sceneview.model.get("serversocket").on('removedUser', function (key) {
+			self.remove(key);
+		}); 			
+ 	  
 
 		return this;
 	},	

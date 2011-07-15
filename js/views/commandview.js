@@ -60,6 +60,9 @@ var ConditionActionView = Backbone.View.extend({
         $(".actionEntryNameValue", configEl).change(function(e) {
           o.value = $(this).val();
         });
+
+        $(".actionEntryNameValue", configEl).change();
+
       }
       else if (option.type = "slider") {
         var o = option;
@@ -124,6 +127,11 @@ var ConditionActionView = Backbone.View.extend({
         selected: false        
       });
     });
+
+    /*$(this.el).bind('touchstart', function() {
+      //alert(1);
+      $(self.el).dblclick();
+    });*/
 
     this.dblclickEvent();
 
@@ -297,8 +305,43 @@ var CommandView = Backbone.View.extend({
             $(".sliderCtrlContentContainer", $(this).parent().parent()).css("margin-left", -1*ui.value + "px");
           }  
         });
+
+
+
       }
     });
+
+   $( "#tabs" ).touchwipe({
+    wipeLeft: function() { 
+      var sl = $(".horizontalSlider",  $("a",  $(".ui-tabs-selected", "#tabs")  ).attr("href"));
+      var value = sl.slider( "option", "value" );
+      var newvalue = value+350;
+      sl.slider( "value", newvalue);
+      $(".sliderCtrlContentContainer", $(sl).parent().parent()).css("margin-left", -1*newvalue+ "px");
+
+      /*$(".sliderCtrlContentContainer", $(sl).parent().parent()).animate({
+          "margin-left": '-=350'
+        }, 1000, function() {
+          // Animation complete.
+        });*/
+    },
+    wipeRight: function() { 
+      var sl = $(".horizontalSlider",  $("a",  $(".ui-tabs-selected", "#tabs")  ).attr("href"));
+      var value = sl.slider( "option", "value" );
+      var newvalue = value-350;
+      sl.slider( "value", newvalue);
+      $(".sliderCtrlContentContainer", $(sl).parent().parent()).css("margin-left", -1*newvalue+ "px");
+
+      /*$(".sliderCtrlContentContainer", $(sl).parent().parent()).animate({
+          "margin-left": '+=350'
+        }, 1, function() {
+          // Animation complete.
+        });*/
+    },
+    min_move_x: 20,
+    min_move_y: 20,
+    preventDefaultEvents: true
+    }); 
 
     this.$(".addCommandBtn").click(function(e) {
       var conditionCollection = new ConditionActionCollection();
@@ -392,7 +435,11 @@ var CommandView = Backbone.View.extend({
         $(".selected_actions").prepend($(".actionCondi"+value.get("name")));
         $(".actionCondi"+value.get("name")).trigger("selectAction");
       });
-    }    
+    } 
+
+    $("#tabs").focus();
+
+  
 
     
     return this;

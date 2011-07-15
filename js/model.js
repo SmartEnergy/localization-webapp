@@ -224,7 +224,7 @@ var User = Backbone.Model.extend({
         });
     },
     validate: function (attrs) {
-    }    
+    }
 });
 
 
@@ -261,6 +261,7 @@ var Command = Backbone.Model.extend({
           newc = {
             name: c.get("name"),
             type: c.get("type"),
+						category: c.get("category"),
             values: []           
           };
           
@@ -400,6 +401,18 @@ var UserCollection = Backbone.Collection.extend({
     model: User,
 
     initialize: function () {
+    },
+    getByName: function(n) {
+      var erg = null;
+    	this.each(function(ca) {
+    		if (n == ca.get("userid")) {
+    			erg = ca;
+          return; // innere funktion beenden
+    		}
+    			
+    	});
+    	
+    	return erg;      
     }
 });
 
@@ -408,7 +421,7 @@ function getConditionsAndActions() {
 
 		conditionModels.add(  
       new ConditionAction({
-        name: "enterRegion",
+        name: "userIn",
         type: "condition",
         displayName: "User entered a region",
         category: "Regions",
@@ -426,7 +439,7 @@ function getConditionsAndActions() {
     conditionModels.add( 
 
 		  new ConditionAction({
-        name: "leaveRegion",
+        name: "userOut",
         type: "condition",
         displayName: "User leaved a region",
         category: "Regions",
@@ -444,7 +457,7 @@ function getConditionsAndActions() {
     conditionModels.add( 
 
 		  new ConditionAction({
-        name: "userinRegion",
+        name: "userAlreadyIn",
         type: "condition",
         displayName: "User moved in a region",
         category: "Regions",
@@ -550,7 +563,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "livingSpotlight",
+        name: "livingLight1",
         type: "action",
         displayName: "Spotlight",
         category: "Baall",
@@ -568,7 +581,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "livingLamp1",
+        name: "livingJack2",
         type: "action",
         displayName: "Lamp",
         category: "Baall",
@@ -604,7 +617,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "livingDoor1",
+        name: "upperLeftDoor",
         type: "action",
         displayName: "Door left",
         category: "Baall",
@@ -622,7 +635,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "livingDoor2",
+        name: "upperRightDoor",
         type: "action",
         displayName: "Door right",
         category: "Baall",
@@ -640,7 +653,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "kitchenLight1",
+        name: "kitchenLight",
         type: "action",
         displayName: "Light",
         category: "Baall",
@@ -658,7 +671,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "kitchenLight2",
+        name: "kitchenJack",
         type: "action",
         displayName: "Light",
         category: "Baall",
@@ -676,7 +689,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "kitchenMicrowave",
+        name: "kitchenFridgeBoard1",
         type: "action",
         displayName: "Microwave",
         category: "Baall",
@@ -694,7 +707,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "kitchenNette",
+        name: "kitchenFridgeBoard2",
         type: "action",
         displayName: "Kitchenette",
         category: "Baall",
@@ -712,7 +725,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "kitchenCups",
+        name: "kitchenFridgeBoard3",
         type: "action",
         displayName: "Cups",
         category: "Baall",
@@ -730,7 +743,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "kitchenJack1",
+        name: "kitchenJack",
         type: "action",
         displayName: "Jack",
         category: "Baall",
@@ -748,7 +761,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "bathLight1",
+        name: "bathroomLight",
         type: "action",
         displayName: "Light",
         category: "Baall",
@@ -766,7 +779,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "bathBasin",
+        name: "bathroomWashBasin",
         type: "action",
         displayName: "Basin",
         category: "Baall",
@@ -784,7 +797,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "bathDoor",
+        name: "bathroomDoor",
         type: "action",
         displayName: "Door",
         category: "Baall",
@@ -826,7 +839,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "bedroomDoor1",
+        name: "lowerLeftDoor",
         type: "action",
         displayName: "Door left",
         category: "Baall",
@@ -844,7 +857,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "bedroomDoor2",
+        name: "lowerRightDoor",
         type: "action",
         displayName: "Door right",
         category: "Baall",
@@ -862,7 +875,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "bedroomLamp1",
+        name: "bedroomLight1",
         type: "action",
         displayName: "Lamp",
         category: "Baall",
@@ -880,7 +893,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "bedroomLamp2",
+        name: "bedroomLight2",
         type: "action",
         displayName: "Lamp",
         category: "Baall",
@@ -898,7 +911,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "bedroomLamp3",
+        name: "bedroomJack1",
         type: "action",
         displayName: "Lamp",
         category: "Baall",
@@ -916,7 +929,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "bedroomLamp4",
+        name: "bedroomJack2",
         type: "action",
         displayName: "Lamp",
         category: "Baall",
@@ -933,6 +946,78 @@ function getConditionsAndActions() {
     }));
 
     conditionModels.add( 
+		  new ConditionAction({
+        name: "corridorLight",
+        type: "action",
+        displayName: "Lamp",
+        category: "Baall",
+        subCategory: "Corridor",
+        icon: "img/actionicons/spotlight_icon.png",
+        options: [ 
+                   {
+                      name: "On/Off",
+                      type: "checkbox",                            
+                      values: ["On", "Off"] ,
+                      value: "On"  
+                   }
+                 ]        
+    }));
+
+
+    conditionModels.add( 
+		  new ConditionAction({
+        name: "licht3",
+        type: "action",
+        displayName: "Licht 3",
+        category: "DigitalSTROM",
+        icon: "img/actionicons/lamp2_icon.png",
+        options: [ 
+                   {
+                      name: "On/Off",
+                      type: "checkbox",                            
+                      values: ["On", "Off"] ,
+                      value: "On"  
+                   }
+                 ]        
+    }));
+
+
+    conditionModels.add( 
+		  new ConditionAction({
+        name: "licht2",
+        type: "action",
+        displayName: "Licht 2",
+        category: "DigitalSTROM",
+        icon: "img/actionicons/lamp2_icon.png",
+        options: [ 
+                   {
+                      name: "On/Off",
+                      type: "checkbox",                            
+                      values: ["On", "Off"] ,
+                      value: "On"  
+                   }
+                 ]        
+    }));
+
+
+
+    conditionModels.add( 
+		  new ConditionAction({
+        name: "licht1",
+        type: "action",
+        displayName: "Licht 1",
+        category: "DigitalSTROM",
+        icon: "img/actionicons/lamp2_icon.png",
+        options: [ 
+                   {
+                      name: "On/Off",
+                      type: "checkbox",                            
+                      values: ["On", "Off"] ,
+                      value: "On"  
+                   }
+                 ]        
+    }));
+    /*conditionModels.add( 
 		  new ConditionAction({
         name: "digitalScene1",
         type: "action",
@@ -990,7 +1075,7 @@ function getConditionsAndActions() {
         options: [ 
 
                  ]        
-    }));
+    }));*/
 
     conditionModels.add( 
 		  new ConditionAction({
@@ -1003,8 +1088,8 @@ function getConditionsAndActions() {
                    {
                       name: "Interface",
                       type: "checkbox",                            
-                      values: ["Wohnzimmer", "Multimedia", "Lights"],
-                      value: "Wohnzimmer"   
+                      values: ["Chillen", "WatchTV", "Lights"],
+                      value: "Chillen"   
                    }
                  ]        
     }));
