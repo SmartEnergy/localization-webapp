@@ -1088,7 +1088,7 @@ function getConditionsAndActions() {
                    {
                       name: "Interface",
                       type: "checkbox",                            
-                      values: ["Chillen", "WatchTV", "Lights"],
+                      values: ["Chillen", "Living", "Lights", "TV", "Kitchen"],
                       value: "Chillen"   
                    }
                  ]        

@@ -85,8 +85,19 @@ var SceneCreatorView = Backbone.View.extend({
 
 		sceneview.onResizeWindow();
 		
+        if( navigator.userAgent.match(/Android/i) ||
+            navigator.userAgent.match(/webOS/i) ||
+            navigator.userAgent.match(/iPhone/i) ||
+            navigator.userAgent.match(/iPad/i) ||
+            navigator.userAgent.match(/iPod/i)) {
+            
+            $("#pushUICheckbox").attr('checked', true);
+            
+         
+        }		
+		
 		// Initial connect
-		$("#connectDialog").show();
+		$("#connectDialog").show(); // TODO: Wieder einkommentieren diese und naechste
 		$("#connDialog").show();					
 		sceneview.reconnect();
 
@@ -97,19 +108,23 @@ var SceneCreatorView = Backbone.View.extend({
 			opacity: 0.6
 		}, 500, function() {});		  
 
-    $("#goLoadScene").click(function(e) {
-		  $("#serverip").val($("#loadserverip").val());
-		  $("#port").val($("#loadport").val());
-      sceneview.model.set({
-        serverIp: $("#loadserverip").val(),
-        port: $("#loadport").val()
-      });
-		  $("#connectDialog").show();
-		  $("#reconnectDialog").show();
-		  $("#connDialog").hide();    
-      $("#sceneSelectStep3").hide();
-      sceneview.reconnect();
-    });
+
+
+
+        $("#goLoadScene").click(function(e) {
+            alert("wird das noch genutzt?!");
+            $("#serverip").val($("#loadserverip").val());
+            $("#port").val($("#loadport").val());
+            sceneview.model.set({
+                serverIp: $("#loadserverip").val(),
+                port: $("#loadport").val()
+            });
+		    $("#connectDialog").show();
+		    $("#reconnectDialog").show();
+		    $("#connDialog").hide();    
+            $("#sceneSelectStep3").hide();
+            sceneview.reconnect();
+        });
 
 	}
 });
@@ -334,12 +349,12 @@ var SceneView = Backbone.View.extend({
 	  this.model.set({
 		  serversocket: io.connect("http://"+this.model.get("serverIp")+":"+this.model.get("port"))
 	  });
-		var self = this;
+	var self = this;
 
-		// Register callbacks for changes of the connection status
-		this.model.get("serversocket").on('connect', this.onconnected);
-		this.model.get("serversocket").on('disconnect', this.ondisconnected);  
-		this.model.get("serversocket").on('connect_failed', this.onconnectfail);	  		  
+	// Register callbacks for changes of the connection status
+	this.model.get("serversocket").on('connect', this.onconnected);
+	this.model.get("serversocket").on('disconnect', this.ondisconnected);  
+	this.model.get("serversocket").on('connect_failed', this.onconnectfail);	  		  
 
     this.model.get("serversocket").on('newRegion', function (region) { 
       self.onNewRegion(region);
@@ -1105,12 +1120,29 @@ var SceneView = Backbone.View.extend({
   },
 
   onPushUI: function(uiname) {
-		$(".ui"+uiname).show();
-		$(".ui"+uiname).css("left", $("body")[0].offsetWidth);
-		$(".ui"+uiname).animate({
-		    left: '0'
-		  }, 500, function() {
-		});
+      if ($("#pushUICheckbox").attr('checked') == "checked") {
+          
+           if (uiname == "Chillen") {
+               var view = new ChillUiView({});    
+           }
+           else if (uiname == "Living") {
+               var view = new LivingUiView({});    
+           }
+           else if (uiname == "Lights") {
+               var view = new LightsUiView({});    
+           }
+           else if (uiname == "TV") {
+               var view = new TvUiView({});    
+           }
+           else if (uiname == "Kitchen") {
+               var view = new KitchenUiView({});    
+           }                     
+            
+            
+            
+            view.firstRender();
+     }      
+		
   }
 });
 

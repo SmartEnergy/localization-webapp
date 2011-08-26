@@ -13,28 +13,22 @@ var colors = ["#eda3b1", "#b8cede", "#b8a5de", "#a5dea5", "#749c74", "#74749c", 
 var colorsrgb = ["184,165,222", "184,206,222", "165,222,165", "116,156,116","237,163,177", "116,116,156", "34,116,156", "156,33,67", "124,86,105", "63,94,94"];
 var inAction = false;
 
-function showOverlay() {
-  $(".uiChillen").show();
-  $(".uiChillen").css("left", $("body")[0].offsetWidth);
-  $(".uiChillen").animate({
-      left: '0'
-    }, 500, function() {
-  });
+function showOverlay(link) {
+  sceneview.onPushUI($("#debug_overlay_select").val());
 }
-
 function closeOverlay() {
-$(".uiOverlay").animate(
-  {
-    left: $("body")[0].offsetWidth
-  },
-  500,
-  function() {
-    $(".uiOverlay").hide();  
-  }
-);
+    $(".uiOverlay").animate(
+      {
+        left: $("body")[0].offsetWidth
+      },
+      500,
+      function() {
+        $(".uiOverlay").remove();  
+      }
+    );
 
 }
-// TODO ändern für die richtige app
+
 function getRegionNames() {
   var names = [];
   sceneview.model.get("regions").each(function(value) {
@@ -62,7 +56,7 @@ $(document).ready(function () {
 
 	var w = new SceneController();
  
-
+    
 
 
 	//Backbone.history.start();

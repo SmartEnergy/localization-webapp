@@ -45,6 +45,11 @@
   <script src="js/views/userview.js"></script>
   <script src="js/views/commandview.js"></script>
 
+  <script src="js/views/pushUi/chillUiView.js"></script>
+  <script src="js/views/pushUi/kitchenUiView.js"></script>
+  <script src="js/views/pushUi/livingUiView.js"></script>
+  <script src="js/views/pushUi/lightsUiView.js"></script>
+  <script src="js/views/pushUi/tvUiView.js"></script>
 
   <script src="js/controller.js"></script>
   <script src="js/script.js"></script>
@@ -79,7 +84,7 @@
 	    <div class="clear"></div>	    
 	    <div class="formrow">	
 	      <div class="formlabel">serverip</div>  
-	      <div class="formvalue"><input type="text" id="serverip"  class="text" value="localhost" /></div> 	
+	      <div class="formvalue"><input type="text" id="serverip"  class="text" value="kikeriki.dyndns.org" /></div> 	
 	    </div>
 	    <div class="clear"></div>	    
 	    <div class="formrow">	
@@ -89,20 +94,20 @@
 	    <div class="clear"></div>	   
 	    <div class="formrow">	
 	      <div class="formlabel">background image</div>  
-	      <!--<div class="formvalue"><input type="text" id="sceneBgImg" value="img/baall_karte.png"   class="text"/></div> 	-->
-        <div class="formvalue"><input type="text" id="sceneBgImg" value="img/projekttag_map.png"   class="text"/></div> 
+	      <div class="formvalue"><input type="text" id="sceneBgImg" value="img/baall_karte.png"   class="text"/></div> 	
+        <!--<div class="formvalue"><input type="text" id="sceneBgImg" value="img/projekttag_map.png"   class="text"/></div>--> 
 	    </div>
 	    <div class="clear"></div>	
 	    <div class="formrow">	
 	      <div class="formlabel">scenewidth (mm)</div>  
-	      <!--<div class="formvalue"><input type="text" id="sceneWidth" value="10605"   class="text"/></div>-->
-        <div class="formvalue"><input type="text" id="sceneWidth" value="5400"   class="text"/></div> 	
+	      <div class="formvalue"><input type="text" id="sceneWidth" value="10605"   class="text"/></div>
+        <!--<div class="formvalue"><input type="text" id="sceneWidth" value="5400"   class="text"/></div> -->	
 	    </div>
 	    <div class="clear"></div>	
 	    <div class="formrow">	
 	      <div class="formlabel">sceneheight (mm)</div>  
-	      <!--<div class="formvalue"><input type="text"  id="sceneHeight" value="5850"  class="text"/></div>--> 	
-        <div class="formvalue"><input type="text"  id="sceneHeight" value="3150"  class="text"/></div> 
+	      <div class="formvalue"><input type="text"  id="sceneHeight" value="5850"  class="text"/></div>	
+        <!--<div class="formvalue"><input type="text"  id="sceneHeight" value="3150"  class="text"/></div> --> 
 	    </div>
 	    <div class="clear"></div>	
 	    <div class="formrow">	
@@ -129,8 +134,9 @@
 		<li class="lisc"><strong>roomlength</strong>: <input type="text" class="navinputtext navconfiginput" id="navroomWidthMM"  value="{{ roomWidthMM }}" /> <i>mm</i></li>
 		<li class="lisc"><strong>roomdepth</strong>: <input type="text" class="navinputtext navconfiginput" id="navroomHeightMM"  value="{{ roomHeightMM }}" /> <i>mm</i></li>
 		<li  class="lisc"><strong>serverstatus</strong>: <span class="serverstatusnav">{{ connected }}</span></li>
-    <li  class="lisc"><a href="javascript:showOverlay();">showOverlay</a></li>
-	</ul>				
+        <li  class="lisc"><a href=""></a><strong>show pushed ui</strong>: <input type="checkbox" class="navconfiginput" id="pushUICheckbox" value="1" /></li>
+        <li  class="lisc"><strong>[DEBUG]</strong> <select class="navconfiginput" id="debug_overlay_select"><option>Chillen</option><option>Living</option><option>Lights</option><option>TV</option><option>Kitchen</option></select> <a href="javascript:showOverlay(this);">showOverlay</a></li>
+	</ul>			
 </script>			
 		
 <script id="scenetmpl" type="text/html">		
@@ -367,6 +373,10 @@
   </div>	
 </script>	
 
+
+
+
+
 <script id="commandDialogTmpl" type="text/html">		
 
 
@@ -493,6 +503,61 @@
   </div>
 </script>	
 
+<script id="uiChillenTmpl" type="text/html">        
+    <div class="uiOverlay uiChillen">
+      <div class="overlayHeader"><h1>Chillen</h1></div>
+      <a class="overlayRow" href="javascript:closeOverlay();">Watch TV</a>
+      <a class="overlayRow" href="javascript:closeOverlay();">Listening Music</a>
+      <a class="overlayRow" href="javascript:closeOverlay();">Reading</a>
+      <a class="overlayRow" href="javascript:closeOverlay();">Devices</a>
+      <a class="overlayRow" href="javascript:closeOverlay();">Return to Map</a>
+    </div>
+</script>   
+
+<script id="uiKitchenTmpl" type="text/html">        
+    <div class="uiOverlay uiKitchen">
+      <div class="overlayHeader"><h1>Kitchen</h1></div>
+      <a class="overlayRow" href="javascript:closeOverlay();">Stations</a>
+      <a class="overlayRow" href="javascript:closeOverlay();">EPG</a>
+      <a class="overlayRow" href="javascript:closeOverlay();">Recordings</a>
+      <a class="overlayRow" href="javascript:closeOverlay();">Remote Control</a>
+      <a class="overlayRow" href="javascript:closeOverlay();">Return to Map</a>
+    </div>
+</script>   
+
+<script id="uiLivingTmpl" type="text/html">        
+    <div class="uiOverlay uiLiving">
+      <div class="overlayHeader"><h1>Living</h1></div>
+      <a class="overlayRow" href="javascript:closeOverlay();">Stations</a>
+      <a class="overlayRow" href="javascript:closeOverlay();">EPG</a>
+      <a class="overlayRow" href="javascript:closeOverlay();">Recordings</a>
+      <a class="overlayRow" href="javascript:closeOverlay();">Remote Control</a>
+      <a class="overlayRow" href="javascript:closeOverlay();">Return to Map</a>
+    </div>
+</script>   
+
+<script id="uiTvTmpl" type="text/html">        
+    <div class="uiOverlay uiTv">
+      <div class="overlayHeader"><h1>TV</h1></div>
+      <a class="overlayRow" href="javascript:closeOverlay();">Stations</a>
+      <a class="overlayRow" href="javascript:closeOverlay();">EPG</a>
+      <a class="overlayRow" href="javascript:closeOverlay();">Recordings</a>
+      <a class="overlayRow" href="javascript:closeOverlay();">Remote Control</a>
+      <a class="overlayRow" href="javascript:closeOverlay();">Return to Map</a>
+    </div>
+</script>   
+
+<script id="uiLightsTmpl" type="text/html">        
+    <div class="uiOverlay uiLights">
+      <div class="overlayHeader"><h1>Lights</h1></div>
+      <a class="overlayRow" href="javascript:closeOverlay();">Stations</a>
+      <a class="overlayRow" href="javascript:closeOverlay();">EPG</a>
+      <a class="overlayRow" href="javascript:closeOverlay();">Recordings</a>
+      <a class="overlayRow" href="javascript:closeOverlay();">Remote Control</a>
+      <a class="overlayRow" href="javascript:closeOverlay();">Return to Map</a>
+    </div>
+</script>   
+
 <div id="kinects"></div>
 <div id="regions"></div>
 <div id="users"></div>
@@ -523,7 +588,7 @@
         <div class="clear"></div>       
         <div class="formrow">   
           <div class="formlabel">serverip</div>  
-          <div class="formvalue"><input type="text" id="loadserverip"  class="text" value="localhost" /></div>  
+          <div class="formvalue"><input type="text" id="loadserverip"  class="text" value="kikeriki.dyndns.org" /></div>  
         </div>
         <div class="clear"></div>       
         <div class="formrow">   
@@ -541,23 +606,9 @@
          
     
 </div>
-<div class="uiOverlay uiChillen">
-  <div class="overlayHeader"><h1>Chillen</h1></div>
-  <a class="overlayRow" href="javascript:closeOverlay();">Watch TV</a>
-  <a class="overlayRow" href="javascript:closeOverlay();">Listening Music</a>
-  <a class="overlayRow" href="javascript:closeOverlay();">Reading</a>
-  <a class="overlayRow" href="javascript:closeOverlay();">Devices</a>
-  <a class="overlayRow" href="javascript:closeOverlay();">Return to Map</a>
-</div>
 
-<div class="uiOverlay uiWatchTV">
-  <div class="overlayHeader"><h1>WatchTV</h1></div>
-  <a class="overlayRow" href="javascript:closeOverlay();">Stations</a>
-  <a class="overlayRow" href="javascript:closeOverlay();">EPG</a>
-  <a class="overlayRow" href="javascript:closeOverlay();">Recordings</a>
-  <a class="overlayRow" href="javascript:closeOverlay();">Remote Control</a>
-  <a class="overlayRow" href="javascript:closeOverlay();">Return to Map</a>
-</div>
+
+
 
 </body>
 </html>
