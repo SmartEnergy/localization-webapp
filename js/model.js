@@ -407,7 +407,7 @@ var UserCollection = Backbone.Collection.extend({
     	this.each(function(ca) {
     		if (n == ca.get("userid")) {
     			erg = ca;
-          return; // innere funktion beenden
+                return; // each verlassen
     		}
     			
     	});
@@ -576,7 +576,11 @@ function getConditionsAndActions() {
                       values: ["On", "Off"] ,
                       value: "On"  
                    }
-                 ]        
+                 ],
+        roomPosition: {
+            x: 1100,
+            y: 1000
+        }       
     }));
 
     conditionModels.add( 
@@ -594,7 +598,11 @@ function getConditionsAndActions() {
                       values: ["On", "Off"],
                       value: "On"   
                    }
-                 ]        
+                 ],
+        roomPosition: {
+            x: 3000,
+            y: 5000
+        }       
     }));
 
     conditionModels.add( 
@@ -612,7 +620,11 @@ function getConditionsAndActions() {
                       values: ["On", "Off"],
                       value: "On"   
                    }
-                 ]        
+                 ],
+        roomPosition: {
+            x: 90,
+            y: 3500
+        }        
     }));
 
     conditionModels.add( 
@@ -630,7 +642,11 @@ function getConditionsAndActions() {
                       values: ["On", "Off"],
                       value: "On"   
                    }
-                 ]        
+                 ],
+        roomPosition: {
+            x: 4430,
+            y: 2600
+        }        
     }));
 
     conditionModels.add( 
@@ -648,7 +664,11 @@ function getConditionsAndActions() {
                       values: ["On", "Off"],
                       value: "On"   
                    }
-                 ]        
+                 ],
+        roomPosition: {
+            x: 4430,
+            y: 4800
+        }        
     }));
 
     conditionModels.add( 
@@ -666,7 +686,11 @@ function getConditionsAndActions() {
                       values: ["On", "Off"],
                       value: "On"   
                    }
-                 ]        
+                 ],
+        roomPosition: {
+            x: 2000,
+            y: 2500
+        }          
     }));
 
     conditionModels.add( 
@@ -684,7 +708,11 @@ function getConditionsAndActions() {
                       values: ["On", "Off"],
                       value: "On"   
                    }
-                 ]        
+                 ],
+        roomPosition: {
+            x: 3100,
+            y: 1000
+        }        
     }));
 
     conditionModels.add( 
@@ -702,7 +730,11 @@ function getConditionsAndActions() {
                       values: [0,100,10],
                       value: 0 
                    }
-                 ]        
+                 ],
+        roomPosition: {
+            x: 4100,
+            y: 1800
+        }        
     }));
 
     conditionModels.add( 
@@ -720,7 +752,11 @@ function getConditionsAndActions() {
                       values: [0,100,10],
                       value: 0 
                    }
-                 ]        
+                 ],
+        roomPosition: {
+            x: 4100,
+            y: 1200
+        }        
     }));
 
     conditionModels.add( 
@@ -738,7 +774,11 @@ function getConditionsAndActions() {
                       values: [0,100,10],
                       value: 0 
                    }
-                 ]        
+                 ],
+        roomPosition: {
+            x: 4100,
+            y: 600
+        }        
     }));
 
     conditionModels.add( 
@@ -756,7 +796,11 @@ function getConditionsAndActions() {
                       values: ["On", "Off"],
                       value: "On"   
                    }
-                 ]        
+                 ],
+        roomPosition: {
+            x: 4100,
+            y: 0
+        }        
     }));
 
     conditionModels.add( 
@@ -774,7 +818,11 @@ function getConditionsAndActions() {
                       values: ["On", "Off"],
                       value: "On"   
                    }
-                 ]        
+                 ],
+        roomPosition: {
+            x: 5800,
+            y: 1300
+        }        
     }));
 
     conditionModels.add( 
@@ -792,7 +840,11 @@ function getConditionsAndActions() {
                       values: [0,100,1],
                       value: 0
                    }
-                 ]        
+                 ],
+        roomPosition: {
+            x: 6200,
+            y: 150
+        }        
     }));
 
     conditionModels.add( 
@@ -810,7 +862,11 @@ function getConditionsAndActions() {
                       values: ["On", "Off"],
                       value: "On"   
                    }
-                 ]        
+                 ],
+        roomPosition: {
+            x:  5681,
+            y: 1930
+        }         
     }));
 
     conditionModels.add( 
@@ -834,7 +890,11 @@ function getConditionsAndActions() {
                       values: [0,10,1],
                       value: 0 
                    }
-                 ]        
+                 ],
+        roomPosition: {
+            x:  9216,
+            y: 3724
+        }        
     }));
 
     conditionModels.add( 
@@ -852,7 +912,11 @@ function getConditionsAndActions() {
                       values: ["On", "Off"],
                       value: "On"   
                    }
-                 ]        
+                 ],
+        roomPosition: {
+            x:  6601,
+            y: 2552
+        }        
     }));
 
     conditionModels.add( 
@@ -870,7 +934,11 @@ function getConditionsAndActions() {
                       values: ["On", "Off"],
                       value: "On"   
                    }
-                 ]        
+                 ],
+        roomPosition: {
+            x:  6601,
+            y: 4734
+        }        
     }));
 
     conditionModels.add( 
@@ -888,7 +956,11 @@ function getConditionsAndActions() {
                       values: ["On", "Off"] ,
                       value: "On"  
                    }
-                 ]        
+                 ],
+        roomPosition: {
+            x:  7539,
+            y: 27
+        }        
     }));
 
     conditionModels.add( 
@@ -906,7 +978,11 @@ function getConditionsAndActions() {
                       values: ["On", "Off"] ,
                       value: "On"  
                    }
-                 ]        
+                 ],
+        roomPosition: {
+            x:  10118,
+            y: 2426
+        }        
     }));
 
     conditionModels.add( 
@@ -924,7 +1000,11 @@ function getConditionsAndActions() {
                       values: ["On", "Off"],
                       value: "On"   
                    }
-                 ]        
+                 ],
+        roomPosition: {
+            x:  6790,
+            y: 3589
+        }        
     }));
 
     conditionModels.add( 
@@ -942,7 +1022,11 @@ function getConditionsAndActions() {
                       values: ["On", "Off"] ,
                       value: "On"  
                    }
-                 ]        
+                 ],
+        roomPosition: {
+            x:  7313,
+            y: 1867
+        }        
     }));
 
     conditionModels.add( 
@@ -960,7 +1044,11 @@ function getConditionsAndActions() {
                       values: ["On", "Off"] ,
                       value: "On"  
                    }
-                 ]        
+                 ],
+        roomPosition: {
+            x:  5564,
+            y: 4870
+        }        
     }));
 
 

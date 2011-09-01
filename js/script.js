@@ -56,10 +56,12 @@ $(document).ready(function () {
 
 	var w = new SceneController();
  
-    
+    if (isMobile()) {
+        $('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', 'css/mobile.css?') );
+    }  
 
 
-	//Backbone.history.start();
+
 });
 
 

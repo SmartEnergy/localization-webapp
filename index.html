@@ -23,7 +23,7 @@
   <script src="js/libs/jquery.min.js"></script>  
   <script type="text/javascript" src="js/libs/jquery-ui.min.js"></script>
 
-  <script src="http://localhost:8000/socket.io/socket.io.js"></script>
+  <script src="http://kikeriki.dyndns.org:8000/socket.io/socket.io.js"></script>
   <script src="js/libs/jquery.jwNotify.js"></script>
   <script src="js/libs/jquery.favicon.js"></script>
   <script src="js/libs/underscore-min.js"></script>
@@ -32,7 +32,7 @@
   <script src="js/libs/json2.js"></script>
   <script type="text/javascript" src="js/libs/jquery.mousewheel.min.js"></script>
   <script type="text/javascript" src="js/libs/jquery.touchwipe.min.js"></script>
-
+  
   
   <script src="js/model.js"></script>
 
@@ -44,6 +44,7 @@
   <script src="js/views/actionview.js"></script>
   <script src="js/views/userview.js"></script>
   <script src="js/views/commandview.js"></script>
+  <script src="js/views/deviceview.js"></script>
 
   <script src="js/views/pushUi/chillUiView.js"></script>
   <script src="js/views/pushUi/kitchenUiView.js"></script>
@@ -51,6 +52,7 @@
   <script src="js/views/pushUi/lightsUiView.js"></script>
   <script src="js/views/pushUi/tvUiView.js"></script>
 
+  <script src="js/mobiletweaks.js"></script>
   <script src="js/controller.js"></script>
   <script src="js/script.js"></script>
 </head>
@@ -127,22 +129,25 @@
 		
 <script id="sceneconfig" type="text/html">		
 	<ul class="ulsc">
-		<li class="lisc"><strong>scenename</strong>: <input type="text" class="navinputtext long navconfiginput" value="{{ sceneName }}" id="navsceneName" /></li>
-		<li class="lisc"><strong>serverip</strong>: <input type="text" class="navinputtext long navconfiginput" id="navserverIp" value="{{ serverIp }}" /></li>
-		<li class="lisc"><strong>port</strong>: <input type="text" class="navinputtext long navconfiginput" id="navport" value="{{ port }}" /></li>
-		<li class="lisc"><strong>bg-image</strong>: <input type="text" class="navinputtext long navconfiginput" id="navsceneBg"  value="" /></li>
-		<li class="lisc"><strong>roomlength</strong>: <input type="text" class="navinputtext navconfiginput" id="navroomWidthMM"  value="{{ roomWidthMM }}" /> <i>mm</i></li>
-		<li class="lisc"><strong>roomdepth</strong>: <input type="text" class="navinputtext navconfiginput" id="navroomHeightMM"  value="{{ roomHeightMM }}" /> <i>mm</i></li>
-		<li  class="lisc"><strong>serverstatus</strong>: <span class="serverstatusnav">{{ connected }}</span></li>
-        <li  class="lisc"><a href=""></a><strong>show pushed ui</strong>: <input type="checkbox" class="navconfiginput" id="pushUICheckbox" value="1" /></li>
-        <li  class="lisc"><strong>[DEBUG]</strong> <select class="navconfiginput" id="debug_overlay_select"><option>Chillen</option><option>Living</option><option>Lights</option><option>TV</option><option>Kitchen</option></select> <a href="javascript:showOverlay(this);">showOverlay</a></li>
+		<li class="lisc"><strong>Scenename</strong>: <input type="text" class="navinputtext long navconfiginput" value="{{ sceneName }}" id="navsceneName" /></li>
+		<li class="lisc"><strong>Serverip</strong>: <input type="text" class="navinputtext long navconfiginput" id="navserverIp" value="{{ serverIp }}" /></li>
+		<li class="lisc"><strong>Port</strong>: <input type="text" class="navinputtext long navconfiginput" id="navport" value="{{ port }}" /></li>
+		<li class="lisc"><strong>Bg-image</strong>: <input type="text" class="navinputtext long navconfiginput" id="navsceneBg"  value="" /></li>
+		<li class="lisc"><strong>Roomlength</strong>: <input type="text" class="navinputtext navconfiginput" id="navroomWidthMM"  value="{{ roomWidthMM }}" /> <i>mm</i></li>
+		<li class="lisc"><strong>Roomdepth</strong>: <input type="text" class="navinputtext navconfiginput" id="navroomHeightMM"  value="{{ roomHeightMM }}" /> <i>mm</i></li>
+		<li  class="lisc"><strong>Serverstatus</strong>: <span class="serverstatusnav">{{ connected }}</span></li>
+    <li  class="lisc"><a href=""></a><strong>Show devices</strong>: <input type="checkbox" class="navconfiginput" id="showDeviceCheckbox" value="1" checked="checked"/></li>
+		<li  class="lisc"><a href=""></a><strong>Show pushed ui</strong>: <input type="checkbox" class="navconfiginput" id="pushUICheckbox" value="1" /></li>
+    <li  class="lisc"><strong>[DEBUG]</strong> <select class="navconfiginput" id="debug_overlay_select"><option>Chillen</option><option>Living</option><option>Lights</option><option>TV</option><option>Kitchen</option></select> <a href="javascript:showOverlay(this);">showOverlay</a></li>
 	</ul>			
 </script>			
 		
 <script id="scenetmpl" type="text/html">		
-	<div id="navigation">
-	  <div class="navleft"><a href="#navLeft" class="navLeftLnk"><img src="img/left.png" /></a></div>
-	  <div class="navright"><a href="#navRight"  class="navRightLnk"><img src="img/right.png" /></a></div>
+  
+	<div id="navigation" class="navigation_closed">
+	  <div id="navigationOptions"><img src="img/nav_hide_icon.png" id="nav_hide_icon" alt="hide navigation" /></div>
+	  <!--<div class="navleft"><a href="#navLeft" class="navLeftLnk"><img src="img/left.png" /></a></div>
+	  <div class="navright"><a href="#navRight"  class="navRightLnk"><img src="img/right.png" /></a></div>-->
 	  <h2 id="navigationHead">Navigation</h2>
 	
 	  <div id="navigationContent">
@@ -509,7 +514,6 @@
       <a class="overlayRow" href="javascript:closeOverlay();">Watch TV</a>
       <a class="overlayRow" href="javascript:closeOverlay();">Listening Music</a>
       <a class="overlayRow" href="javascript:closeOverlay();">Reading</a>
-      <a class="overlayRow" href="javascript:closeOverlay();">Devices</a>
       <a class="overlayRow" href="javascript:closeOverlay();">Return to Map</a>
     </div>
 </script>   
@@ -517,10 +521,7 @@
 <script id="uiKitchenTmpl" type="text/html">        
     <div class="uiOverlay uiKitchen">
       <div class="overlayHeader"><h1>Kitchen</h1></div>
-      <a class="overlayRow" href="javascript:closeOverlay();">Stations</a>
-      <a class="overlayRow" href="javascript:closeOverlay();">EPG</a>
-      <a class="overlayRow" href="javascript:closeOverlay();">Recordings</a>
-      <a class="overlayRow" href="javascript:closeOverlay();">Remote Control</a>
+
       <a class="overlayRow" href="javascript:closeOverlay();">Return to Map</a>
     </div>
 </script>   
@@ -528,10 +529,7 @@
 <script id="uiLivingTmpl" type="text/html">        
     <div class="uiOverlay uiLiving">
       <div class="overlayHeader"><h1>Living</h1></div>
-      <a class="overlayRow" href="javascript:closeOverlay();">Stations</a>
-      <a class="overlayRow" href="javascript:closeOverlay();">EPG</a>
-      <a class="overlayRow" href="javascript:closeOverlay();">Recordings</a>
-      <a class="overlayRow" href="javascript:closeOverlay();">Remote Control</a>
+
       <a class="overlayRow" href="javascript:closeOverlay();">Return to Map</a>
     </div>
 </script>   
@@ -539,7 +537,7 @@
 <script id="uiTvTmpl" type="text/html">        
     <div class="uiOverlay uiTv">
       <div class="overlayHeader"><h1>TV</h1></div>
-      <a class="overlayRow" href="javascript:closeOverlay();">Stations</a>
+      <a class="overlayRow" href="javascript:closeOverlay();">Channels</a>
       <a class="overlayRow" href="javascript:closeOverlay();">EPG</a>
       <a class="overlayRow" href="javascript:closeOverlay();">Recordings</a>
       <a class="overlayRow" href="javascript:closeOverlay();">Remote Control</a>
@@ -550,13 +548,17 @@
 <script id="uiLightsTmpl" type="text/html">        
     <div class="uiOverlay uiLights">
       <div class="overlayHeader"><h1>Lights</h1></div>
-      <a class="overlayRow" href="javascript:closeOverlay();">Stations</a>
-      <a class="overlayRow" href="javascript:closeOverlay();">EPG</a>
-      <a class="overlayRow" href="javascript:closeOverlay();">Recordings</a>
-      <a class="overlayRow" href="javascript:closeOverlay();">Remote Control</a>
+
       <a class="overlayRow" href="javascript:closeOverlay();">Return to Map</a>
     </div>
 </script>   
+
+<script id="deviceTmpl" type="text/html">        
+    <div class="mapDevice">
+      <img src="{{ icon }}" alt="{{ name }}" class="deviceImg" />
+    </div>
+</script>   
+
 
 <div id="kinects"></div>
 <div id="regions"></div>
@@ -564,6 +566,7 @@
 <div id="content"></div>
 <div id="canvascont"></div>
 <div id="bubbles"></div>
+<div id="mapDevices"></div>
 <div id="notification">Draw polygon by clicking vertices on the map. Doubleclick to finish drawing. Path will be closed. ESC to cancel drawing.</div>
 <div id="connectDialog">
     <div class="sceneSelect" id="reconnectDialog">

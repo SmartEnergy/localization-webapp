@@ -11,13 +11,13 @@ var ConditionActionView = Backbone.View.extend({
 		return this;
 	},
 	firstRender: function() {
-    var self = this;
-
-    this.el = ich.conditionTmpl(this.model.toJSON());
-
-    $.each(this.model.get("options"), function(index, option) { 
-      var configEl =  ich.conditionConfigRowTmpl(option);
-      
+      var self = this;
+    
+      this.el = ich.conditionTmpl(this.model.toJSON());
+    
+      $.each(this.model.get("options"), function(index, option) { 
+        var configEl =  ich.conditionConfigRowTmpl(option);
+          
 
       if (option.type == "checkbox") {
         var checkbox = '<select class="actionEntryNameValue">';          
@@ -58,7 +58,12 @@ var ConditionActionView = Backbone.View.extend({
 
         var o = option;
         $(".actionEntryNameValue", configEl).change(function(e) {
-          o.value = $(this).val();
+          if (o.value != $(this).val()) {
+            o.value = $(this).val();
+            self.model.set({
+              changed: Math.random()
+            });            
+          }                    
         });
 
         $(".actionEntryNameValue", configEl).change();
@@ -81,8 +86,11 @@ var ConditionActionView = Backbone.View.extend({
             $(".user_direction_img2").css("-webkit-transform", "rotate("+ui.value+"deg)");
 		        $(".user_direction_img2").css("-moz-transform", "rotate("+ui.value+"deg)");
 	        },
-	        stop: function(event, ui) {
+	        stop: function(event, ui) {        
             o.value = ui.value;
+            self.model.set({
+              changed: Math.random()
+            });               
 	        }
 		
         });

@@ -82,22 +82,11 @@ var SceneCreatorView = Backbone.View.extend({
 		sceneview.navMoveRight();
 		
 		// Adjust size of bg-image, kinects, regions
-
 		sceneview.onResizeWindow();
-		
-        if( navigator.userAgent.match(/Android/i) ||
-            navigator.userAgent.match(/webOS/i) ||
-            navigator.userAgent.match(/iPhone/i) ||
-            navigator.userAgent.match(/iPad/i) ||
-            navigator.userAgent.match(/iPod/i)) {
-            
-            $("#pushUICheckbox").attr('checked', true);
-            
-         
-        }		
+	
 		
 		// Initial connect
-		$("#connectDialog").show(); // TODO: Wieder einkommentieren diese und naechste
+		$("#connectDialog").show(); 
 		$("#connDialog").show();					
 		sceneview.reconnect();
 
@@ -109,7 +98,12 @@ var SceneCreatorView = Backbone.View.extend({
 		}, 500, function() {});		  
 
 
+        if(isMobile()) {            
+            onStartTweaks();
+        }   
 
+
+        sceneview.loadDevices();
 
         $("#goLoadScene").click(function(e) {
             alert("wird das noch genutzt?!");
@@ -141,18 +135,20 @@ var SceneView = Backbone.View.extend({
 		"mouseover #navigation":    "navMouseOver",
 		"mouseout #navigation":     "navMouseOut",
 		"click #navigationHead":    "navHeadClick",
+    "click #navigationOptions":     "navHeadClick",		
 		"change .navconfiginput": 	"changeSceneConfig",
-		"click .reconnectlink": "reconnect",
-		"click .addKinectLnk": "addKinect",
-    "click .addCommandLnk": "addCommand",
-		"click .addRegionLnk": "addDefaultRegion",
-		"click .addRegionPolyLnk": "addRegionPolygon",
-		"click .navLeftLnk": "navMoveLeft",
-		"click .navRightLnk": "navMoveRight",
-		"click .hideKinectLnk": "hideKinects",
-		"click .showKinectLnk": "showKinects",
-		"change #navroomWidthMM": "onRoomSizeChange",
-		"change #navroomHeightMM": "onRoomSizeChange"
+		"click .reconnectlink":     "reconnect",
+		"click .addKinectLnk":      "addKinect",
+    "click .addCommandLnk":     "addCommand",
+		"click .addRegionLnk":      "addDefaultRegion",
+		"click .addRegionPolyLnk":  "addRegionPolygon",
+		//"click .navLeftLnk":      "navMoveLeft",
+		//"click .navRightLnk":     "navMoveRight",
+		"click .hideKinectLnk":     "hideKinects",
+		"click .showKinectLnk":     "showKinects",
+	 "change #navroomWidthMM":    "onRoomSizeChange",
+		"change #navroomHeightMM":  "onRoomSizeChange",
+		"change #showDeviceCheckbox": "showHideDevices"
 
 	},
 	initialize: function() {
@@ -236,9 +232,12 @@ var SceneView = Backbone.View.extend({
 	    this.model.get("vp").get("canvas").addEventListener("mousedown", this.onCanvasClick, false);
 	    
 		// Update navigation height
-		$(".listCtrl").height($("body")[0].offsetHeight-285);
-		$("#navigationContent").height($("body")[0].offsetHeight-75);
-		$("#accordion").accordion( "resize" );	    		
+		$(".listCtrl").height($("body")[0].offsetHeight-225);
+		$("#navigationContent").height($("body")[0].offsetHeight-20);
+		$("#accordion").accordion( "resize" );	
+		
+		// Update Device Positions
+		$(".deviceImg").trigger("windowResize");    		
 	},
 	/**
 	 * Callback for changing room size
@@ -268,8 +267,9 @@ var SceneView = Backbone.View.extend({
      $("#navigation").css("box-shadow","-3px 2px 5px #aaa");
 		
 		// Show move left icon
-		$(".navleft").show();
-		$(".navright").hide();		  
+		//$(".navleft").show();
+		//$(".navright").hide();	
+		
 	},
 	navMoveLeft: function() {
 		$("#navigation").css("left","0px");
@@ -277,8 +277,8 @@ var SceneView = Backbone.View.extend({
     $("#navigation").css("box-shadow","3px 2px 5px #aaa");
 
 		// Show move right icon
-		$(".navright").show();
-		$(".navleft").hide();
+		//$(".navright").show();
+		//$(".navleft").hide();
 	},
 	navMouseOver: function() {
 		$("#navigation").css("opacity", 1);
@@ -291,6 +291,8 @@ var SceneView = Backbone.View.extend({
 	 */
 	navHeadClick: function() {
 		if (this.nav_opened == false) {
+		  $("h2", "#navigation").hide();
+		  $("#navigation").removeClass("navigation_closed")
 			$('#navigation').animate({
 				height: '100%'
 			}, 
@@ -301,18 +303,62 @@ var SceneView = Backbone.View.extend({
 				$( "#accordion" ).accordion({
 					fillSpace: true
 				});
+        $("#navigationOptions").show();
+        if (isMobile()) {
+          $("#navigationOptions").css("right", "0px");
+          $("#navigationOptions").css("z-index", "101");
+        }
+        else {
+          $("#navigationOptions").animate(
+            {
+              right: '297px'
+            }, 
+            500, 
+            function() {
+              $("#navigationOptions").css("z-index", "101");
+            }
+          );            
+        }			
 			});
-			this.nav_opened = true;          }
-		else {
-			$("#navigationContent").hide();
-			$('#navigation').animate({
-				height: '40'
-			}, 500, function() {
-				// Animation complete.
+			this.nav_opened = true;        
+			
 
-			}); 
+			
+			
+			if (isMobile()) {
+			    $("#navigation").css("width", "100%");	    
+			}
+		}			
+		else {
+		  $("#navigationOptions").css("z-index", "0");
+						
+      $("#navigationOptions").fadeOut( 
+        250, 
+        function() {
+          $("#navigationOptions").css("right", "250px");
+          $("h2", "#navigation").show();      
+          $("#navigationContent").hide();          
+          $("#navigationOptions").hide();
+          $('#navigation').animate({
+            height: '35'
+          }, 500, function() {
+            // Animation complete.
+              if (isMobile()) {
+                  $('#navigation').css("width", "60px");  
+                  $('#navigation').css("height", "30px"); 
+              } 
+              $("#navigation").addClass("navigation_closed")  
+          });           
+        }
+      );			
+			
+
 			this.nav_opened = false;
-		}		  
+
+		
+		}	
+		
+		//$("#navigation").css("width", "100%");	  
 	},
 	/**
 	 * Reloads the scene-config from the navigation text inputs
@@ -436,7 +482,7 @@ var SceneView = Backbone.View.extend({
     //sceneview.model.get("serversocket").send(JSON.stringify({method: "loadRegions"}));		
 		
     // TODO raus
-    $("#navigationHead").click();
+    //$("#navigationHead").click();
 
 		// Change favicon
 		jQuery.favicon('img/favcon.png');
@@ -1143,6 +1189,28 @@ var SceneView = Backbone.View.extend({
             view.firstRender();
      }      
 		
+  },
+  
+  loadDevices: function() {
+      var actions = getConditionsAndActions();
+      actions.each(function(action) {
+         if (action.get("type") == "action" && action.get("roomPosition") != undefined) {
+             //var pos = action.get("roomPosition")
+             view = new DeviceView({
+                 model: action
+             }); 
+             
+             view.firstRender();
+         } 
+      });
+  },
+  showHideDevices: function(e) {
+    if ($("#showDeviceCheckbox").attr('checked') == "checked") {
+      $(".deviceImg").fadeIn();
+    }
+    else {
+      $(".deviceImg").fadeOut();
+    }
   }
 });
 
