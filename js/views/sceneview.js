@@ -44,7 +44,6 @@ var SceneCreatorView = Backbone.View.extend({
 	
 		this.createScene();
 		
-		//sceneview.model.get("serversocket").send(JSON.stringify({method: "loadRegions"}));
 
 	},
 	/**
@@ -232,7 +231,7 @@ var SceneView = Backbone.View.extend({
 	    this.model.get("vp").get("canvas").addEventListener("mousedown", this.onCanvasClick, false);
 	    
 		// Update navigation height
-		$(".listCtrl").height($("body")[0].offsetHeight-225);
+		$(".listCtrl").height($("body")[0].offsetHeight-230);
 		$("#navigationContent").height($("body")[0].offsetHeight-20);
 		$("#accordion").accordion( "resize" );	
 		
@@ -335,8 +334,7 @@ var SceneView = Backbone.View.extend({
       $("#navigationOptions").fadeOut( 
         250, 
         function() {
-          $("#navigationOptions").css("right", "250px");
-          $("h2", "#navigation").show();      
+          $("#navigationOptions").css("right", "250px");              
           $("#navigationContent").hide();          
           $("#navigationOptions").hide();
           $('#navigation').animate({
@@ -348,6 +346,7 @@ var SceneView = Backbone.View.extend({
                   $('#navigation').css("height", "30px"); 
               } 
               $("#navigation").addClass("navigation_closed")  
+              $("h2", "#navigation").show();  
           });           
         }
       );			
@@ -636,6 +635,7 @@ var SceneView = Backbone.View.extend({
 	addDefaultRegion: function() {
 		var regionmoodel = new Region({
 			name: "region_rect_" + this.model.get("regions").length,
+			displayName: "region_rect_" + this.model.get("regions").length,
 			posX: 10,
 			posY: 10,
 			width: 1000,
@@ -701,6 +701,7 @@ var SceneView = Backbone.View.extend({
 		if (model == undefined) {
 			var regionmodel = new RegionPolygon({
 				name: "region_poly_" + this.model.get("regionsPoly").length,
+				displayName: "region_poly_" + this.model.get("regionsPoly").length,
 				scenemodel: this.model
 			});
 		}
@@ -1020,6 +1021,7 @@ var SceneView = Backbone.View.extend({
 		if (region.points == undefined) {
 			var regionmoodel = new Region({
 				name: region.name,
+				displayName: region.displayName,
 				posX: region.posX,
 				posY: region.posY,
 				width: region.width,
@@ -1041,6 +1043,7 @@ var SceneView = Backbone.View.extend({
 		else {
 			var regionmoodel = new RegionPolygon({
 				name: region.name,
+				displayName: region.displayName,
 				scenemodel: sceneview.model
 				
 			});		
@@ -1169,19 +1172,29 @@ var SceneView = Backbone.View.extend({
       if ($("#pushUICheckbox").attr('checked') == "checked") {
           
            if (uiname == "Chillen") {
-               var view = new ChillUiView({});    
+               var view = new ChillUiView({
+                 model: new UiDevice({})
+               });    
            }
            else if (uiname == "Living") {
-               var view = new LivingUiView({});    
+               var view = new LivingUiView({
+                 model: new UiDevice({})
+               });   
            }
            else if (uiname == "Lights") {
-               var view = new LightsUiView({});    
+               var view = new LightsUiView({
+                 model: new UiDevice({})
+               });   
            }
            else if (uiname == "TV") {
-               var view = new TvUiView({});    
+               var view = new TvUiView({
+                 model: new UiDevice({})
+               });   
            }
            else if (uiname == "Kitchen") {
-               var view = new KitchenUiView({});    
+               var view = new KitchenUiView({
+                 model: new UiDevice({})
+               });   
            }                     
             
             

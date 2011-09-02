@@ -9,6 +9,22 @@
  */
 
 var SceneController = Backbone.Controller.extend({
+
   routes: {
+    "help":                 "help", 
+    "ui/:query":            "ui",   
+
+  },
+
+  help: function() {
+    
+  },
+  ui: function(query) {
+  
+    $("#debug_overlay_select").val(query)
+    showOverlay();
   }
+
 });
+
+

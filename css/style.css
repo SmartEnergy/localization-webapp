@@ -143,11 +143,13 @@ a:hover { color: #000; }
 body {
   background-color: #eee;
   padding: 0px;
+  margin: 0px;
 
 }
 
 html, body {
     height: 100%;
+   
 }
 
 #test {
@@ -260,6 +262,10 @@ h2 {
 }
 
 #karte {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+ 
 	width: 100%;
 	z-index: 1;
 }
@@ -275,6 +281,8 @@ h2 {
 	left: 0px;
 	/*z-index: 21;*/
 	height: 100%;
+	margin: 0px;
+	padding: 0px;
 }
 
 
@@ -556,7 +564,7 @@ div.ui-accordion-content.ui-helper-reset.ui-widget-content.ui-corner-bottom.ui-a
 }
 
 #canvascont {
-    position: absolute;
+    position: fixed;
     top: 0px;
     left: 0px;
     z-index: 8;
@@ -632,6 +640,8 @@ div.ui-accordion-content.ui-helper-reset.ui-widget-content.ui-corner-bottom.ui-a
     top: 0px;
     left: 0px;
     height: 100%;
+    margin: 0px;
+    padding: 0px;    
     width: 100%;
     z-index: 9999;
     background-color: rgba(0,0,0,.70);
@@ -957,6 +967,8 @@ border-radius: 4px;
   left: 0px;
   width: 100%;
   min-height: 100%;
+  margin: 0px;
+  padding: 0px;  
   background-color: #555;
   z-index: 65000;
   font-family: Helvetica;
@@ -1066,4 +1078,69 @@ border-radius: 4px;
   z-index: 99;
 }
 
+.navigation_submenu a {
+  border: 1px solid #ddd;
+  padding: 6px;
+  background-color: rgb(241,241,241);
+  color: #555;
+  text-decoration: none;
+  margin-right: 3px;
+}
 
+.navigation_submenu {
+
+  text-align: center;
+}
+
+
+.actionEntryUiDevice {
+  
+  position: static !important;
+  width: 100% !important;
+  margin: 0px !important;
+  border: 0px solid #fff !important;
+  border-bottom: 1px solid #aaa !important;
+
+  
+  background-image: -webkit-gradient(
+      linear,
+      left bottom,
+      left top,
+      color-stop(0.05, #444444),
+      color-stop(0.53, #555555)
+  );
+  background-image: -moz-linear-gradient(
+      center bottom,
+      #444444 5%,
+      #555555 53%
+  );  
+
+}
+
+
+.actionEntryUiDevice:nth-child(odd)  {
+  background-image: -webkit-gradient(
+      linear,
+      left bottom,
+      left top,
+      color-stop(0.05, #555555),
+      color-stop(0.53, #666666)
+  );
+  background-image: -moz-linear-gradient(
+      center bottom,
+      #555555 5%,
+      #666666 53%
+  );
+
+
+}
+
+.actionEntryUiDevice .actionEntryConfigTxt {
+  color: #fff;
+}
+
+.actionEntryUiDevice img {
+  width: 40px;
+  margin-top: 10px;
+  margin-left: 10px
+}

@@ -98,6 +98,7 @@ var Region = Backbone.Model.extend({
     toJSON: function() {
     	var m = {
 			name: this.get("name"),
+			displayName: this.get("displayName"),
       type: "rectangle",
 			posX: this.get("posX"),
 			posY: this.get("posY"),
@@ -146,6 +147,7 @@ var RegionPolygon = Backbone.Model.extend({
     toJSON: function() {
     	var m = {
 			  name: this.get("name"),
+			  displayName: this.get("displayName"),
         type: "polygon",
 			  //actions: this.get("actions"),
 			  points: this.get("points"),			
@@ -299,6 +301,18 @@ var Command = Backbone.Model.extend({
       sceneview.model.get("serversocket").emit('removeCommand',  this.get("name")); 
     }
 });
+
+
+var UiDevice = Backbone.Model.extend({
+    initialize: function (spec) {
+        this.set({
+            htmlId: 'uiDevice_' + this.cid
+        });
+    },
+    validate: function (attrs) {
+    }
+});
+
 
 
 var ConditionActionCollection = Backbone.Collection.extend({

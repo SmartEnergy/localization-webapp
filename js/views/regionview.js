@@ -113,7 +113,7 @@ var RegionNavView = Backbone.View.extend({
 	},
   onChangeName: function(e) {
     this.model.set({
-      name: this.$(".lcInput").val()
+      displayName: this.$(".lcInput").val()
     });
     this.model.sendRegionUpdate();
   }
