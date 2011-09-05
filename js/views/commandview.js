@@ -26,11 +26,12 @@ var ConditionActionView = Backbone.View.extend({
         if (option.getValuesFrom == "regionNames") {
           var names = getRegionNames();
           $.each(names, function(index, name) {
-            if (name == option.value) {
-              var nameEl = '<option selected="selected">'+name+"</option>";
+            
+            if (name[0] == option.value) {
+              var nameEl = '<option selected="selected" value="'+name[0]+'">'+name[1]+"</option>";
             }
             else {
-              var nameEl = "<option>"+name+"</option>";
+              var nameEl = '<option value="'+name[0]+'">'+name[1]+'</option>';
             }
             
             checkbox += nameEl;
@@ -69,7 +70,7 @@ var ConditionActionView = Backbone.View.extend({
         $(".actionEntryNameValue", configEl).change();
 
       }
-      else if (option.type = "slider") {
+      else if (option.type == "slider") {
         var o = option;
         $(configEl).find(".actionEntryFormRow").addClass("sliderRow");
         var slider = '<div class="slider2"></div><span class="slider_value">'+option.value+'</span>';
@@ -95,6 +96,16 @@ var ConditionActionView = Backbone.View.extend({
 		
         });
 
+      }
+      else if (option.type == "gestureCombi") {
+        $(configEl).find(".actionEntryFormValue").eq(0).append('<span class="gestureCombiValues"></span> <span class="gestureCombiChangeLnk"><a href="#">Change</a></span>');
+        $(configEl).find(".gestureCombiChangeLnk").click(function() {
+          var test = new GestureDialogView({
+            model: self.model
+          });
+          
+          test.firstRender(configEl);
+        }); 
       }
 
       self.$(".actionEntryConfigTxt").append(configEl);
@@ -180,6 +191,10 @@ var ConditionActionView = Backbone.View.extend({
     $(this.el).mousewheel(function() {
       $(self.el).trigger("dblclick");
     });
+    $(".actionEntryIcon", $(this.el)).bind("touchstart", function() {
+      $(self.el).trigger("dblclick");
+    });
+    
 
   },
   dragEvent: function() {
@@ -418,7 +433,7 @@ var CommandView = Backbone.View.extend({
     }
     else {
       $(this.el).dialog({
-        height: $("body")[0].offsetHeight,
+        height: $("body")[0].offsetHeight-8,
         width: "500px",
         position: dialogPosition,
         resizable: false,

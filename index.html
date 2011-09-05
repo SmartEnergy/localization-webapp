@@ -45,6 +45,7 @@
   <script src="js/views/userview.js"></script>
   <script src="js/views/commandview.js"></script>
   <script src="js/views/deviceview.js"></script>
+  <script src="js/views/gestureDialogView.js"></script>
 
   <script src="js/views/pushUi/chillUiView.js"></script>
   <script src="js/views/pushUi/kitchenUiView.js"></script>
@@ -586,6 +587,39 @@
     </div>
 </script>   
 
+<script id="gestureDialogTmpl" type="text/html">  
+  <div class="gestureDialog" title="Gesture Combination">
+    <div class="gestureDialogRow">
+      <div class="gestureDialogRowTitel">Combination: </div>
+      <div class="gestureDialogRowSelectedValues">
+        
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="gestureDialogRow">
+      <div class="gestureDialogRowTitel">Gestures: </div>
+      <div class="gestureDialogRowAvailableValues">
+        <div class="clearer"></div>
+      </div>
+    </div>
+    <div class="gestureDialogRow">
+      <div class="gestureDialogRowTitel"></div>
+      <div class="gestureDialogRowButton">
+        <input type="button" class="gestureDialogRowButtonBtn" value="Save Combination" />
+      </div>
+      <div class="clearer"></div>
+    </div>    
+    <div class="clearer"></div>
+  </div>
+</script>
+
+<script id="gestureDialogGestureTmpl" type="text/html">  
+  <div class="gestureDialogGesture">
+    <div class="gestureDialogGestureImg gestureDialogGesture{{ name }}"><img src="{{ icon }}" width="22px" height="22px" alt="gestureimg" /></div>
+    <div class="gestureDialogGestureTitel">{{ name }}</div>
+    <div class="clearer"></div>
+  </div>
+</script>
 
 <div id="kinects"></div>
 <div id="regions"></div>

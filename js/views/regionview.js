@@ -184,13 +184,15 @@ var RegionPolyNavView = Backbone.View.extend({
 			self.addAction(null, a);
 		});*/			
 		
+		this.$(".lcInput").val(this.model.get("displayName"));
+		
 		sceneview.drawPolygons();
 
 		return this;
 	},
   onChangeName: function(e) {
     this.model.set({
-      name: this.$(".lcInput").val()
+      displayName: this.$(".lcInput").val()
     });
     this.model.sendRegionUpdate();
   },

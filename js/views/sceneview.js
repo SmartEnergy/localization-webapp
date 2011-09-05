@@ -962,7 +962,8 @@ var SceneView = Backbone.View.extend({
 					posX: regionjson.posX,
 					posY: regionjson.posY,
 					width: regionjson.width,
-					height: regionjson.height
+					height: regionjson.height,
+					displayName: regionjson.displayName
 				});	
 			}
 		}
@@ -971,7 +972,8 @@ var SceneView = Backbone.View.extend({
 			
 			if (region != null) {
 				region.set({
-					points: regionjson.points
+					points: regionjson.points,
+					displayName: regionjson.displayName
 				});	
 			}			
 		}

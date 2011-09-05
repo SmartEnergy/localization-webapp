@@ -549,22 +549,54 @@ function getConditionsAndActions() {
                    }
                  ]      
     }));
-
-
+    
     conditionModels.add( 
-		  new ConditionAction({
-        name: "clickGesture",
+      new ConditionAction({
+        name: "Swipe-Down",
         type: "condition",
-        displayName: "User made a click gesture",
+        displayName: "User swipe down",
         category: "Gestures",
-        icon: "img/actionicons/gesture_click_icon.png",
+        icon: "img/actionicons/gesture_swipedown.png",
         options: [ 
                  ]        
-    }));
+    }));   
+
+    conditionModels.add( 
+      new ConditionAction({
+        name: "Swipe-Up",
+        type: "condition",
+        displayName: "User swipe up",
+        category: "Gestures",
+        icon: "img/actionicons/gesture_swipeup.png",
+        options: [ 
+                 ]        
+    }));   
+
+    conditionModels.add( 
+      new ConditionAction({
+        name: "Swipe-Right",
+        type: "condition",
+        displayName: "User swipe right",
+        category: "Gestures",
+        icon: "img/actionicons/gesture_swiperight.png",
+        options: [ 
+                 ]        
+    }));   
+
+    conditionModels.add( 
+      new ConditionAction({
+        name: "Swipe-Left",
+        type: "condition",
+        displayName: "User swipe left",
+        category: "Gestures",
+        icon: "img/actionicons/gesture_swipeleft.png",
+        options: [ 
+                 ]        
+    }));  
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "waveGesture",
+        name: "Wave",
         type: "condition",
         displayName: "User made a wave gesture",
         category: "Gestures",
@@ -572,6 +604,35 @@ function getConditionsAndActions() {
         options: [ 
                  ]        
     }));
+    
+    conditionModels.add( 
+      new ConditionAction({
+        name: "Click",
+        type: "condition",
+        displayName: "User made a click gesture",
+        category: "Gestures",
+        icon: "img/actionicons/gesture_click_icon.png",
+        options: [ 
+                 ]        
+    }));
+    
+    conditionModels.add( 
+      new ConditionAction({
+        name: "Combi",
+        type: "condition",
+        displayName: "Gesture Combination",
+        category: "Gestures",
+        icon: "img/actionicons/gesture_combi.png",
+        options: [ 
+                   {
+                      name: "Combi",
+                      type: "gestureCombi",                            
+                      value: ""  
+                   }
+                 ]        
+    }));    
+    
+     
 
       //Actions
 

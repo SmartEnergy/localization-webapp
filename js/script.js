@@ -32,10 +32,18 @@ function closeOverlay() {
 function getRegionNames() {
   var names = [];
   sceneview.model.get("regions").each(function(value) {
-    names.push(value.get("name"));
+    n = []
+    n.push(value.get("name"));
+    n.push(value.get("displayName"));
+    
+    names.push(n);
   });
   sceneview.model.get("regionsPoly").each(function(value) {
-    names.push(value.get("name"));
+    n = []
+    n.push(value.get("name"));
+    n.push(value.get("displayName"));
+    
+    names.push(n);
   });
   return names;
 }
@@ -52,6 +60,13 @@ $(document).ready(function () {
 		$("#connDialog").hide();    
     $("#sceneSelectStep3").show();
   });
+
+
+  /*var test = new GestureDialogView({
+    
+  });
+  
+  test.firstRender();*/
 
 
 	var w = new SceneController();
