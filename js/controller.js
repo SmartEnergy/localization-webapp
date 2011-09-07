@@ -11,7 +11,8 @@
 var SceneController = Backbone.Controller.extend({
 
   routes: {
-    "help":                 "help", 
+    "newCommand":           "newCommand", 
+    "mobile":               "mobile",
     "ui/:query":            "ui",   
 
   },
@@ -23,6 +24,12 @@ var SceneController = Backbone.Controller.extend({
   
     $("#debug_overlay_select").val(query)
     showOverlay();
+  },
+  newCommand: function(query) {
+    sceneview.addCommand();
+  },
+  mobile: function() {
+    mobileVersion = true;
   }
 
 });

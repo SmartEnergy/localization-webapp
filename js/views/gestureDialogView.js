@@ -54,7 +54,7 @@ var GestureDialogView = Backbone.View.extend({
           vs.each(function(idx, value) {
             gestureStr += $(".gestureDialogGestureTitel", value).text();
             if (idx != vs.length-1) {
-              gestureStr += ", "
+              gestureStr += ", ";
             }
           });
           self.model.get("options")[0].value = gestureStr;
@@ -68,7 +68,16 @@ var GestureDialogView = Backbone.View.extend({
           var valuesSplitted = oldValues.split(", ");
           for (i in valuesSplitted) {
             var value = valuesSplitted[i];
-            self.$(".gestureDialogGesture"+value).click(); 
+            
+            var cloned = self.$(".gestureDialogGesture"+value).eq(0).parent().clone();
+       
+            self.$(".gestureDialogRowSelectedValues").append(cloned);
+            
+            $(cloned).click(function() {
+              $(this).remove();
+            })            
+            //$(self.$(".gestureDialogGesture"+value), self.$(".gestureDialogRowAvailableValues")).trigger("click"); 
+    
           }
         }
               

@@ -98,7 +98,7 @@ var ConditionActionView = Backbone.View.extend({
 
       }
       else if (option.type == "gestureCombi") {
-        $(configEl).find(".actionEntryFormValue").eq(0).append('<span class="gestureCombiValues"></span> <span class="gestureCombiChangeLnk"><a href="#">Change</a></span>');
+        $(configEl).find(".actionEntryFormValue").eq(0).append('<span class="gestureCombiValues">'+option.value+'</span> <span class="gestureCombiChangeLnk"><a href="#">Change</a></span>');
         $(configEl).find(".gestureCombiChangeLnk").click(function() {
           var test = new GestureDialogView({
             model: self.model
@@ -192,7 +192,16 @@ var ConditionActionView = Backbone.View.extend({
       $(self.el).trigger("dblclick");
     });
     $(".actionEntryIcon", $(this.el)).bind("touchstart", function() {
-      $(self.el).trigger("dblclick");
+      if ($(self.el).css("width") == '64px') {
+        $(self.el).trigger("dblclick");
+      }
+      else {
+        $(".selected_conditions").prepend(self.el);
+        $(".actionCondi"+value.get("name")).trigger("selectAction");        
+        $(self.el).trigger("selectAction"); 
+      }
+      
+      
     });
     
 
@@ -432,9 +441,20 @@ var CommandView = Backbone.View.extend({
 
     }
     else {
+      var h = $("body")[0].offsetHeight-8;
+      var w = "500px";
+      
+      if (isMobile()) {
+        dialogPosition = [0.0];
+        //$(this.el).css("position", "absolute");
+        $(this.el).css("z-index", "65300");
+        w = "100%";
+
+      }
+      
       $(this.el).dialog({
-        height: $("body")[0].offsetHeight-8,
-        width: "500px",
+        height: h,
+        width: w,
         position: dialogPosition,
         resizable: false,
         draggable: false,
@@ -442,6 +462,8 @@ var CommandView = Backbone.View.extend({
           $(".action_dialog").remove();
         }
       });
+      
+      
     }
 
 

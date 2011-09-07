@@ -13,6 +13,10 @@ function onStartTweaks() {
 
 function isMobile() {
 
+    if (mobileVersion) {
+      return true;
+    }
+
     //return true; //TODO Raus
     return  (navigator.userAgent.match(/Android/i) ||
             navigator.userAgent.match(/webOS/i) ||
