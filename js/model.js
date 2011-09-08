@@ -660,7 +660,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "livingJack2",
+        name: "livingJack1",
         type: "action",
         displayName: "Lamp",
         category: "Baall",
@@ -676,13 +676,13 @@ function getConditionsAndActions() {
                  ],
         roomPosition: {
             x: 3000,
-            y: 5000
+            y: 4800
         }       
     }));
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "livingJack1",
+        name: "livingJack2",
         type: "action",
         displayName: "Jack",
         category: "Baall",
@@ -697,8 +697,8 @@ function getConditionsAndActions() {
                    }
                  ],
         roomPosition: {
-            x: 90,
-            y: 3500
+            x: 3000,
+            y: 5200
         }        
     }));
 
@@ -720,7 +720,7 @@ function getConditionsAndActions() {
                  ],
         roomPosition: {
             x: 4430,
-            y: 2600
+            y: 4800
         }        
     }));
 
@@ -741,8 +741,8 @@ function getConditionsAndActions() {
                    }
                  ],
         roomPosition: {
-            x: 4430,
-            y: 4800
+	    x: 6601,
+            y: 4734
         }        
     }));
 
@@ -763,32 +763,11 @@ function getConditionsAndActions() {
                    }
                  ],
         roomPosition: {
-            x: 2000,
-            y: 2500
+            x: 4100,
+            y: 0
         }          
     }));
 
-    conditionModels.add( 
-		  new ConditionAction({
-        name: "kitchenJack",
-        type: "action",
-        displayName: "Light",
-        category: "Baall",
-        subCategory: "Kitchen",
-        icon: "img/actionicons/lamp3_icon.png",
-        options: [ 
-                   {
-                      name: "On/Off",
-                      type: "checkbox",                            
-                      values: ["On", "Off"],
-                      value: "On"   
-                   }
-                 ],
-        roomPosition: {
-            x: 3100,
-            y: 1000
-        }        
-    }));
 
     conditionModels.add( 
 		  new ConditionAction({
@@ -873,7 +852,7 @@ function getConditionsAndActions() {
                    }
                  ],
         roomPosition: {
-            x: 4100,
+            x: 3500,
             y: 0
         }        
     }));
@@ -989,8 +968,8 @@ function getConditionsAndActions() {
                    }
                  ],
         roomPosition: {
-            x:  6601,
-            y: 2552
+            x:  4430,
+            y: 2600
         }        
     }));
 
@@ -1012,13 +991,13 @@ function getConditionsAndActions() {
                  ],
         roomPosition: {
             x:  6601,
-            y: 4734
+            y: 2552
         }        
     }));
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "bedroomLight1",
+        name: "bedroomJack1",
         type: "action",
         displayName: "Lamp",
         category: "Baall",
@@ -1033,8 +1012,9 @@ function getConditionsAndActions() {
                    }
                  ],
         roomPosition: {
-            x:  7539,
-            y: 27
+	    x:  9118,
+            y: 4926
+            
         }        
     }));
 
@@ -1045,7 +1025,7 @@ function getConditionsAndActions() {
         displayName: "Lamp",
         category: "Baall",
         subCategory: "Bed",
-        icon: "img/actionicons/lamp1_icon.png",
+        icon: "img/actionicons/spotlight_icon.png",
         options: [ 
                    {
                       name: "On/Off",
@@ -1055,14 +1035,15 @@ function getConditionsAndActions() {
                    }
                  ],
         roomPosition: {
-            x:  10118,
-            y: 2426
+            x:  7339,
+            y: 27
         }        
     }));
 
+    
     conditionModels.add( 
 		  new ConditionAction({
-        name: "bedroomJack1",
+        name: "bedroomLight1",
         type: "action",
         displayName: "Lamp",
         category: "Baall",
@@ -1089,7 +1070,7 @@ function getConditionsAndActions() {
         displayName: "Lamp",
         category: "Baall",
         subCategory: "Bed",
-        icon: "img/actionicons/spotlight_icon.png",
+        icon: "img/actionicons/lamp1_icon.png",
         options: [ 
                    {
                       name: "On/Off",
@@ -1099,8 +1080,8 @@ function getConditionsAndActions() {
                    }
                  ],
         roomPosition: {
-            x:  7313,
-            y: 1867
+	    x:  9118,
+            y: 2500
         }        
     }));
 

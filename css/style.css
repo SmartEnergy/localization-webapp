@@ -504,6 +504,7 @@ div.ui-accordion-content.ui-helper-reset.ui-widget-content.ui-corner-bottom.ui-a
 	top: 0px;
 	background-color: #f00;
 	border-radius: 	10px;
+	z-index: 65400;	
 }
 
 .lcUserColor {
