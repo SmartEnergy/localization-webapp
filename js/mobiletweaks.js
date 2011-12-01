@@ -1,13 +1,13 @@
 function onStartTweaks() {
-    $("#pushUICheckbox").attr('checked', true);
+    
     $('#navigation').css("width", "60px");  
     $('#navigation').css("height", "30px");  
     $("#navigationHead").html("Nav"); 
-    $(".navleft").hide(); 
     
     $(".ui-accordion-header").removeClass("ui-corner-all");
-
-    
+    $("#pushUICheckbox").attr('checked', true);
+    $("#showDeviceCheckbox").attr('checked', false);  
+    sceneview.showHideDevices(); 
 }
 
 
@@ -17,7 +17,7 @@ function isMobile() {
       return true;
     }
 
-    //return true; //TODO Raus
+
     return  (navigator.userAgent.match(/Android/i) ||
             navigator.userAgent.match(/webOS/i) ||
             navigator.userAgent.match(/iPhone/i) ||

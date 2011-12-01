@@ -268,7 +268,7 @@ h2 {
 	position: fixed;
 	top: 0px;
 	left: 0px;
-	/*z-index: 21;*/
+	z-index: 21;
 	height: 100%;
 	margin: 0px;
 	padding: 0px;
@@ -411,7 +411,6 @@ ul {
 .box {
 	border: 2px solid rgb(113, 99, 37);
 	position: fixed;
-	z-index: 10;
 	top: 0px;
 	left: 0px;
   background-color: rgba(113, 99, 37, .20);
@@ -960,7 +959,7 @@ border-radius: 4px;
   margin: 0px;
   padding: 0px;  
   background-color: #555;
-  z-index: 65000;
+  z-index: 65500;
   font-family: Helvetica;
   overflow: auto;
 
@@ -1044,7 +1043,7 @@ border-radius: 4px;
 }
 
 .mapDevice {
-    position:absolute;
+    position:fixed;
     z-index: 98;
     /*border: 1px solid #DDD;
     background-color: #fff;*/

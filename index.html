@@ -23,13 +23,14 @@
   <script src="js/libs/jquery.min.js"></script>  
   <script type="text/javascript" src="js/libs/jquery-ui.min.js"></script>
 
-  <script src="http://kikeriki.dyndns.org:8000/socket.io/socket.io.js"></script>
+  <script src="socket.io/socket.io.js"></script>
   <script src="js/libs/jquery.jwNotify.js"></script>
   <script src="js/libs/jquery.favicon.js"></script>
   <script src="js/libs/underscore-min.js"></script>
   <script src="js/libs/backbone-min.js"></script>  
   <script src="js/libs/ICanHaz.min.js"></script>  
   <script src="js/libs/json2.js"></script>
+
   <script type="text/javascript" src="js/libs/jquery.mousewheel.min.js"></script>
   <script type="text/javascript" src="js/libs/jquery.touchwipe.min.js"></script>
   
@@ -53,6 +54,8 @@
   <script src="js/views/pushUi/lightsUiView.js"></script>
   <script src="js/views/pushUi/tvUiView.js"></script>
   <script src="js/views/pushUi/deviceUIView.js"></script>
+
+  
 
   <script src="js/mobiletweaks.js"></script>
   <script src="js/controller.js"></script>
@@ -88,7 +91,7 @@
 	    <div class="clear"></div>	    
 	    <div class="formrow">	
 	      <div class="formlabel">serverip</div>  
-	      <div class="formvalue"><input type="text" id="serverip"  class="text" value="kikeriki.dyndns.org" /></div> 	
+	      <div class="formvalue"><input type="text" id="serverip"  class="text" value="localhost" /></div> 	
 	    </div>
 	    <div class="clear"></div>	    
 	    <div class="formrow">	
@@ -138,9 +141,10 @@
 		<li class="lisc"><strong>Roomlength</strong>: <input type="text" class="navinputtext navconfiginput" id="navroomWidthMM"  value="{{ roomWidthMM }}" /> <i>mm</i></li>
 		<li class="lisc"><strong>Roomdepth</strong>: <input type="text" class="navinputtext navconfiginput" id="navroomHeightMM"  value="{{ roomHeightMM }}" /> <i>mm</i></li>
 		<li  class="lisc"><strong>Serverstatus</strong>: <span class="serverstatusnav">{{ connected }}</span></li>
-    <li  class="lisc"><a href=""></a><strong>Show devices</strong>: <input type="checkbox" class="navconfiginput" id="showDeviceCheckbox" value="1" checked="checked" /></li>
-		<li  class="lisc"><a href=""></a><strong>Show pushed ui</strong>: <input type="checkbox" class="navconfiginput" id="pushUICheckbox" value="1" checked="checked" /></li>
+    <li  class="lisc"><a href=""></a><strong>Show devices</strong>: <input type="checkbox" class="navconfiginput" id="showDeviceCheckbox" checked="checked" /></li>
+		<li  class="lisc"><a href=""></a><strong>Show pushed ui</strong>: <input type="checkbox" class="navconfiginput" id="pushUICheckbox" /></li>
     <li  class="lisc"><strong>[DEBUG]</strong> <select class="navconfiginput" id="debug_overlay_select"><option>Chillen</option><option>Living</option><option>Lights</option><option>TV</option><option>Kitchen</option></select> <a href="javascript:showOverlay(this);">showOverlay</a></li>
+    
 	</ul>			
 </script>			
 		
@@ -257,7 +261,7 @@
 </script>			
 			
 <script id="regiondevtmpl" type="text/html">			
-	<div class="box" id="{{ htmlId }}" style="left: {{ posX }}; top: {{ posY }}; width: {{ width }}; height: {{ height }};"></div>
+	<div class="box" id="{{ htmlId }}" style="width: {{ width }}; height: {{ height }};"></div>
 </script>	
 
 <script id="regionnavtmpl" type="text/html">	
@@ -652,7 +656,7 @@
         <div class="clear"></div>       
         <div class="formrow">   
           <div class="formlabel">serverip</div>  
-          <div class="formvalue"><input type="text" id="loadserverip"  class="text" value="kikeriki.dyndns.org" /></div>  
+          <div class="formvalue"><input type="text" id="loadserverip"  class="text" value="localhost" /></div>  
         </div>
         <div class="clear"></div>       
         <div class="formrow">   

@@ -34,7 +34,6 @@ var LightsUiView = Backbone.View.extend({
     },
     showLightDev: function(self) {
 
-    console.log("japp");
       var view = new DeviceUiView({
         model: new UiDevice({})
       });

@@ -8,11 +8,11 @@ var UserView = Backbone.View.extend({
 	},
 	render: function() {
 		
-		this.$(".user").css("top", this.model.get("scenemodel").get("vp").mmInPixel(this.model.get("posY")));
+		this.$(".user").css("top", $("#karte")[0].offsetHeight - this.model.get("scenemodel").get("vp").mmInPixel(this.model.get("posY")));
 		this.$(".user").css("left", this.model.get("scenemodel").get("vp").mmInPixel(this.model.get("posX")));		
 
 		$("#bubble_"+this.model.get("htmlId")).css("left", this.model.get("scenemodel").get("vp").mmInPixel(this.model.get("posX"))-55);
-		$("#bubble_"+this.model.get("htmlId")).css("top", this.model.get("scenemodel").get("vp").mmInPixel(this.model.get("posY"))-65);
+		$("#bubble_"+this.model.get("htmlId")).css("top", $("#karte")[0].offsetHeight - this.model.get("scenemodel").get("vp").mmInPixel(this.model.get("posY"))-65);
 						
 		
 		return this;
@@ -23,7 +23,7 @@ var UserView = Backbone.View.extend({
 		$("#bubbles").append(ich.userbubbletmpl(this.model.toJSON()));
 		
 		$("#bubble_"+this.model.get("htmlId")).css("left", this.model.get("scenemodel").get("vp").mmInPixel(this.model.get("posX"))-55);
-		$("#bubble_"+this.model.get("htmlId")).css("top", this.model.get("scenemodel").get("vp").mmInPixel(this.model.get("posY"))-65);
+		$("#bubble_"+this.model.get("htmlId")).css("top", $("#karte")[0].offsetHeight - this.model.get("scenemodel").get("vp").mmInPixel(this.model.get("posY"))-65);
 		
 		this.$(".user").css("background-color", colors[this.model.get("userid")%10]);
 

@@ -7,9 +7,9 @@ var KinectView = Backbone.View.extend({
 		this.model.bind('change', this.render);
 	},
 	render: function() {
-
-		$(this.el).css("-webkit-transform", "rotateZ("+this.model.get("angle")+"deg)");
-		$(this.el).css("-moz-transform", "rotate("+this.model.get("angle")+"deg)");
+		var angle = this.model.get("angle") + 180;
+		$(this.el).css("-webkit-transform", "rotateZ("+angle+"deg)");
+		$(this.el).css("-moz-transform", "rotate("+angle+"deg)");
 		coords = { 
 			top: Math.round(this.model.get("scenemodel").get("vp").mmInPixel(this.model.get("offsetBoundingY"))), 
 			left: Math.round(this.model.get("scenemodel").get("vp").mmInPixel(this.model.get("offsetBoundingX")))
@@ -30,9 +30,9 @@ var KinectView = Backbone.View.extend({
 			drag: function() { 
 				self.model.set({
 					offsetImgX: Math.round(self.model.get("scenemodel").get("vp").pixelInMM(self.$(".kinImgSrc1").offset().left)),
-					offsetImgY: Math.round(self.model.get("scenemodel").get("vp").pixelInMM(self.$(".kinImgSrc1").offset().top)),
+					offsetImgY: Math.round(self.model.get("scenemodel").get("vp").pixelInMM($("#karte")[0].offsetHeight - $(self.el)[0].offsetHeight - self.$(".kinImgSrc1").offset().top)),
 					offsetBoundingX: Math.round(self.model.get("scenemodel").get("vp").pixelInMM($(self.el).offset().left)),
-					offsetBoundingY: Math.round(self.model.get("scenemodel").get("vp").pixelInMM($(self.el).offset().top)),
+					offsetBoundingY: Math.round(self.model.get("scenemodel").get("vp").pixelInMM($("#karte")[0].offsetHeight - $(self.el)[0].offsetHeight - $(self.el).offset().top)),
 				});
 			},
 			stop: function() {

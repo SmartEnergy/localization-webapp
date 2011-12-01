@@ -13,6 +13,7 @@ var colors = ["#eda3b1", "#b8cede", "#b8a5de", "#a5dea5", "#749c74", "#74749c", 
 var colorsrgb = ["184,165,222", "184,206,222", "165,222,165", "116,156,116","237,163,177", "116,116,156", "34,116,156", "156,33,67", "124,86,105", "63,94,94"];
 var inAction = false;
 var mobileVersion = false;
+var hasConnected = false;
 
 function showOverlay(link) {
   sceneview.onPushUI($("#debug_overlay_select").val());

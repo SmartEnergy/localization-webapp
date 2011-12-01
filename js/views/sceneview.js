@@ -97,27 +97,11 @@ var SceneCreatorView = Backbone.View.extend({
 		}, 500, function() {});		  
 
 
-        if(isMobile()) {            
-            onStartTweaks();
-        }   
+    sceneview.loadDevices();
 
-
-        sceneview.loadDevices();
-
-        $("#goLoadScene").click(function(e) {
-            alert("wird das noch genutzt?!");
-            $("#serverip").val($("#loadserverip").val());
-            $("#port").val($("#loadport").val());
-            sceneview.model.set({
-                serverIp: $("#loadserverip").val(),
-                port: $("#loadport").val()
-            });
-		    $("#connectDialog").show();
-		    $("#reconnectDialog").show();
-		    $("#connDialog").hide();    
-            $("#sceneSelectStep3").hide();
-            sceneview.reconnect();
-        });
+    if(isMobile()) {            
+      onStartTweaks();
+    }  
 
 	}
 });
@@ -172,11 +156,14 @@ var SceneView = Backbone.View.extend({
         }
 			});			
 
-			this.addedtodom = true;						
+			this.addedtodom = true;
+					
+			this.$("#scenenav").html(ich.sceneconfig(this.model.toJSON()));				
 		}
 		
 		// Update navigation and bg
-		this.$("#scenenav").html(ich.sceneconfig(this.model.toJSON()));
+		
+		
 		this.$("#navsceneBg").val(this.model.get("vp").get("bgImage"));
 		this.$("#karte").html(ich.scenebgtmpl(this.model.get("vp").toJSON()));	
 
@@ -232,7 +219,7 @@ var SceneView = Backbone.View.extend({
 	    
 		// Update navigation height
 		$(".listCtrl").height($("body")[0].offsetHeight-230);
-		$("#navigationContent").height($("body")[0].offsetHeight-20);
+		$("#navigationContent").height($("body")[0].offsetHeight-15);
 		$("#accordion").accordion( "resize" );	
 		
 		// Update Device Positions
@@ -300,7 +287,8 @@ var SceneView = Backbone.View.extend({
 				// Animation complete.
 				$("#navigationContent").show();
 				$( "#accordion" ).accordion({
-					fillSpace: true
+					fillSpace: true,
+					animated: "easeOutQuint"
 				});
         $("#navigationOptions").show();
         if (isMobile()) {
@@ -382,6 +370,13 @@ var SceneView = Backbone.View.extend({
 	 * Dissconnets (if connected) and reconnect to the server
 	 */
 	reconnect: function() {
+    if (hasConnected == true) {
+      location.reload();
+      return;
+    }
+    
+    hasConnected = true;
+
 
 		// Disconnect if connected
 		if (this.model.get("serversocket") != null && 
@@ -394,12 +389,12 @@ var SceneView = Backbone.View.extend({
 	  this.model.set({
 		  serversocket: io.connect("http://"+this.model.get("serverIp")+":"+this.model.get("port"))
 	  });
-	var self = this;
-
-	// Register callbacks for changes of the connection status
-	this.model.get("serversocket").on('connect', this.onconnected);
-	this.model.get("serversocket").on('disconnect', this.ondisconnected);  
-	this.model.get("serversocket").on('connect_failed', this.onconnectfail);	  		  
+  	var self = this;
+  
+  	// Register callbacks for changes of the connection status
+  	this.model.get("serversocket").on('connect', this.onconnected);
+  	this.model.get("serversocket").on('disconnect', this.ondisconnected);  
+  	this.model.get("serversocket").on('connect_failed', this.onconnectfail);	  		  
 
     this.model.get("serversocket").on('newRegion', function (region) { 
       self.onNewRegion(region);
@@ -636,8 +631,8 @@ var SceneView = Backbone.View.extend({
 		var regionmoodel = new Region({
 			name: "region_rect_" + this.model.get("regions").length,
 			displayName: "region_rect_" + this.model.get("regions").length,
-			posX: 10,
-			posY: 10,
+			posX: 1000,
+			posY: 1500,
 			width: 1000,
 			height: 1000,
 			scenemodel: this.model
@@ -748,7 +743,7 @@ var SceneView = Backbone.View.extend({
             x:e.pageX,
             y:e.pageY,
             xMM: Math.round(sceneview.model.get("vp").pixelInMM(e.pageX)),
-            yMM: Math.round(sceneview.model.get("vp").pixelInMM(e.pageY))
+            yMM: Math.round(sceneview.model.get("vp").pixelInMM($("#karte")[0].offsetHeight - e.pageY))
         };
         points.push(a);
         
@@ -767,7 +762,7 @@ var SceneView = Backbone.View.extend({
             x:e.pageX,
             y:e.pageY,
             xMM: Math.round(sceneview.model.get("vp").pixelInMM(e.pageX)),
-            yMM: Math.round(sceneview.model.get("vp").pixelInMM(e.pageY))           
+            yMM: Math.round(sceneview.model.get("vp").pixelInMM($("#karte")[0].offsetHeight - e.pageY))           
         };
         points.pop();
         points.push(a);	
@@ -839,7 +834,7 @@ var SceneView = Backbone.View.extend({
 	        ctx.beginPath();          
 	        for (var i = 0; i<points.length; i++) {
 	        	var xnew = Math.round(sceneview.model.get("vp").mmInPixel(points[i].xMM));
-	        	var ynew = Math.round(sceneview.model.get("vp").mmInPixel(points[i].yMM));
+	        	var ynew = $("#karte")[0].offsetHeight - Math.round(sceneview.model.get("vp").mmInPixel(points[i].yMM));
 	            if (i==0) {
 	               ctx.moveTo(xnew,ynew); 
 	            }
@@ -884,7 +879,7 @@ var SceneView = Backbone.View.extend({
 	        	points[i].x = points[i].x+offsetx;
 	        	points[i].y = points[i].y+offsety;
 	        	points[i].xMM = Math.round(sceneview.model.get("vp").pixelInMM(points[i].x+offsetx)),
-	        	points[i].yMM = Math.round(sceneview.model.get("vp").pixelInMM(points[i].y+offsety))
+	        	points[i].yMM = Math.round(sceneview.model.get("vp").pixelInMM($("#karte")[0].offsetHeight - points[i].y+offsety))
 	        }
 	        points.push(points[0]);
 	        
@@ -936,9 +931,7 @@ var SceneView = Backbone.View.extend({
 		$("#usersListCtrl").append(usrNavView.el);			  			  
 	},
   updateKinect: function(kinectFromServer) {
-    console.log(kinectFromServer.id);
     var kinect = sceneview.model.get("kinects").getKinectByName(kinectFromServer.id);
-    console.log(kinect);
     if (kinect != null) {
       kinect.set({
       	offsetImgX: kinectFromServer.x,
@@ -947,7 +940,6 @@ var SceneView = Backbone.View.extend({
       	offsetBoundingY: kinectFromServer.yb,
       	angle: kinectFromServer.angle
       });
-      console.log("Kinect geupdated");
     }
   },
 	/**
@@ -1135,7 +1127,8 @@ var SceneView = Backbone.View.extend({
 	onCommandsLoaded: function(commands) {
 		for (var i = 0; i<commands.length; i++) {
 			var command = commands[i];
-			sceneview.onNewCommand(command);						
+			sceneview.onNewCommand(command);  
+							
 		}
 	},
 	removeCommand: function(key) {
@@ -1218,6 +1211,8 @@ var SceneView = Backbone.View.extend({
              view.firstRender();
          } 
       });
+      
+
   },
   showHideDevices: function(e) {
     if ($("#showDeviceCheckbox").attr('checked') == "checked") {

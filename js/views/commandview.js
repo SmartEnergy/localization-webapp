@@ -75,8 +75,7 @@ var ConditionActionView = Backbone.View.extend({
         $(configEl).find(".actionEntryFormRow").addClass("sliderRow");
         var slider = '<div class="slider2"></div><span class="slider_value">'+option.value+'</span>';
         $(configEl).find(".actionEntryFormValue").eq(0).append(slider); 
-        console.log("option.value");
-        console.log(option.value);
+
         $(configEl).find(".slider2").slider({
 	        value: option.value,
 	        min: option.values[0],

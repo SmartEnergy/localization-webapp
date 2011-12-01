@@ -552,7 +552,7 @@ function getConditionsAndActions() {
     
     conditionModels.add( 
       new ConditionAction({
-        name: "Swipe-Down",
+        name: "Swipe-Down;",
         type: "condition",
         displayName: "User swipe down",
         category: "Gestures",
@@ -563,7 +563,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
       new ConditionAction({
-        name: "Swipe-Up",
+        name: "Swipe-Up;",
         type: "condition",
         displayName: "User swipe up",
         category: "Gestures",
@@ -574,7 +574,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
       new ConditionAction({
-        name: "Swipe-Right",
+        name: "Swipe-Right;",
         type: "condition",
         displayName: "User swipe right",
         category: "Gestures",
@@ -585,7 +585,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
       new ConditionAction({
-        name: "Swipe-Left",
+        name: "Swipe-Left;",
         type: "condition",
         displayName: "User swipe left",
         category: "Gestures",
@@ -596,7 +596,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "Wave",
+        name: "Wave;",
         type: "condition",
         displayName: "User made a wave gesture",
         category: "Gestures",
@@ -607,7 +607,7 @@ function getConditionsAndActions() {
     
     conditionModels.add( 
       new ConditionAction({
-        name: "Click",
+        name: "Click;",
         type: "condition",
         displayName: "User made a click gesture",
         category: "Gestures",
@@ -771,7 +771,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "kitchenFridgeBoard1",
+        name: "microwaveBoard",
         type: "action",
         displayName: "Microwave",
         category: "Baall",
@@ -781,7 +781,7 @@ function getConditionsAndActions() {
                    {
                       name: "Position",
                       type: "slider",
-                      values: [0,100,10],
+                      values: [0,255,5],
                       value: 0 
                    }
                  ],
@@ -793,7 +793,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "kitchenFridgeBoard2",
+        name: "kitchenet",
         type: "action",
         displayName: "Kitchenette",
         category: "Baall",
@@ -803,7 +803,7 @@ function getConditionsAndActions() {
                    {
                       name: "Position",
                       type: "slider",
-                      values: [0,100,10],
+                      values: [0,255,5],
                       value: 0 
                    }
                  ],
@@ -815,7 +815,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "kitchenFridgeBoard3",
+        name: "cupboard",
         type: "action",
         displayName: "Cups",
         category: "Baall",
@@ -825,7 +825,7 @@ function getConditionsAndActions() {
                    {
                       name: "Position",
                       type: "slider",
-                      values: [0,100,10],
+                      values: [0,255,5],
                       value: 0 
                    }
                  ],
@@ -881,7 +881,7 @@ function getConditionsAndActions() {
 
     conditionModels.add( 
 		  new ConditionAction({
-        name: "bathroomWashBasin",
+        name: "basin",
         type: "action",
         displayName: "Basin",
         category: "Baall",
@@ -891,7 +891,7 @@ function getConditionsAndActions() {
                    {
                       name: "Position",
                       type: "slider",
-                      values: [0,100,1],
+                      values: [0,255,5],
                       value: 0
                    }
                  ],

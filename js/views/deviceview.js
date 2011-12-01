@@ -10,7 +10,7 @@ var DeviceView = Backbone.View.extend({
 
         
         $(this.el).css("left", sceneview.model.get("vp").mmInPixel(this.model.get("roomPosition").x));
-        $(this.el).css("top", sceneview.model.get("vp").mmInPixel(this.model.get("roomPosition").y));        
+        $(this.el).css("top", $("#karte")[0].offsetHeight -34  - sceneview.model.get("vp").mmInPixel(this.model.get("roomPosition").y));        
 
         return this;
     },
@@ -22,7 +22,7 @@ var DeviceView = Backbone.View.extend({
         $("#mapDevices").append(this.el);
         
         $(this.el).css("left", sceneview.model.get("vp").mmInPixel(this.model.get("roomPosition").x));
-        $(this.el).css("top", sceneview.model.get("vp").mmInPixel(this.model.get("roomPosition").y));
+        $(this.el).css("top", $("#karte")[0].offsetHeight -34 - sceneview.model.get("vp").mmInPixel(this.model.get("roomPosition").y));
     
         
         this.$(".deviceImg").hover(function() {
@@ -49,7 +49,7 @@ var DeviceView = Backbone.View.extend({
             $(view.el).removeClass("actionEntry");
             $(view.el).addClass("mapActionEntry");
             $(view.el).css("left", sceneview.model.get("vp").mmInPixel(self.model.get("roomPosition").x));
-            $(view.el).css("top", sceneview.model.get("vp").mmInPixel(self.model.get("roomPosition").y));
+            $(view.el).css("top", $("#karte")[0].offsetHeight -34  -sceneview.model.get("vp").mmInPixel(self.model.get("roomPosition").y));
             $("#mapDevices").append(view.el);   
                      
             self.$(".deviceImg").hide();

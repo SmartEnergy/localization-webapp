@@ -15,6 +15,9 @@ var RegionView = Backbone.View.extend({
 	},
 	firstRender: function() {
 		this.el = ich.regiondevtmpl(this.model.toJSON());
+
+		$(this.el).css("top", $("#karte")[0].offsetHeight - Math.round(this.model.get("scenemodel").get("vp").mmInPixel(this.model.get("posY"))));
+		$(this.el).css("left", Math.round(this.model.get("scenemodel").get("vp").mmInPixel(this.model.get("posX"))) + "px");
 		
 		regioncoll = this.model.get("scenemodel").get("regions");
 		$(this.el).css("background-color", "rgba("+colorsrgb[regioncoll.indexOf(this.model)%10]+", .20)");
@@ -27,7 +30,7 @@ var RegionView = Backbone.View.extend({
 			drag: function() { 
 				self.model.set({
 					posX: Math.round(self.model.get("scenemodel").get("vp").pixelInMM($(self.el).offset().left)),
-					posY: Math.round(self.model.get("scenemodel").get("vp").pixelInMM($(self.el).offset().top))
+					posY: Math.round(self.model.get("scenemodel").get("vp").pixelInMM($("#karte")[0].offsetHeight -  $(self.el).offset().top))
 				});
 				
 			},
@@ -61,7 +64,7 @@ var RegionView = Backbone.View.extend({
 		$(this.el).css("height", Math.round(this.model.get("scenemodel").get("vp").mmInPixel(this.model.get("height"))) + "px");
 	},
 	moveRegion: function() {
-		$(this.el).css("top", Math.round(this.model.get("scenemodel").get("vp").mmInPixel(this.model.get("posY"))) + "px");
+		$(this.el).css("top", $("#karte")[0].offsetHeight - Math.round(this.model.get("scenemodel").get("vp").mmInPixel(this.model.get("posY"))));
 		$(this.el).css("left", Math.round(this.model.get("scenemodel").get("vp").mmInPixel(this.model.get("posX"))) + "px");
 	}
 });
@@ -300,10 +303,10 @@ var RegionPolyNavView = Backbone.View.extend({
             
             var ynew = Math.round((points[i].y-y1) * heightscal);     
             if (i==0) {
-               ctx.moveTo(xnew,ynew); 
+               ctx.moveTo(xnew, $("#karte")[0].offsetHeight - ynew); 
             }
             else {
-                ctx.lineTo(xnew,ynew);
+                ctx.lineTo(xnew, $("#karte")[0].offsetHeight - ynew);
             }
         }
         
