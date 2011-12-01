@@ -649,7 +649,7 @@ function getConditionsAndActions() {
                       name: "On/Off",
                       type: "checkbox",                            
                       values: ["On", "Off"] ,
-                      value: "On"  
+                      value: "Off"  
                    }
                  ],
         roomPosition: {
@@ -671,7 +671,7 @@ function getConditionsAndActions() {
                       name: "On/Off",
                       type: "checkbox",                            
                       values: ["On", "Off"],
-                      value: "On"   
+                      value: "Off"   
                    }
                  ],
         roomPosition: {
@@ -693,7 +693,7 @@ function getConditionsAndActions() {
                       name: "On/Off",
                       type: "checkbox",                            
                       values: ["On", "Off"],
-                      value: "On"   
+                      value: "Off"   
                    }
                  ],
         roomPosition: {
@@ -715,7 +715,7 @@ function getConditionsAndActions() {
                       name: "On/Off",
                       type: "checkbox",                            
                       values: ["On", "Off"],
-                      value: "On"   
+                      value: "Off"   
                    }
                  ],
         roomPosition: {
@@ -737,7 +737,7 @@ function getConditionsAndActions() {
                       name: "On/Off",
                       type: "checkbox",                            
                       values: ["On", "Off"],
-                      value: "On"   
+                      value: "Off"   
                    }
                  ],
         roomPosition: {
@@ -759,12 +759,12 @@ function getConditionsAndActions() {
                       name: "On/Off",
                       type: "checkbox",                            
                       values: ["On", "Off"],
-                      value: "On"   
+                      value: "Off"   
                    }
                  ],
         roomPosition: {
             x: 4100,
-            y: 0
+            y: 350
         }          
     }));
 
@@ -787,7 +787,7 @@ function getConditionsAndActions() {
                  ],
         roomPosition: {
             x: 4100,
-            y: 1800
+            y: 2150
         }        
     }));
 
@@ -809,7 +809,7 @@ function getConditionsAndActions() {
                  ],
         roomPosition: {
             x: 4100,
-            y: 1200
+            y: 1550
         }        
     }));
 
@@ -831,7 +831,7 @@ function getConditionsAndActions() {
                  ],
         roomPosition: {
             x: 4100,
-            y: 600
+            y: 950
         }        
     }));
 
@@ -848,12 +848,12 @@ function getConditionsAndActions() {
                       name: "On/Off",
                       type: "checkbox",                            
                       values: ["On", "Off"],
-                      value: "On"   
+                      value: "Off"   
                    }
                  ],
         roomPosition: {
             x: 3500,
-            y: 0
+            y: 350
         }        
     }));
 
@@ -870,7 +870,7 @@ function getConditionsAndActions() {
                       name: "On/Off",
                       type: "checkbox",                            
                       values: ["On", "Off"],
-                      value: "On"   
+                      value: "Off"   
                    }
                  ],
         roomPosition: {
@@ -897,7 +897,7 @@ function getConditionsAndActions() {
                  ],
         roomPosition: {
             x: 6200,
-            y: 150
+            y: 350
         }        
     }));
 
@@ -914,7 +914,7 @@ function getConditionsAndActions() {
                       name: "On/Off",
                       type: "checkbox",                            
                       values: ["On", "Off"],
-                      value: "On"   
+                      value: "Off"   
                    }
                  ],
         roomPosition: {
@@ -946,7 +946,7 @@ function getConditionsAndActions() {
                    }
                  ],
         roomPosition: {
-            x:  9216,
+            x:  8200,
             y: 3724
         }        
     }));
@@ -1008,11 +1008,11 @@ function getConditionsAndActions() {
                       name: "On/Off",
                       type: "checkbox",                            
                       values: ["On", "Off"] ,
-                      value: "On"  
+                      value: "Off"  
                    }
                  ],
         roomPosition: {
-	    x:  9118,
+	    x:  8200,
             y: 4926
             
         }        
@@ -1031,12 +1031,12 @@ function getConditionsAndActions() {
                       name: "On/Off",
                       type: "checkbox",                            
                       values: ["On", "Off"] ,
-                      value: "On"  
+                      value: "Off"  
                    }
                  ],
         roomPosition: {
             x:  7339,
-            y: 27
+            y: 350
         }        
     }));
 
@@ -1054,7 +1054,7 @@ function getConditionsAndActions() {
                       name: "On/Off",
                       type: "checkbox",                            
                       values: ["On", "Off"],
-                      value: "On"   
+                      value: "Off"   
                    }
                  ],
         roomPosition: {
@@ -1076,11 +1076,11 @@ function getConditionsAndActions() {
                       name: "On/Off",
                       type: "checkbox",                            
                       values: ["On", "Off"] ,
-                      value: "On"  
+                      value: "Off"  
                    }
                  ],
         roomPosition: {
-	    x:  9118,
+	    x:  8200,
             y: 2500
         }        
     }));
@@ -1098,7 +1098,7 @@ function getConditionsAndActions() {
                       name: "On/Off",
                       type: "checkbox",                            
                       values: ["On", "Off"] ,
-                      value: "On"  
+                      value: "Off"  
                    }
                  ],
         roomPosition: {
@@ -1120,7 +1120,7 @@ function getConditionsAndActions() {
                       name: "On/Off",
                       type: "checkbox",                            
                       values: ["On", "Off"] ,
-                      value: "On"  
+                      value: "Off"  
                    }
                  ]        
     }));
@@ -1138,7 +1138,7 @@ function getConditionsAndActions() {
                       name: "On/Off",
                       type: "checkbox",                            
                       values: ["On", "Off"] ,
-                      value: "On"  
+                      value: "Off"  
                    }
                  ]        
     }));
@@ -1157,7 +1157,7 @@ function getConditionsAndActions() {
                       name: "On/Off",
                       type: "checkbox",                            
                       values: ["On", "Off"] ,
-                      value: "On"  
+                      value: "Off"  
                    }
                  ]        
     }));
