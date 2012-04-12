@@ -97,7 +97,11 @@ var SceneCreatorView = Backbone.View.extend({
 		}, 500, function() {});		  
 
 
-    sceneview.loadDevices();
+	// workaround weil die Karte noch nicht geladen ist
+	setTimeout(function() {
+		sceneview.loadDevices();
+	}, 500);
+    
 
     if(isMobile()) {            
       onStartTweaks();
@@ -223,7 +227,10 @@ var SceneView = Backbone.View.extend({
 		$("#accordion").accordion( "resize" );	
 		
 		// Update Device Positions
-		$(".deviceImg").trigger("windowResize");    		
+		setTimeout(function() {
+		  $(".deviceImg").trigger("windowResize"); 
+		}, 500)
+		   		
 	},
 	/**
 	 * Callback for changing room size

@@ -8,7 +8,6 @@ var DeviceView = Backbone.View.extend({
     },
     render: function() {
 
-        
         $(this.el).css("left", sceneview.model.get("vp").mmInPixel(this.model.get("roomPosition").x));
         $(this.el).css("top", $("#karte")[0].offsetHeight -34  - sceneview.model.get("vp").mmInPixel(this.model.get("roomPosition").y));        
 
@@ -20,9 +19,9 @@ var DeviceView = Backbone.View.extend({
         this.el = ich.deviceTmpl(this.model.toJSON());
         this.render();
         $("#mapDevices").append(this.el);
-        
         $(this.el).css("left", sceneview.model.get("vp").mmInPixel(this.model.get("roomPosition").x));
         $(this.el).css("top", $("#karte")[0].offsetHeight -34 - sceneview.model.get("vp").mmInPixel(this.model.get("roomPosition").y));
+    
     
         
         this.$(".deviceImg").hover(function() {

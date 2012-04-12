@@ -476,7 +476,7 @@ function getConditionsAndActions() {
                    }
                  ]        
     }));
-
+/*
     conditionModels.add( 
 
 		  new ConditionAction({
@@ -539,7 +539,7 @@ function getConditionsAndActions() {
                       value: "0:00" 
                    }
                  ]      
-    }));
+    }));*/
     
     conditionModels.add( 
       new ConditionAction({
