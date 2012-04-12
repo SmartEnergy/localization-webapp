@@ -1,8 +1,6 @@
 /**
- * File name: $HeadURL$
- * Revision: $Revison$
- * Last modified: $Date$
- * Last modified by: $Author$
+ * File name: model.js
+ * Last modified by: tha
  * Created by: Tobias Hartwich (tha@tzi.de)
  * 
  * Datamodels
@@ -13,8 +11,6 @@ var Scene = Backbone.Model.extend({
         if (!spec || !spec.serverIp || !spec.port) {
            throw "InvalidConstructArgs";
         }
-
-
         this.set({
           htmlId: 'scene_' + this.cid,
           kinects: new KinectCollection(),
@@ -29,10 +25,7 @@ var Scene = Backbone.Model.extend({
     validate: function (attrs) {
     }
 
-    
-    
 });
-
 
 var Viewport = Backbone.Model.extend({
     initialize: function (spec) {
@@ -55,7 +48,6 @@ var Viewport = Backbone.Model.extend({
 	}
 });
 
-
 var Action = Backbone.Model.extend({
     initialize: function (spec) {
         this.set({
@@ -73,7 +65,6 @@ var Action = Backbone.Model.extend({
     	return m;
     }
 });
-
 
 var Region = Backbone.Model.extend({
     initialize: function (spec) {
