@@ -8,18 +8,10 @@ var KinectView = Backbone.View.extend({
 	},
 	render: function() {
 		var angle = this.model.get("angle") + 180;
-		$(this.el).css("-webkit-transform", "rotateZ("+angle+"deg)");
-		$(this.el).css("-moz-transform", "rotate("+angle+"deg)");
-		coords = { 
-			top: Math.round(this.model.get("scenemodel").get("vp").mmInPixel(this.model.get("offsetBoundingY"))), 
-			left: Math.round(this.model.get("scenemodel").get("vp").mmInPixel(this.model.get("offsetBoundingX")))
-		};
-
-		$(this.el).offset(coords);
+		$(this.el).rotate(angle)
 		
-
+		this.moveKinect();
 		
-	
 		return this;
 	},
 	firstRender: function() {
@@ -30,19 +22,13 @@ var KinectView = Backbone.View.extend({
 			drag: function() { 
 				self.model.set({
 					offsetImgX: Math.round(self.model.get("scenemodel").get("vp").pixelInMM(self.$(".kinImgSrc1").offset().left)),
-					offsetImgY: Math.round(self.model.get("scenemodel").get("vp").pixelInMM($("#karte")[0].offsetHeight - $(self.el)[0].offsetHeight - self.$(".kinImgSrc1").offset().top)),
-					offsetBoundingX: Math.round(self.model.get("scenemodel").get("vp").pixelInMM($(self.el).offset().left)),
-					offsetBoundingY: Math.round(self.model.get("scenemodel").get("vp").pixelInMM($("#karte")[0].offsetHeight - $(self.el)[0].offsetHeight - $(self.el).offset().top)),
+					offsetImgY: Math.round(self.model.get("scenemodel").get("vp").pixelInMM($("#karte")[0].offsetHeight - self.$(".kinImgSrc1").offset().top)),
 				});
 			},
 			stop: function() {
 				self.model.sendKinect();
-
-
 			}
 		});		
-		$(this.el).css("position", "absolute");
-
 		
 		this.model.sendKinect();
 	},
@@ -50,10 +36,33 @@ var KinectView = Backbone.View.extend({
 		this.$(".kinImgSrc2").css("width", this.model.get("scenemodel").get("vp").mmInPixel(this.model.get("widthLightMM")));
 		this.$(".kinImgSrc1").css("width", this.model.get("scenemodel").get("vp").mmInPixel(this.model.get("widthDeviceMM")));
 	},
+	
 	moveKinect: function() {
+	  var self = this;
+    setTimeout(function() {
+      /*$("#dot1").offset({
+        left: parseInt(self.model.get("scenemodel").get("vp").mmInPixel(self.model.get("offsetImgX"))),
+        top: parseInt($("#karte")[0].offsetHeight  - self.model.get("scenemodel").get("vp").mmInPixel(self.model.get("offsetImgY")))
+      });
+      
+      $("#dot2").offset({
+        left: self.$(".kinImgSrc1").offset().left,
+        top: self.$(".kinImgSrc1").offset().top
+      });*/    
+      
+      var translateX = self.$(".kinImgSrc1").offset().left - self.model.get("scenemodel").get("vp").mmInPixel(self.model.get("offsetImgX"));
+      var translateY = $("#karte")[0].offsetHeight - self.model.get("scenemodel").get("vp").mmInPixel(self.model.get("offsetImgY"));
+      translateY = self.$(".kinImgSrc1").offset().top - translateY;
 
-		$(this.el).css("left", parseInt(this.model.get("scenemodel").get("vp").mmInPixel(this.model.get("offsetBoundingX"))));
-		$(this.el).css("top", parseInt(this.model.get("scenemodel").get("vp").mmInPixel(this.model.get("offsetBoundingY"))));
+      var oldoffset = $(self.el).offset();     
+      $(self.el).offset({
+        left: oldoffset.left - translateX,
+        top: oldoffset.top - translateY
+      });  
+      
+    }, 20)
+
+
 
 	}
 
@@ -76,14 +85,14 @@ var KinectNavView = Backbone.View.extend({
 		this.$(".offx").html(this.model.get("offsetImgX"));
 		this.$(".offy").html(this.model.get("offsetImgY"));
 		this.$(".ang").val(this.model.get("angle"));
+		this.$(".slider").slider( "value" , this.model.get("angle") );
 		return this;
 	},
 	firstRender: function() {
 		$(this.el).html(ich.kinectnavtmpl(this.model.toJSON()));
-		
 		var self = this;
 		this.$(".slider").slider({
-			value:0,
+			value:this.model.get("angle"),
 			min: 0,
 			max: 360,
 			step: 5,
@@ -91,7 +100,7 @@ var KinectNavView = Backbone.View.extend({
 				self.model.set({
 					angle: ui.value,
 					offsetImgX: Math.round(self.model.get("scenemodel").get("vp").pixelInMM($("#kinimg1_"+self.model.get("htmlId")).offset().left)),
-					offsetImgY: Math.round(self.model.get("scenemodel").get("vp").pixelInMM($("#kinimg1_"+self.model.get("htmlId")).offset().top))					
+					offsetImgY: Math.round(self.model.get("scenemodel").get("vp").pixelInMM($("#karte")[0].offsetHeight - $("#kinimg1_"+self.model.get("htmlId")).offset().top))					
 				});
 				
 			},
@@ -99,7 +108,7 @@ var KinectNavView = Backbone.View.extend({
 				self.model.set({
 					angle: ui.value,
 					offsetImgX: Math.round(self.model.get("scenemodel").get("vp").pixelInMM($("#kinimg1_"+self.model.get("htmlId")).offset().left)),
-					offsetImgY: Math.round(self.model.get("scenemodel").get("vp").pixelInMM($("#kinimg1_"+self.model.get("htmlId")).offset().top))					
+					offsetImgY: Math.round(self.model.get("scenemodel").get("vp").pixelInMM($("#karte")[0].offsetHeight  - $("#kinimg1_"+self.model.get("htmlId")).offset().top))					
 				});				
 				self.model.sendKinect();
 			}

@@ -30,7 +30,9 @@
   <script src="js/libs/backbone-min.js"></script>  
   <script src="js/libs/ICanHaz.min.js"></script>  
   <script src="js/libs/json2.js"></script>
-
+  
+  
+  <script src="js/libs/jQueryRotate.js"></script>
   <script type="text/javascript" src="js/libs/jquery.mousewheel.min.js"></script>
   <script type="text/javascript" src="js/libs/jquery.touchwipe.min.js"></script>
   
@@ -63,14 +65,6 @@
 </head>
 
 <body id="b">
-
-<!--<div id="aa"></div>-->
-  <!--[if lt IE 7 ]>
-    <script src="js/libs/dd_belatedpng.js"></script>
-    <script>DD_belatedPNG.fix('img, .png_bg'); // Fix any <img> or .png_bg bg-images. Also, please read goo.gl/mZiyb </script>
-  <![endif]-->
-
-
 <script id="scenecreatortmpl" type="text/html">
 	<div class="sceneSelect" id="sceneSelectStep1">
 		  <h1>select or create scene</h1>
@@ -87,16 +81,6 @@
 	    <div class="formrow">	
 	      <div class="formlabel">scenename</div>  
 	      <div class="formvalue"><input type="text" id="sceneName"  class="text" value="testscene" /></div> 	
-	    </div>
-	    <div class="clear"></div>	    
-	    <div class="formrow">	
-	      <div class="formlabel">serverip</div>  
-	      <div class="formvalue"><input type="text" id="serverip"  class="text" value="localhost" /></div> 	
-	    </div>
-	    <div class="clear"></div>	    
-	    <div class="formrow">	
-	      <div class="formlabel">port</div>  
-	      <div class="formvalue"><input type="text" id="port"  class="text" value="8000" /></div> 	
 	    </div>
 	    <div class="clear"></div>	   
 	    <div class="formrow">	
@@ -135,12 +119,9 @@
 <script id="sceneconfig" type="text/html">		
 	<ul class="ulsc">
 		<li class="lisc"><strong>Scenename</strong>: <input type="text" class="navinputtext long navconfiginput" value="{{ sceneName }}" id="navsceneName" /></li>
-		<li class="lisc"><strong>Serverip</strong>: <input type="text" class="navinputtext long navconfiginput" id="navserverIp" value="{{ serverIp }}" /></li>
-		<li class="lisc"><strong>Port</strong>: <input type="text" class="navinputtext long navconfiginput" id="navport" value="{{ port }}" /></li>
 		<li class="lisc"><strong>Bg-image</strong>: <input type="text" class="navinputtext long navconfiginput" id="navsceneBg"  value="" /></li>
 		<li class="lisc"><strong>Roomlength</strong>: <input type="text" class="navinputtext navconfiginput" id="navroomWidthMM"  value="{{ roomWidthMM }}" /> <i>mm</i></li>
 		<li class="lisc"><strong>Roomdepth</strong>: <input type="text" class="navinputtext navconfiginput" id="navroomHeightMM"  value="{{ roomHeightMM }}" /> <i>mm</i></li>
-		<li  class="lisc"><strong>Serverstatus</strong>: <span class="serverstatusnav">{{ connected }}</span></li>
     <li  class="lisc"><a href=""></a><strong>Show devices</strong>: <input type="checkbox" class="navconfiginput" id="showDeviceCheckbox" checked="checked" /></li>
 		<li  class="lisc"><a href=""></a><strong>Show pushed ui</strong>: <input type="checkbox" class="navconfiginput" id="pushUICheckbox" /></li>
     <li  class="lisc"><strong>[DEBUG]</strong> <select class="navconfiginput" id="debug_overlay_select"><option>Chillen</option><option>Living</option><option>Lights</option><option>TV</option><option>Kitchen</option></select> <a href="javascript:showOverlay(this);">showOverlay</a></li>
@@ -165,7 +146,6 @@
 			    </div>
 			    <div class="accordiontext">
 			      <div class="navigation_submenu">
-			         <a class="reconnectlink" href="#reconnect">reconnect</a>
 			         <div class="clearer"></div>
 			      </div>
 			    </div>
@@ -675,8 +655,8 @@
     
 </div>
 
-
-
+<div class="dot" id="dot1">1</div>
+<div class="dot" id="dot2">2</div>
 
 </body>
 </html>

@@ -8,7 +8,7 @@
 
 var Scene = Backbone.Model.extend({
     initialize: function (spec) {
-        if (!spec || !spec.serverIp || !spec.port) {
+        if (!spec) {
            throw "InvalidConstructArgs";
         }
         this.set({

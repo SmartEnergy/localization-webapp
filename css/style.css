@@ -716,7 +716,7 @@ div.ui-accordion-content.ui-helper-reset.ui-widget-content.ui-corner-bottom.ui-a
   width: 64px;
   height: 64px;
   float: left;
-
+  cursor: pointer;
 }
 
 .actionEntryConfig {
@@ -1052,7 +1052,7 @@ border-radius: 4px;
 .deviceImg {
     width: 30px;
     opacity: 0.4;
-    
+    cursor: pointer;
 }
 
 
@@ -1132,7 +1132,7 @@ border-radius: 4px;
 .actionEntryUiDevice img {
   width: 40px;
   margin-top: 10px;
-  margin-left: 10px
+  margin-left: 10px;
 }
 
 
@@ -1209,4 +1209,13 @@ border-radius: 4px;
   overflow: hidden;
 }
 
-
+.dot {
+  display:none;
+  position:absolute;
+  top: 0px;
+  left: 0px;
+  width: 10px;
+  height: 10px;
+  background-color: #f00;
+  z-index: 65000;
+}

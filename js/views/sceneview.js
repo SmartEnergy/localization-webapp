@@ -96,11 +96,11 @@ var SceneCreatorView = Backbone.View.extend({
 			opacity: 0.6
 		}, 500, function() {});		  
 
-
-	// workaround weil die Karte noch nicht geladen ist
-	setTimeout(function() {
-		sceneview.loadDevices();
-	}, 500);
+  
+  	// workaround weil die Karte noch nicht geladen ist
+  	setTimeout(function() {
+  		sceneview.loadDevices();
+  	}, 500);
     
 
     if(isMobile()) {            
@@ -384,17 +384,9 @@ var SceneView = Backbone.View.extend({
     
     hasConnected = true;
 
-
-		// Disconnect if connected
-		if (this.model.get("serversocket") != null && 
-			this.model.get("serversocket") != undefined) {
-			this.model.get("serversocket").disconnect();
-		}
-		
-
 		// Create new socket
 	  this.model.set({
-		  serversocket: io.connect("http://"+this.model.get("serverIp")+":"+this.model.get("port"))
+		  serversocket: io.connect()
 	  });
   	var self = this;
   
@@ -488,9 +480,6 @@ var SceneView = Backbone.View.extend({
 		// Change favicon
 		jQuery.favicon('img/favcon.png');
 
-
-
-		
 		// Send desktop notfication
 		/*$.jwNotify({
 			title: 'connection established',
