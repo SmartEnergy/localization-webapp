@@ -1,0 +1,51 @@
+.deviceNav {
+  border-bottom: 1px solid #ccc;
+  background-color: rgba(255,255,255,0.5);
+}
+
+.deviceNav:first-child {
+  border-top: 1px solid #ccc;
+ 
+}
+.deviceNav:last-child {
+}
+
+
+.deviceNav:hover {
+  background-color: rgba(255,255,255,0.3);
+}
+
+.deviceNavIcon {
+  float: left;
+  text-align: center;
+  width: 80px;
+  padding-top: 15px;
+  cursor:pointer;
+}
+
+.deviceNavConfig {
+  margin-left: 65px;
+  padding-top: 10px;
+}
+
+.mapDevice {
+  display:none;
+  position:absolute;
+  background-color: rgba(255,255,255,1);
+  width: 300px;
+}
+
+.mapDevice:hover {
+  background-color: rgba(255,255,255,1);
+}
+
+.deviceNavCategoryHeadline {
+  background-color: #292929;
+  font-size: 11px;
+  color: #fff; 
+  text-align: center;
+  font-weight: bold;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+

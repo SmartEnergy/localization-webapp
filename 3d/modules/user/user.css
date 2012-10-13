@@ -1,0 +1,9 @@
+#userNavUserCount {
+  position: fixed;
+  top: 8px;
+  right: 15px;
+  color: #aaa;
+  font-size: 13px;
+  z-index: 100;
+  text-shadow: 2px 0 2px #333333;
+}

@@ -1,0 +1,64 @@
+.kinectDeviceNav {
+  border-bottom: 1px solid #ccc;
+  background-color: rgba(255,255,255,0.5);
+}
+
+.kinectDeviceNav:first-child {
+  border-top: 1px solid #ccc;
+  margin-top: 10px;
+}
+.kinectDeviceNav:last-child {
+  margin-bottom: 10px;
+}
+
+
+.kinectDeviceNav:hover {
+  background-color: rgba(255,255,255,0.3);
+}
+
+.kinectDeviceNavIcon {
+  float: left;
+  text-align: center;
+  width: 80px;
+  min-height: 120px;
+}
+
+.kinectDeviceNavConfig {
+  margin-left: 65px;
+  padding-top: 10px;
+}
+
+.navFormLabelKinect {
+  font-size: 0.9em;
+  width: 35%;
+}
+
+.navFormRowKinect {
+  width: 90%;
+  margin: 3px auto 0px auto;
+}
+
+.kinectNavAngleSlider {
+  float: left;
+  width: 100px;
+}
+
+
+.kinectNavAngle div {
+  padding-top: 2px;
+  text-align: right;
+}
+
+
+.navFormRowKinect {
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.navFormRowKinectMirrored {
+  margin-top: 15px;
+}
+
+.navFormRowKinectButtons {
+  margin-bottom: 15px;
+}

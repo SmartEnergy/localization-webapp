@@ -1,0 +1,74 @@
+.regionNav {
+  border-bottom: 1px solid #ccc;
+  background-color: rgba(255,255,255,0.5);
+}
+
+.regionNav:first-child {
+  border-top: 1px solid #ccc;
+  margin-top: 10px;
+}
+.regionNav:last-child {
+  margin-bottom: 10px;
+}
+
+
+.regionNav:hover {
+  background-color: rgba(255,255,255,0.3);
+}
+
+.regionNavIcon {
+  float: left;
+  text-align: center;
+  width: 80px;
+  min-height: 80px;
+  padding-top: 15px;
+}
+
+.regionRectIcon {
+  border: 1px solid #000;
+  height: 50px;
+  width: 50px;
+  margin-left: 15px;
+  margin-top: 15px;
+  
+}
+
+.regionNavConfig {
+  margin-left: 65px;
+  padding-top: 10px;
+}
+
+.navFormLabelRegion {
+  font-size: 0.9em;
+  width: 35%;
+}
+
+.navFormRowRegion {
+  width: 90%;
+  margin: 3px auto 0px auto;
+}
+
+.regionNavAngleSlider {
+  float: left;
+  width: 100px;
+}
+
+
+.regionNavAngle div {
+  padding-top: 2px;
+  text-align: right;
+}
+
+
+.navFormRowRegion {
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.navFormRowRegionMirrored {
+  margin-top: 15px;
+}
+
+.navFormRowRegionButtons {
+  margin-bottom: 15px;
+}

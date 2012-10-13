@@ -1,0 +1,772 @@
+<!doctype html>
+<html>
+  <head>
+    <title>SmartEnergy Webapp (Desktop-Version)</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <link  href="../css/desktop.css" rel="stylesheet"/>
+    
+    <script src="../js/libs/jquery.js"></script>
+    <script src="../js/libs/json2.js"></script>
+    <script src="../js/libs/modernizr.js"></script>
+    <script src="../js/libs/underscore.js"></script>
+    <script src="../js/libs/icanhaz.js"></script>
+    <script src="../js/libs/backbone.js"></script>
+    <script src="../js/libs/tween.js"></script>
+    <script src="../js/libs/load.js"></script>
+    
+    <script src="../js/libs/jqplugins/jqRotate.js"></script>
+    <script src="../js/libs/jqplugins/jqTransit.js"></script>
+    <script src="../js/libs/jqplugins/jqMousewheel.js"></script>
+    <script src="../js/libs/jqplugins/jqCookie.js"></script>
+    <script src="../js/libs/jqplugins/jquery.touchwipe.min.js"></script>
+    
+    <script src="../js/libs/jqplugins/jquery-ui.js"></script>
+    <link  href="../css/ui-dark/jquery-ui-1.8.13.custom.css" rel="stylesheet" />
+    
+    <script src="../js/plugins/jqSwitchButton.js"></script>
+    <script src="../js/plugins/webglmouseinteraction.js"></script>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    
+    <script src="../js/libs/three/Three.js"></script>
+    <script src="../js/libs/three/Detector.js"></script>
+    <script src="../js/libs/three/Stats.js"></script>
+    <script src="../js/libs/html5slider.js"></script>
+    
+    <script src="../js/libs/threex/THREEx.screenshot.js"></script>
+    <script src="../js/libs/threex/THREEx.FullScreen.js"></script>
+    <script src="../js/libs/threex/THREEx.WindowResize.js"></script>
+    <script src="../js/libs/threex/threex.dragpancontrols.js"></script>
+    
+    <script src="../js/views/navelview.js"></script>
+    
+    
+    <script src="../js/views/sceneview.js"></script>
+    <script src="../js/views/scenenavview.js"></script>
+    <script src="../js/models/scenemodel.js"></script>
+    
+    <link  href="../modules/localization/kinect.css" rel="stylesheet" />
+    <script src="../modules/localization/localizationview.js"></script>
+    <script src="../modules/localization/kinectview.js"></script>
+    <script src="../modules/localization/kinectmodel.js"></script>
+    <script src="../modules/localization/kinectcollection.js"></script>
+    
+    <link  href="../modules/region/region.css" rel="stylesheet"/>
+    <script src="../modules/region/rectregionmodel.js"></script>
+    <script src="../modules/region/rectregioncollection.js"></script>
+    <script src="../modules/region/rectregionview.js"></script>
+    <script src="../modules/region/polyregionmodel.js"></script>
+    <script src="../modules/region/polyregioncollection.js"></script>
+    <script src="../modules/region/polyregionview.js"></script> 
+    <script src="../modules/region/webglpolygondrawer.js"></script>    
+    <script src="../modules/region/regionview.js"></script>
+    
+    <link  href="../modules/devices/device.css" rel="stylesheet" />
+    <script src="../modules/devices/devicenavview.js"></script>
+    <script src="../modules/devices/deviceview.js"></script>
+    
+    <link  href="../modules/command/command.css" rel="stylesheet" />
+    <script src="../modules/command/commandmodel.js"></script>
+    <script src="../js/conditions.js"></script>
+    <script src="../modules/command/commandview.js"></script>
+    
+    <link  href="../modules/user/user.css" rel="stylesheet" />
+    <script src="../modules/user/usermodel.js"></script>
+    <script src="../modules/user/usercollection.js"></script>
+    <script src="../modules/user/usernavview.js"></script>
+    <script src="../modules/user/userview.js"></script>    
+    
+    <script src="../js/libs/ColladaLoader.js"></script>
+    
+    <script src="../js/views/startdialog.js"></script>
+    <script src="../js/views/2d3dchoicedialog.js"></script>
+    
+    <script src="../js/utils.js"></script>
+    
+    <script>
+      function calc2Dpoint(x,y,z) {
+          var projector = new THREE.Projector();
+          var vector = projector.projectVector( new THREE.Vector3( x, y, z ), app.sceneview.webgl.camera );
+      
+          var result = new Object();
+          result.x = Math.round(vector.x * (app.sceneview.webgl.renderer.domElement.width/2));
+          result.y = Math.round(vector.y * (app.sceneview.webgl.renderer.domElement.height/2));
+      
+          return result;
+      }
+      
+      function startScene() {
+        
+        function start() {
+          app.sceneview = new SceneView({
+            model: new Scene({
+              sceneName: "Baall Test 1",
+              sceneWidth: 1070,
+              sceneHeight: 250,
+              sceneDepth: 585,
+              sceneOrigin: {x: -535, y: 0, z: 292.5}
+             
+            })
+          })
+          
+          app.sceneview.manualInit(); 
+          app.sceneview.webgl.hideWalls();            
+        }
+        
+        if (app.map === "high") {
+          load('../js/map/maphighres.js').thenRun(start);             
+        }
+        else {
+          load('../js/map/maplowres.js').thenRun(start);     
+        }
+      }   
+        
+      var app = {};
+      
+      $(document).ready(function() {
+        
+        app.socket = io.connect();
+        app.socket.on('connect', function () { // TIP: you can avoid listening on `connect` and listen on events directly too!
+         console.log("jo, verbunden");
+         
+         app.speed = 1;
+         
+         // Webgl ja/nein
+         if( Detector.webgl ){
+           //var start = new StartDialog();
+           app.speed = 1;
+           app.shadow =true;
+           app.map = "high";
+           startScene();
+         }
+         else {
+           // 2D/3D Dialog
+           var s = new Choice2D3DDialog();
+           /*app.speed = 0.3;
+           app.shadow =false;
+           app.map = "low";
+           startScene();*/
+         }
+         
+         //
+         //startDialogTmpl
+         
+        });              
+      });    
+    </script>
+
+
+</head>
+<body>
+    <script id="choice2d3dDialogTmpl" type="text/html">
+      <div class="dark">
+        <div id="choice2d3dDialog" class="dialog">
+          <h1>Sorry,</h1>
+          <p>your browser doesn't support webgl. It's recommended to use the 2D webapp. However you can try the 3d webapp with 2D canvas rendering. It's slow and may contain rendering errors.</p>
+          <ul>
+            <li><a href="../../2d/" id="choice2d3dLnk2D">2D Webapp</a></li>
+            <li><a href="#" id="choice2d3dLnk3D">3D Webapp (with 2D canvas rendering)</a></li>
+          </ul>
+        </div>
+      </div>
+    </script>    
+  
+    <script id="navElTmpl" type="text/html">
+      <div class="navigationElement">
+        <div class="navLabel">{{ name }}</div>
+      </div>
+    </script>
+    
+    <script id="navElContentTmpl" type="text/html">
+      <div class="navContent"></div>   
+    </script> 
+    
+    <script id="sceneNavContentTmpl" type="text/html">
+      <div id="sceneNavContent" class="navContentContainer">
+        <!--<div class="navFormRow">
+          <div class="navFormLabel">Scene:</div>
+          <div class="navFormValue">{{ sceneName }}</div>
+          <div class="clear"></div>
+        </div>
+        <div class="navButtonRow" id="sceneNavButtonBar">
+          <div class="navTextButtonSmall">
+            <div class="navTextButtonSmallIcon"><img src="../img/icon_save_small.png" /></div>
+            <div class="navTextButtonSmallValue">Save</div>
+            <div class="clear"></div>
+          </div>
+          <div class="navTextButtonSmall">
+            <div class="navTextButtonSmallIcon"><img src="../img/icon_save_small.png" /></div>
+            <div class="navTextButtonSmallValue">Save as</div>
+            <div class="clear"></div>
+          </div>
+          
+          <div class="navTextButtonSmall">
+            <div class="navTextButtonSmallIcon"><img src="../img/icon_open.png" /></div>
+            <div class="navTextButtonSmallValue">Load Scene</div>
+             <div class="clear"></div>
+          </div>
+           <div class="clear"></div>
+        </div>--> 
+       
+        <div id="sceneNavViewOptions">
+          <div class="navFormRow navFormRow90Width">
+            <div class="navFormLabel">Camera</div>
+            <div class="navFormValue"></div>
+            <div class="clear"></div>
+          </div> 
+          <div id="sceneNavCameraPosition">
+            <div class="navFormRow navFormRow90Width">
+              <div class="navFormLabel">x</div>
+              <div class="navFormValue">
+                <input type="range" min="-2000" max="2000" value="0" id="navFormCameraXSlider" />
+              </div>
+              <div class="clear"></div>
+            </div>
+            <div class="navFormRow navFormRow90Width">
+              <div class="navFormLabel">y</div>
+              <div class="navFormValue">
+                <input type="range" min="10" max="5000" value="0" id="navFormCameraYSlider" />
+              </div>
+              <div class="clear"></div>
+            </div>
+            <div class="navFormRow navFormRow90Width">
+              <div class="navFormLabel">z</div>
+              <div class="navFormValue">
+                <input type="range"  min="-600" max="2000" value="0" id="navFormCameraZSlider" />
+              </div>
+              <div class="clear"></div>
+            </div>                        
+          </div>   
+          <div class="navFormRow navFormRow90Width">
+            <div class="navFormLabel">Quick Switch</div>
+            <div class="navFormValue">
+              <span class="navConnectedButtons" id="sceneNavAngle">
+                <span class="navConnectedButtonsAButton" title="top">Top</span><span class="navConnectedButtonsAButton" title="45">45°</span><span class="navConnectedButtonsAButton" title="focusorigin">Focus Origin</span>
+              </span>
+            </div>
+            <div class="clear"></div>
+          </div>   
+          <div class="navFormRow navFormRow90Width">
+            <div class="navFormLabel">Zoom</div>
+            <div class="navFormValue">
+              <span class="navConnectedButtons" id="sceneNavZoom">
+                <span class="navConnectedButtonsAButton" title="zoomin">+</span><span class="navConnectedButtonsAButton" title="zoomout">−</span>
+              </span>              
+            </div>
+            <div class="clear"></div>
+          </div>                             
+          <!--<div class="navFormRow navFormRow90Width">
+            <div class="navFormLabel">Walls</div>
+            <div class="navFormValue">
+              <span class="navConnectedButtons switchButtons" id="sceneNavWalls">
+                <span class="navConnectedButtonsAButton navConnectedButtonsAButtonActive" title="on">On</span><span class="navConnectedButtonsAButton" title="off">Off</span>
+              </span>
+            </div>
+            <div class="clear"></div>
+          </div>        
+          <div class="navFormRow navFormRow90Width">
+            <div class="navFormLabel">Performance</div>
+            <div class="navFormValue">
+              <input type="range" min="0" max="100" value="10"  id="navFormPerformanceSlider" />
+            </div>
+            <div class="clear"></div>
+          </div> -->                   
+                    
+        </div>
+      </div>
+    </script> 
+    
+    <script id="regionsNavContentTmpl" type="text/html">
+      <div>
+        <div id="regionsNavContentRegions"></div>
+        <div id="regionsNavContentButtons">
+          <div class="navTextButtonSmall" id="regionsNavButtonAddRectRegion">
+            <div class="navTextButtonSmallValue">Add Rectangle</div>
+            <div class="clear"></div>
+          </div>
+          <div class="navTextButtonSmall" id="regionsNavButtonAddPolyRegion">
+            <div class="navTextButtonSmallValue">Add Polygon</div>
+            <div class="clear"></div>
+          </div>
+          <div class="navTextButtonSmall" id="regionsNavButtonHideRegions">
+            <div class="navTextButtonSmallValue">Hide Regions</div>
+            <div class="clear"></div>
+          </div> 
+          <div class="navTextButtonSmall hidden" id="regionsNavButtonShowRegions">
+            <div class="navTextButtonSmallValue">Show Regions</div>
+            <div class="clear"></div>
+          </div>                     
+        </div>
+      </div>
+    </script> 
+    
+       
+<script id="commandnavtmpl" type="text/html"> 
+  
+    <div class="regionNav" id="command{{id}}">
+        <div class="regionNavConfig">
+          <div class="navFormRow navFormRowRegion">
+            <div class="navFormLabel navFormLabelRegion">Name:</div>
+            <div class="navFormValue small">
+              {{ name }}
+            </div>
+          </div>   
+          <div class="navFormRow navFormRowRegion">
+            <div class="navFormLabel navFormLabelRegion">Conditions:</div>
+            <div class="navFormValue small">
+              <span class="comNavCond"></span>
+            </div>
+          </div>   
+          <div class="navFormRow navFormRowRegion">
+            <div class="navFormLabel navFormLabelRegion">Actions:</div>
+            <div class="navFormValue small ">
+              <span class="actNavCond"></span>
+            </div>
+          </div>  
+          <div class="">
+            <div class="navTextButtonSmall navRegionRemoveBtn">
+              <div class="navTextButtonSmallValue delCommandLnk">Remove</div>
+              <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+          </div>                                    
+        </div>
+        <div class="clear"></div>
+      </div>  
+  
+  
+  
+<!--  <div class="lcEntry">
+    <div class="lcEntryIcon">
+  
+    </div>
+    <div class="lcEntryContent">
+      <ul>
+        <li class=""><strong>name</strong>: {{ name }}</li>
+        <li class=""><strong>conditions</strong>: <span class="comNavCond"></span></li>
+        <li class=""><strong>actions</strong>: <span class="actNavCond"></span></li>
+        <li class=""><a href="#editCommand" class="editCommandLnk">edit<a> <a href="#delCommand" class="delCommandLnk">delete<a></li>
+      </ul>
+    </div>
+    <div class="clear"></div> 
+  </div>-->
+</script>        
+       
+    
+    <script id="rectRegionNavTmpl" type="text/html">
+      <div class="regionNav">
+        <div class="regionNavIcon">
+          <div class="regionRectIcon"></div>
+        </div>
+        <div class="regionNavConfig">
+          <div class="navFormRow navFormRowRegion">
+            <div class="navFormLabel navFormLabelRegion">Name:</div>
+            <div class="navFormValue small">
+              <input type="text" value="{{ displayName }}" class="navRegionName" /> <input type="hidden" value="{{ id }}" class="navRegionId" />
+            </div>
+          </div>   
+          <div class="navFormRow navFormRowRegion">
+            <div class="navFormLabel navFormLabelRegion">Position:</div>
+            <div class="navFormValue small navRegionPos">
+              <strong>x</strong>: <span>{{x}}</span>&nbsp; <strong>z</strong>: <span>{{z}}</span>
+            </div>
+          </div>   
+          <div class="navFormRow navFormRowRegion">
+            <div class="navFormLabel navFormLabelRegion">Size:</div>
+            <div class="navFormValue small navRegionSize">
+              <strong>w</strong>: <span>{{width}}</span>&nbsp; <strong>d</strong>: <span>{{depth}}</span>
+            </div>
+          </div>  
+          <div class="">
+            <div class="navTextButtonSmall navRegionRemoveBtn">
+              <div class="navTextButtonSmallValue">Remove</div>
+              <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+          </div>                                    
+        </div>
+        <div class="clear"></div>
+      </div>
+    </script>   
+    
+    
+    <script id="polyRegionNavTmpl" type="text/html">
+      <div class="regionNav">
+        <div class="regionNavIcon">
+          <img src="../img/icon_poly_region.png" />
+        </div>
+        <div class="regionNavConfig">
+          <div class="navFormRow navFormRowRegion">
+            <div class="navFormLabel navFormLabelRegion">Name:</div>
+            <div class="navFormValue small">
+              <input type="text" value="{{ displayName }}" class="navRegionName" /> <input type="hidden" value="{{ id }}" class="navRegionId" />
+            </div>
+          </div>   
+          <div class="">
+            <div class="navTextButtonSmall navRegionRemoveBtn">
+              <div class="navTextButtonSmallValue">Remove</div>
+              <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+          </div>                                    
+        </div>
+        <div class="clear"></div>
+      </div>
+    </script>     
+       
+    
+    <script id="localizationNavContentTmpl" type="text/html">
+      <div>
+        <div id="localizationNavContent"></div>
+        <div id="regionsNavContentButtons">
+          <div class="navTextButtonSmall" id="regionsNavButtonHideLocal">
+            <div class="navTextButtonSmallValue">Hide</div>
+            <div class="clear"></div>
+          </div> 
+          <div class="navTextButtonSmall hidden" id="regionsNavButtonShowLocal">
+            <div class="navTextButtonSmallValue">Show</div>
+            <div class="clear"></div>
+          </div>                     
+        </div>
+      </div>
+    </script>
+    
+    <script id="commandNavContentTmpl" type="text/html">
+      <div>
+        <div id="commandNavContentCommands"></div>
+        <div id="regionsNavContentButtons">
+          <div class="navTextButtonSmall" id="commandNavButtonAddCommand">
+            <div class="navTextButtonSmallValue">Add Command</div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+    </script>          
+    
+    <script id="kinectDeviceNavTmpl" type="text/html">
+      <div class="kinectDeviceNav">
+        <div class="kinectDeviceNavIcon">
+          <img src="../modules/localization/kinecticon.png" />
+          <span class="small">{{id}}</span>
+        </div>
+        <div class="kinectDeviceNavConfig">
+          <div class="navFormRow navFormRowKinect">
+            <div class="navFormLabel navFormLabelKinect">Position:</div>
+            <div class="navFormValue small navKinectPosition">
+              <strong>x</strong>: <span>{{x}}</span>&nbsp; <strong>y</strong>: <span>{{y}}</span>&nbsp; <strong>z</strong>: <span>{{z}}</span>
+            </div>
+          </div> 
+          <div class="navFormRow navFormRowKinect kinectNavAngleRow">
+            <div class="navFormLabel navFormLabelKinect">Angle:</div>
+            <div class="navFormValue small kinectNavAngle">
+              <input type="range" min="0" max="360" value="{{angle}}" class="kinectNavAngleSlider" />
+              <div><span class="kinectNavAngleSpan">{{angle}}</span>°</div>
+              
+            </div>
+            
+          </div>  
+          <div class="navFormRow navFormRowKinect navFormRowKinectButtons navFormRowKinectMirrored">
+            <div class="navFormLabel navFormLabelKinect">Mirrored:</div>
+            <div class="navFormValue small">
+              <span class="navConnectedButtons switchButtons kinectNavMirrored">
+                <span class="navConnectedButtonsAButton navConnectedButtonsAButtonActive" title="on">On</span><span class="navConnectedButtonsAButton" title="off">Off</span>
+              </span>  
+            </div>
+          </div>   
+          <div class="navFormRow navFormRowKinect navFormRowKinectButtons">
+            <div class="navFormLabel navFormLabelKinect">Motor:</div>
+            <div class="navFormValue small">
+              <span class="navConnectedButtons switchButtons kinectNavMotor">
+                <span class="navConnectedButtonsAButton navConnectedButtonsAButtonActive" title="on">On</span><span class="navConnectedButtonsAButton" title="off">Off</span>
+              </span> 
+            </div>
+          </div>                     
+          
+        </div>
+        <div class="clear"></div>
+      </div>
+    </script>      
+    
+    
+    <script id="devicesNavContentTmpl" type="text/html">
+      <div>
+        <div class="deviceNavCategoryHeadline">Livingroom</div>
+        <div class="deviceNavCategory catLiving">
+          
+        </div>
+        <div class="deviceNavCategoryHeadline">Kitchen</div>
+        <div class="deviceNavCategory catKitchen">
+          
+        </div>
+        <div class="deviceNavCategoryHeadline">Bathroom</div>
+        <div class="deviceNavCategory catBath">
+          
+        </div>
+        <div class="deviceNavCategoryHeadline">Wardrobe</div>
+        <div class="deviceNavCategory catHall">
+          
+        </div>
+        <div class="deviceNavCategoryHeadline">Bedroom</div>
+        <div class="deviceNavCategory catBed">
+          
+        </div>         
+      </div>
+    </script>   
+    
+    <script id="deviceNavTmpl" type="text/html">
+      <div class="deviceNav">
+        <div class="deviceNavIcon">
+          <img src="{{action.icon}}" />
+        </div>
+        <div class="deviceNavConfig">
+          <div class="navFormRow">
+            <strong>{{name}}</strong>
+          </div> 
+          <div class="navFormRow deviceNavOptions">
+
+          </div>             
+        </div>
+        <div class="clear"></div>
+      </div>        
+    </script> 
+    
+    <script id="deviceNavOptionTmpl" type="text/html">
+      <div class="deviceNavOption">
+        
+      </div>
+    </script>       
+    
+    <script id="deviceNavOptionSwitchTmpl" type="text/html">
+      <div class="navFormRow navFormRow90Width">
+        <div class="navFormLabel">{{name}}</div>
+        <div class="navFormValue">
+          <span class="navConnectedButtons switchButtons">
+          </span>
+        </div>
+        <div class="clear"></div>
+      </div>     
+    </script> 
+    
+    <script id="deviceNavOptionSwitchElementTmpl" type="text/html">
+      <span class="navConnectedButtonsAButton">{{value}}</span>
+    </script> 
+    
+    <script id="deviceNavOptionSliderTmpl" type="text/html">
+      <div class="navFormRow navFormRow90Width">
+        <div class="navFormLabel">{{name}}</div>
+        <div class="navFormValue">
+          <input type="range" min="{{min}}" max="{{max}}" value="{{value}}" class="deviceNavOptionRangeSlider" />
+        </div>
+        <div class="clear"></div>
+      </div>     
+    </script>     
+    
+    
+    <script id="userNavTmpl" type="text/html">
+      <div class="userNav">
+        <div class="userNavIcon">
+          <img src="{{action.icon}}" />
+        </div>
+        <div class="userNavConfig">
+          <div class="navFormRow">
+            User
+          </div> 
+           
+        </div>
+        <div class="clear"></div>
+      </div>        
+    </script>     
+    
+    <script id="userNavContentTmpl" type="text/html">
+      <div>
+      </div>
+    </script>   
+    
+    <script id="userNavUserCountTmpl" type="text/html">
+      <div id="userNavUserCount">
+        <strong>0</strong> user active
+      </div>
+    </script>             
+     
+     
+    <script id="conditionTmpl" type="text/html">  
+    
+        <div class="actionEntry actionCondi{{ name }}">
+          <div class="actionEntryContent">
+            <div class="actionEntryIcon">
+              <img src="{{ icon }}" />
+            </div>
+            <div class="actionEntryConfig">
+              <div class="actionEntryConfigTxt">
+                <h2>{{ subCategory }} - {{ displayName }}</h2>
+              </div>
+            </div> 
+            <div class="clearer"></div>
+          </div>
+        </div>    
+     
+    </script> 
+    
+    <script id="conditionConfigRowTmpl" type="text/html">   
+      <div class="actionEntryForm">
+        <div class="actionEntryFormRow">
+          <div class="actionEntryFormLabel">{{ name }}:</div>
+          <div class="actionEntryFormValue">
+    
+          </div> 
+          <div class="clearer"></div>
+        </div>                        
+      </div>  
+    </script> 
+    
+    
+    
+    
+    
+    <script id="commandDialogTmpl" type="text/html">    
+    
+    
+    
+      <div class="action_dialog" title="Add Command">
+    
+        <div class="commandName">Command name: <input class="commandNameInput" type="text" value="{{ name }}" /></div>
+    
+
+    
+        <div class="actionDialogConditions">
+          
+          <h1>Selected Conditions</h1>
+          <div class="selected_conditions">  
+          </div>          
+             
+          <h1>Available Conditions</h1>
+    
+          <div id="avtabs">
+            <ul>
+              <li><a href="#avctabs-1">Regions</a></li>
+              <li><a href="#avctabs-2">Gestures</a></li>
+              <!--<li><a href="#avctabs-3">Other</a></li>-->
+            </ul>
+            <div class="tabcontent" id="avctabs-1">
+              <div class="sliderCtrl">
+                <div class="sliderCtrlContentContainer">
+                   
+               
+                  <div class="clearer"></div>
+                </div>
+              </div>
+              <div class="sliderCtrlSliderContainer">
+                  <div class="horizontalSlider"></div>
+              </div>
+              
+            </div>
+            <div id="avctabs-2"  class="tabcontent">
+              <div class="sliderCtrl">
+                <div class="sliderCtrlContentContainer">
+                   
+               
+                  <div class="clearer"></div>
+                </div>
+              </div>
+              <div class="sliderCtrlSliderContainer">
+                  <div class="horizontalSlider"></div>
+              </div>  
+            </div>
+            <!--<div id="avctabs-3"  class="tabcontent">
+              <div class="sliderCtrl">
+                <div class="sliderCtrlContentContainer">
+                   
+               
+                  <div class="clearer"></div>
+                </div>
+              </div>
+              <div class="sliderCtrlSliderContainer">
+                  <div class="horizontalSlider"></div>
+              </div>
+            </div>-->
+          </div>
+      
+        </div>
+    
+        <div class="actionDialogActions"> 
+          <h1>Selected Actions</h1>
+          <div class="selected_actions"></div>   
+      
+          <h1>Available Actions</h1>
+      
+          <div id="tabs">
+            <ul>
+              
+              <li><a href="#tabs-2">Baall</a></li>
+              <!--<li><a href="#tabs-1">DigitalSTROM</a></li>
+              <li><a href="#tabs-3">Other</a></li>-->
+            </ul>
+            <!--<div class="actions_tabcontent" id="tabs-1">
+             <div class="sliderCtrl">
+              <div class="sliderCtrlContentContainer">
+                <div class="clearer"></div>
+              </div>
+             </div>
+             <div class="sliderCtrlSliderContainer">
+              <div class="horizontalSlider"></div>
+             </div> 
+            </div>-->
+            <div class="actions_tabcontent" id="tabs-2">
+             <div class="sliderCtrl">
+              <div class="sliderCtrlContentContainer">
+                <div class="actionEntrySeperator actionSubCategoryLiving">
+                  <div>Living</div>
+                </div>
+                <div class="actionEntrySeperator actionSubCategoryHall">
+                  <div>Hall</div>
+                </div>
+                <div class="actionEntrySeperator actionSubCategoryBath">
+                  <div>Bath</div>
+                </div>
+                <div class="actionEntrySeperator actionSubCategoryKitchen">
+                  <div>Kitchen</div>
+                </div>
+                <div class="actionEntrySeperator actionSubCategoryBed">
+                  <div>Bed</div>
+                </div>
+                <div class="clearer"></div>
+              </div>
+             </div>
+             <div class="sliderCtrlSliderContainer">
+              <div class="horizontalSlider"></div>
+             </div> 
+            </div>
+            <!--<div class="actions_tabcontent" id="tabs-3">
+             <div class="sliderCtrl">
+              <div class="sliderCtrlContentContainer">
+                <div class="clearer"></div>
+              </div>
+             </div>
+             <div class="sliderCtrlSliderContainer">
+              <div class="horizontalSlider"></div>
+             </div>    
+            </div>-->
+          </div>
+        </div>
+         <div class="clearer"></div>
+        <div class="addCommandSaveBtn"><input type="button" class="cancelCommandBtn" id="cancelCommandBtn" value="Cancel" /> <input type="button" class="addCommandBtn" name="addCommandBtn" value="Save command" /></div>
+      </div>
+    </script>      
+     
+
+  <div id="navigationContent">
+  </div>
+
+  <div id="navigation">
+  </div>
+
+  <div id="mapDevices">
+  </div>
+
+  <div class="clear"></div>
+  <div id="container"></div>
+
+</body>
+</html>
