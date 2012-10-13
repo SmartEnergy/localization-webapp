@@ -146,10 +146,7 @@ var ConditionActionView = Backbone.View.extend({
       });
     });
 
-    /*$(this.el).bind('touchstart', function() {
-      //alert(1);
-      $(self.el).dblclick();
-    });*/
+
 
     this.dblclickEvent();
 
@@ -401,7 +398,6 @@ var CommandView = Backbone.View.extend({
         return;
       }
 
-      //console.log(conditionCollection);
 
       self.model.set({
         name: self.$(".commandNameInput").val(),

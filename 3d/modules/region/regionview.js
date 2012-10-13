@@ -48,7 +48,6 @@ var RegionView = Backbone.View.extend({
   },
   
   onNewRectRegion: function(region) {
-    console.log("onNewRectRegion");
     var knv = new RectangleRegionView({
       model: region,
       navContent: this.el
@@ -81,7 +80,6 @@ var RegionView = Backbone.View.extend({
   },
   
   onNewPolyRegion: function(polyregion) {
-    console.log("onNewPolyRegion");
     var knv = new PolygonRegionView({
       model: polyregion,
       navContent: this.el
@@ -93,8 +91,6 @@ var RegionView = Backbone.View.extend({
     var self = this;
     app.sceneview.webgl.cameraTopView();
     var wpd = new WebglPolygonDrawer(app.sceneview.webgl, '#container', function(polyregion) {
-      console.log("polyregion");
-      console.log(polyregion);
       
       polyregion.sendAsNewRegion();
       self.onNewPolyRegion(polyregion);       

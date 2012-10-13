@@ -119,7 +119,6 @@ var DeviceNavView = Backbone.View.extend({
     return el;
   },
   execAction: function() {
-  	console.log("execAction");
   	var vals = [];
   	for (var i=0; i<this.mapObject.action.options.length; i++) {
   		vals.push(this.mapObject.action.options[i].value);

@@ -907,8 +907,8 @@ var SceneView = Backbone.View.extend({
 	addUser: function(key, user) {
 		var usermodel = new User({
 			userid: key,
-			posX: user.position.x,
-			posY: user.position.y,
+			posX: user.position.x*10,
+			posY: user.position.y*10,
 			scenemodel: this.model
 		});
 
@@ -1006,7 +1006,6 @@ var SceneView = Backbone.View.extend({
 		if (r != null || r2 != null) {
 			return;
 		}			
-		//alert(JSON.stringify(region));
 		
 		if (region.points == undefined) {
 			var regionmoodel = new Region({

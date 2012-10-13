@@ -243,7 +243,6 @@ var SceneView = Backbone.View.extend({
         z: 1700
       })
       this.camera.lookAt(this.scene.position); 
-      console.log(this.scene.position);       
     },
     _zoom: function(factor) {
       

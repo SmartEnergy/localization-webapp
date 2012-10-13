@@ -187,18 +187,6 @@ var UserNavView = Backbone.View.extend({
       app.sceneview.webgl.scene.add(line5);
       
       
-     /* for (var j in joints) {
-
-        var jo = joints[j];
-          if (jo.x !== 0 || jo.y !== 0 || jo.z !== 0) {
-            var aheadgeo = new THREE.SphereGeometry(3, 4 ,4);
-            var aheadmat = new THREE.MeshLambertMaterial( { color: 0xffffff, wireframe: false } )
-            var ahead = new THREE.Mesh( aheadgeo, aheadmat );
-            ahead.position.set(jo.x, jo.z, jo.y);
-            app.sceneview.webgl.scene.add( ahead );   
-            console.log(jo.x + ", " + jo.y + ", " + jo.z);
-          }        
-      }*/
       
  
       

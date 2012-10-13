@@ -55,8 +55,8 @@ var UserView = Backbone.View.extend({
 			return;
 		}
 		this.model.set({
-			posX: user.position.x,
-			posY: user.position.y
+			posX: user.position.x*10,
+			posY: user.position.y*10
 		});
 	},
 	remove: function(key) {

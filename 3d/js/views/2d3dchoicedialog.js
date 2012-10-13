@@ -23,8 +23,7 @@ var Choice2D3DDialog = Backbone.View.extend({
     
   },
   on2DSelect: function(e) {
-    e.preventDefault();
-    alert("TODO");
+
   },
   on3DSelect: function(e) {
     e.preventDefault();

@@ -5,6 +5,5 @@ function getRegionNames() {
     names.push( [ $(ids[index]).val() ,$(value).val()] );
   });
 
-console.log(names);
 return names;
 }

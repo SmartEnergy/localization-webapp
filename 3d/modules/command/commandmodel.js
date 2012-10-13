@@ -71,8 +71,6 @@ var Command = Backbone.Model.extend({
       
       });     
 
-      console.log("Command");
-      console.log(command);
       app.socket.emit('newCommand',  command);     
 
 
@@ -146,8 +144,6 @@ var CommandCollection = Backbone.Collection.extend({
   },
   
   onNewCommand: function(commandJson) {
-    console.log("on new Command");
-    console.log(commandJson);
     var command = new Command({
       id: commandJson.name,
       name: commandJson.name,

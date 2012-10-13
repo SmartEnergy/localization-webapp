@@ -370,7 +370,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/couch.dae', function (result) {
+      loader.load('/3d/collada/couch.dae', function (result) {
         THREE.SceneUtils.traverseHierarchy( result.scene, function ( child ) {
         
             child.castShadow = true;
@@ -415,7 +415,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/chair2.dae', function (result) {
+      loader.load('/3d/collada/chair2.dae', function (result) {
         var dummy = new THREE.Object3D();
         
         result.scene.castShadow = true;
@@ -482,7 +482,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/fridge.dae', function (result) {
+      loader.load('/3d/collada/fridge.dae', function (result) {
         var dummy = new THREE.Object3D();
         
         result.scene.castShadow = true;
@@ -557,7 +557,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/bed2.dae', function (result) {
+      loader.load('/3d/collada/bed2.dae', function (result) {
         var dummy = new THREE.Object3D();
         
         result.scene.castShadow = true;
@@ -605,10 +605,9 @@ var mapObjects = [
     },    
     async: true,
     load: function(callback) {
-      //console.log(1);
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/sideboard.dae', function (result) {
+      loader.load('/3d/collada/sideboard.dae', function (result) {
         var dummy = new THREE.Object3D();
         
         result.scene.castShadow = true;
@@ -660,7 +659,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/table.dae', function (result) {
+      loader.load('/3d/collada/table.dae', function (result) {
         var dummy = new THREE.Object3D();
         
         result.scene.castShadow = true;
@@ -713,7 +712,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/tv.dae', function (result) {
+      loader.load('/3d/collada/tv.dae', function (result) {
         var dummy = new THREE.Object3D();
         
         result.scene.castShadow = true;
@@ -797,7 +796,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/toilet.dae', function (result) {
+      loader.load('/3d/collada/toilet.dae', function (result) {
         var dummy = new THREE.Object3D();
         
         result.scene.castShadow = true;
@@ -847,7 +846,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/shower2.dae', function (result) {
+      loader.load('/3d/collada/shower2.dae', function (result) {
         var dummy = new THREE.Object3D();
         
         result.scene.position.x = -200;
@@ -890,7 +889,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/wardrobe.dae', function (result) {
+      loader.load('/3d/collada/wardrobe.dae', function (result) {
         var dummy = new THREE.Object3D();
         
         result.scene.castShadow = true;
@@ -942,7 +941,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/rack.dae', function (result) {
+      loader.load('/3d/collada/rack.dae', function (result) {
         var dummy = new THREE.Object3D();
         
         THREE.SceneUtils.traverseHierarchy( result.scene, function ( child ) {
@@ -991,7 +990,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/desk.dae', function (result) {
+      loader.load('/3d/collada/desk.dae', function (result) {
         var dummy = new THREE.Object3D();
         
         result.scene.castShadow = true;
@@ -1075,7 +1074,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/bath_sink2.dae', function (result) {
+      loader.load('/3d/collada/bath_sink2.dae', function (result) {
         var dummy = new THREE.Object3D();
         
         result.scene.position.y = -50;
@@ -1117,7 +1116,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/nightstand.dae', function (result) {
+      loader.load('/3d/collada/nightstand.dae', function (result) {
         var dummy = new THREE.Object3D();
        
         result.scene.castShadow = true;
@@ -1167,7 +1166,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/nightstand.dae', function (result) {
+      loader.load('/3d/collada/nightstand.dae', function (result) {
         var dummy = new THREE.Object3D();
        
         result.scene.castShadow = true;
@@ -1257,7 +1256,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/tuer4.dae', function (result) {
+      loader.load('/3d/collada/tuer4.dae', function (result) {
         var dummy = new THREE.Object3D();
        
         result.scene.castShadow = true;
@@ -1345,7 +1344,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/tuer4.dae', function (result) {
+      loader.load('/3d/collada/tuer4.dae', function (result) {
         var dummy = new THREE.Object3D();
        
         result.scene.castShadow = true;
@@ -1464,7 +1463,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/kitchen_back.dae', function (result) {
+      loader.load('/3d/collada/kitchen_back.dae', function (result) {
         var dummy = new THREE.Object3D();
         
         result.scene.scale.set(2.6,2.6,2.6);
@@ -1541,7 +1540,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/kuechenschrank.dae', function (result) {
+      loader.load('/3d/collada/kuechenschrank.dae', function (result) {
         var dummy = new THREE.Object3D();
         
         result.scene.scale.set(2.6,2.6,2.6);
@@ -1580,10 +1579,9 @@ var mapObjects = [
     },    
     async: true,
     load: function(callback) {
-      //console.log(1);
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/kuechenschrank.dae', function (result) {
+      loader.load('/3d/collada/kuechenschrank.dae', function (result) {
         var dummy = new THREE.Object3D();
         
         result.scene.scale.set(2.6,2.6,2.6);
@@ -1661,7 +1659,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/microwave.dae', function (result) {
+      loader.load('/3d/collada/microwave.dae', function (result) {
         var dummy = new THREE.Object3D();
         
         result.scene.scale.set(2.6,2.6,2.6);
@@ -1733,10 +1731,9 @@ var mapObjects = [
     },      
     async: true,
     load: function(callback) {
-      //console.log(1);
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/kitchen_sink.dae', function (result) {
+      loader.load('/3d/collada/kitchen_sink.dae', function (result) {
         var dummy = new THREE.Object3D();
         
         result.scene.scale.set(2.6,2.6,2.6);
@@ -1819,7 +1816,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/tuer4.dae', function (result) {
+      loader.load('/3d/collada/tuer4.dae', function (result) {
         var dummy = new THREE.Object3D();
        
         result.scene.castShadow = true;
@@ -1907,7 +1904,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/tuer4.dae', function (result) {
+      loader.load('/3d/collada/tuer4.dae', function (result) {
         var dummy = new THREE.Object3D();
        
         result.scene.castShadow = true;
@@ -2007,7 +2004,7 @@ var mapObjects = [
       var self = this;
       if (this.loadedMesh === null) {
         var loader = new THREE.ColladaLoader();
-        loader.load('/collada/spotlight.dae', function (result) {
+        loader.load('/3d/collada/spotlight.dae', function (result) {
           var dummy = new THREE.Object3D();
           
           result.scene.rotation.set(310* 2*Math.PI/360,  0 ,    0* 2*Math.PI/360);
@@ -2071,7 +2068,7 @@ var mapObjects = [
       var self = this;
       if (this.loadedMesh === null) {
         var loader = new THREE.ColladaLoader();
-        loader.load('/collada/lamp2.dae', function (result) {
+        loader.load('/3d/collada/lamp2.dae', function (result) {
           var dummy = new THREE.Object3D();
           
           result.scene.rotation.set(270* 2*Math.PI/360,  0 ,    0* 2*Math.PI/360);
@@ -2203,7 +2200,7 @@ var mapObjects = [
       var self = this;
       if (this.loadedMesh === null) {
         var loader = new THREE.ColladaLoader();
-        loader.load('/collada/spotlight.dae', function (result) {
+        loader.load('/3d/collada/spotlight.dae', function (result) {
           var dummy = new THREE.Object3D();
           
           result.scene.rotation.set(310* 2*Math.PI/360,  0 ,    0* 2*Math.PI/360);
@@ -2274,7 +2271,7 @@ var mapObjects = [
       var self = this;
       if (this.loadedMesh === null) {
         var loader = new THREE.ColladaLoader();
-        loader.load('/collada/spotlight.dae', function (result) {
+        loader.load('/3d/collada/spotlight.dae', function (result) {
           var dummy = new THREE.Object3D();
           
           result.scene.rotation.set(220* 2*Math.PI/360,  0 ,    0* 2*Math.PI/360);
@@ -2345,7 +2342,7 @@ var mapObjects = [
       var self = this;
       if (this.loadedMesh === null) {
         var loader = new THREE.ColladaLoader();
-        loader.load('/collada/spotlight.dae', function (result) {
+        loader.load('/3d/collada/spotlight.dae', function (result) {
           var dummy = new THREE.Object3D();
           
           result.scene.rotation.set(310* 2*Math.PI/360,  0 ,    0* 2*Math.PI/360);
@@ -2413,7 +2410,7 @@ var mapObjects = [
       var self = this;
       if (this.loadedMesh === null) {
         var loader = new THREE.ColladaLoader();
-        loader.load('/collada/lamp2.dae', function (result) {
+        loader.load('/3d/collada/lamp2.dae', function (result) {
           var dummy = new THREE.Object3D();
           result.scene.scale.set(0.8,0.8,0.6);
           result.scene.rotation.set(270* 2*Math.PI/360,  0 ,    0* 2*Math.PI/360);
@@ -2483,7 +2480,7 @@ var mapObjects = [
       var self = this;
       if (this.loadedMesh === null) {
         var loader = new THREE.ColladaLoader();
-        loader.load('/collada/lamp2.dae', function (result) {
+        loader.load('/3d/collada/lamp2.dae', function (result) {
           var dummy = new THREE.Object3D();
           result.scene.scale.set(0.8,0.8, 0.6);
           result.scene.rotation.set(270* 2*Math.PI/360,  0 ,    0* 2*Math.PI/360);

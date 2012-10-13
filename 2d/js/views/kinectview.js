@@ -142,7 +142,6 @@ var KinectNavView = Backbone.View.extend({
 		});
 	},
 	onRemoveKinect: function(self, key) {
-		alert(this);
 	},	
 	onAngleChange: function() {
 		var value = parseInt(this.$(".ang").val());

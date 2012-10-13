@@ -56,10 +56,6 @@ var DeviceView = Backbone.View.extend({
             
     }
     
-    console.log("id")
-    console.log(id)
-    console.log("value")
-    console.log(value)    
   },
   
   events: {

@@ -43,7 +43,6 @@ var RegionView = Backbone.View.extend({
 		$(this.el).resizable({
 			resize: function() { 
         inAction = true;
-        //$("#test").append($(self.el).width()+ "<br />");
 				self.model.set({
 					width: Math.round(self.model.get("scenemodel").get("vp").pixelInMM($(self.el).width())),
 					height: Math.round(self.model.get("scenemodel").get("vp").pixelInMM($(self.el).height()))
@@ -146,7 +145,6 @@ var RegionNavView = Backbone.View.extend({
 		if (m == undefined) {
 			this.model.get("actions").add(actionmodel);		
 		}
-		//alert(JSON.stringify(this.model.get("actions")));
 	}*/
 });
 
@@ -349,6 +347,5 @@ var RegionPolyNavView = Backbone.View.extend({
 		if (m == undefined) {
 			this.model.get("actions").add(actionmodel);		
 		}
-		//alert(JSON.stringify(this.model.get("actions")));
 	}*/
 });

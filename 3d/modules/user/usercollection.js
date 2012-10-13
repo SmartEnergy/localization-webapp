@@ -17,23 +17,18 @@ var UserCollection = Backbone.Collection.extend({
   },*/
   
   onNewUser: function(userJson) {
-    console.log("on new User");
-    console.log(userJson);
     var user = new User(userJson);
     this.add(user);
     
   },
   
   onChangeUser: function(user) {
-    console.log("onChangeUser")
-    console.log(user);
     var model = this.get(user.id);
     if (model) {
       model.set(user);
     }
   },
   onRemoveUser: function(userid) {
-    console.log("USER LÖSCHEN");
     var model = this.get(userid);
     if (model) {
       this.remove(model);

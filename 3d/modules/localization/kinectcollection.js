@@ -38,7 +38,6 @@ var KinectCollection = Backbone.Collection.extend({
   onRemoveKinect: function(kinectid) {
     var model = this.get(kinectid);
     if (model) {
-      console.log("asd")
       this.remove(model);
     }
   }

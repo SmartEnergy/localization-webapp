@@ -18,7 +18,6 @@ var PolygonRegionCollection = Backbone.Collection.extend({
   },
   
   onNewRegion: function(regionJson) {
-    console.log("on new Region");
     if (regionJson.type === "polygon") {
       
       var region = new PolygonRegion({

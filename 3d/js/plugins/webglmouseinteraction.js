@@ -43,7 +43,6 @@ WebglMouseInteraction.prototype.initClickableObjects = function() {
   var objectStartPosition = null;
   
   $(this.webglEl).bind("mouseup",function(event) {
-    console.log(event)
     event.preventDefault();
     
     if (self.disableInteraction || self.resizePossible) {

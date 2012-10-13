@@ -22,17 +22,7 @@ var PolygonRegion = Backbone.Model.extend({
   send: function() {
     app.socket.emit('updateRegion', this.toServerModel());    
     
-    // TODO wieder rein, wenn Regionen auch per POST gesendet werden können
-   /*$.ajax({
-      url:"/regions/new",
-      type:"POST",
-      data:JSON.stringify(regionjson),
-      contentType:"application/json; charset=utf-8",
-      success: function(result){
-        console.log(result); 
-      }
-    })*/ 
-        
+
   },
   sendAsNewRegion: function() {
     app.socket.emit('newRegion', this.toServerModel());   

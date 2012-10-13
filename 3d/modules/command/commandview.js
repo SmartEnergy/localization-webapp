@@ -13,8 +13,6 @@ var CommandView = Backbone.View.extend({
         height: 400
       }
     });
-    console.log("this.navView")
-    console.log(this.navView)
     this.setElement(ich.commandNavContentTmpl()); 
     $(this.navView.elNavContent).html(this.el);    
     

@@ -643,7 +643,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/wardrobe.dae', function (result) {
+      loader.load('/3d/collada/wardrobe.dae', function (result) {
         var dummy = new THREE.Object3D();
         
         result.scene.scale.set(2.6,2.6,2.6);
@@ -685,7 +685,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/rack.dae', function (result) {
+      loader.load('/3d/collada/rack.dae', function (result) {
         var dummy = new THREE.Object3D();
         
         result.scene.scale.set(2.6,2.6,2.6);
@@ -728,7 +728,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/desk.dae', function (result) {
+      loader.load('/3d/collada/desk.dae', function (result) {
         var dummy = new THREE.Object3D();
         
         
@@ -901,7 +901,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/tuer4.dae', function (result) {
+      loader.load('/3d/collada/tuer4.dae', function (result) {
         var dummy = new THREE.Object3D();
        
        
@@ -980,7 +980,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/tuer4.dae', function (result) {
+      loader.load('/3d/collada/tuer4.dae', function (result) {
         var dummy = new THREE.Object3D();
        
        
@@ -1095,10 +1095,9 @@ var mapObjects = [
     },    
     async: true,
     load: function(callback) {
-      //console.log(1);
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/kitchen_back.dae', function (result) {
+      loader.load('/3d/collada/kitchen_back.dae', function (result) {
         var dummy = new THREE.Object3D();
         
         result.scene.scale.set(2.6,2.6,2.6);
@@ -1172,10 +1171,9 @@ var mapObjects = [
     },   
     async: true,
     load: function(callback) {
-      //console.log(1);
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/kuechenschrank.dae', function (result) {
+      loader.load('/3d/collada/kuechenschrank.dae', function (result) {
         var dummy = new THREE.Object3D();
         
         result.scene.scale.set(2.6,2.6,2.6);
@@ -1214,10 +1212,9 @@ var mapObjects = [
     },    
     async: true,
     load: function(callback) {
-      //console.log(1);
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/kuechenschrank.dae', function (result) {
+      loader.load('/3d/collada/kuechenschrank.dae', function (result) {
         var dummy = new THREE.Object3D();
         
         result.scene.scale.set(2.6,2.6,2.6);
@@ -1345,10 +1342,9 @@ var mapObjects = [
     },      
     async: true,
     load: function(callback) {
-      //console.log(1);
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/kitchen_sink.dae', function (result) {
+      loader.load('/3d/collada/kitchen_sink.dae', function (result) {
         var dummy = new THREE.Object3D();
         
         result.scene.scale.set(2.6,2.6,2.6);
@@ -1432,7 +1428,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/tuer4.dae', function (result) {
+      loader.load('/3d/collada/tuer4.dae', function (result) {
         var dummy = new THREE.Object3D();
        
         result.scene.scale.set(2.8,2.8,2.8);
@@ -1510,7 +1506,7 @@ var mapObjects = [
     load: function(callback) {
       var self = this;
       var loader = new THREE.ColladaLoader();
-      loader.load('/collada/tuer4.dae', function (result) {
+      loader.load('/3d/collada/tuer4.dae', function (result) {
         var dummy = new THREE.Object3D();
        
         result.scene.scale.set(2.8,2.8,2.8);
@@ -1570,8 +1566,6 @@ var mapObjects = [
               parent.webglLight.shadowDarkness = 0;
             }
             
-            console.log("parent.webglLight")
-            console.log(parent.webglLight)
             
           }                         
        }
@@ -1622,7 +1616,6 @@ var mapObjects = [
           values: ["On", "Off"],
           value: "On",
           onChange: function(parent, oldvalue, newvalue) {
-            console.log(parent);
             if (this.value === "On") {
               parent.webglLight.intensity = 1;
               parent.webglLight.visible = true;

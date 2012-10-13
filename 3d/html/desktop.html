@@ -129,7 +129,6 @@
         
         app.socket = io.connect();
         app.socket.on('connect', function () { // TIP: you can avoid listening on `connect` and listen on events directly too!
-         console.log("jo, verbunden");
          
          app.speed = 1;
          
@@ -467,7 +466,7 @@
             </div>
             
           </div>  
-          <div class="navFormRow navFormRowKinect navFormRowKinectButtons navFormRowKinectMirrored">
+          <!--<div class="navFormRow navFormRowKinect navFormRowKinectButtons navFormRowKinectMirrored">
             <div class="navFormLabel navFormLabelKinect">Mirrored:</div>
             <div class="navFormValue small">
               <span class="navConnectedButtons switchButtons kinectNavMirrored">
@@ -482,11 +481,12 @@
                 <span class="navConnectedButtonsAButton navConnectedButtonsAButtonActive" title="on">On</span><span class="navConnectedButtonsAButton" title="off">Off</span>
               </span> 
             </div>
-          </div>                     
+          </div>-->                    
           
         </div>
         <div class="clear"></div>
       </div>
+       <div class="clear"></div>
     </script>      
     
     

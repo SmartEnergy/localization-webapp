@@ -83,8 +83,6 @@ WebglPolygonDrawer.prototype.ondoubleclick = function(event) {
       z: app.sceneview.webgl.backboneSceneModel.get("sceneOrigin").z - this.vertices[i].y,
     }
     translatedVertices.push(v);
-    console.log("v")
-    console.log(v)
   }
     
   var m = new PolygonRegion({
@@ -106,7 +104,6 @@ WebglPolygonDrawer.prototype.draw = function() {
   }
   
   if (this.vertices.length < 3) {
-    console.log("zu wenig vertices");
     return;
   }
   

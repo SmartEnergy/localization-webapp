@@ -80,7 +80,6 @@ var DeviceView = Backbone.View.extend({
         });
 
 
-        //alert($(view.el).attr("class"));  
         
         return this;
     },
@@ -96,7 +95,6 @@ var DeviceView = Backbone.View.extend({
           $.each(c.get("options"), function(index, option) {
             newc.values.push(option.value);
           });
-      
       
       sceneview.model.get("serversocket").emit('execAction',  newc); 
     }

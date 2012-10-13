@@ -17,7 +17,6 @@ var RectangleRegionCollection = Backbone.Collection.extend({
   },
   
   onNewRegion: function(regionJson) {
-    console.log("on new Region");
     if (regionJson.type === "rectangle") {    
       var region = new RectangleRegion({
         id: regionJson.name,
@@ -34,7 +33,6 @@ var RectangleRegionCollection = Backbone.Collection.extend({
   },
   
   onChangeRegion: function(region) {
-    console.log("onChangeRegion")
     if (region.type === "rectangle") {    
       var model = this.get(region.name);
       if (model) {
